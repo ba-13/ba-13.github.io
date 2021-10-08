@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-10-08T21:43:52+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Domus</title><subtitle>a blog site made with 💚 by ba-13</subtitle><author><name>B.Anshuman</name></author><entry><title type="html">How to approach Jekyll</title><link href="http://localhost:4000/2021/10/08/my-approach-to-jekyll.html" rel="alternate" type="text/html" title="How to approach Jekyll" /><published>2021-10-08T00:00:00+05:30</published><updated>2021-10-08T00:00:00+05:30</updated><id>http://localhost:4000/2021/10/08/my-approach-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2021/10/08/my-approach-to-jekyll.html">&lt;p&gt;This is my introduction to the world of static sites, and how intuitive you can make them.&lt;br /&gt;
+Jekyll is especially quite configurable. Try it out with this blog.&lt;/p&gt;
+
+&lt;!---Here---&gt;
+
+&lt;h1 id=&quot;jekyll-it-is&quot;&gt;Jekyll it is&lt;/h1&gt;
+
+&lt;p&gt;A static file-system generator, that is incredibly convenient.&lt;br /&gt;
+Install &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ruby&lt;/code&gt; with&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get upgrade &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-add-repository ppa:brightbox/ruby-ng
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;ruby2.5 ruby2.5-dev build-essential dh-autoreconf
+gem update
+gem &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;jekyll bundler &lt;span class=&quot;c&quot;&gt;# installing jekyll and bundler&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now to initiate your site:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jekyll new mysite
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;mysite
+bundle add webrick
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Try running the site with:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;jekyll serve
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;some-basics-of-jekyll-subsystem&quot;&gt;Some basics of Jekyll subsystem:&lt;/h3&gt;
+
+&lt;h4 id=&quot;_configyml&quot;&gt;_config.yml&lt;/h4&gt;
+
+&lt;p&gt;The location to customize the site’s configuration. The following are defaults:&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Where things are&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;destination&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./_site&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;collections_dir&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;plugins_dir&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;_plugins&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# takes an array of strings and loads plugins in that order&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;layouts_dir&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;_layouts&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;data_dir&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;_data&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;includes_dir&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;_includes&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;sass&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;sass_dir&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;_sass&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;collections&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;posts&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Handling Reading&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;safe&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;.htaccess&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;exclude&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Gemfile&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Gemfile.lock&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;node_modules&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;vendor/bundle/&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;vendor/cache/&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;vendor/gems/&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;vendor/ruby/&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;keep_files&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;.git&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;.svn&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;utf-8&quot;&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;markdown_ext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;markdown,mkdown,mkdn,mkd,md&quot;&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;strict_front_matter&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Filtering Content&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;show_drafts&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;null&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;limit_posts&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;future&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;unpublished&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Plugins&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;whitelist&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[]&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;plugins&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[]&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Conversion&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;markdown&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kramdown&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;highlighter&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;rouge&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;lsi&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;excerpt_separator&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;incremental&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Serving&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;detach&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;4000&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;127.0.0.1&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;baseurl&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# does not include hostname&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;show_dir_listing&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Outputting&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;permalink&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;date&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;paginate_path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/page:num&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;timezone&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;null&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;quiet&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;verbose&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;defaults&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[]&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;liquid&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;error_mode&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;warn&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;strict_filters&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;strict_variables&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Markdown Processors&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;kramdown&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;auto_ids&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;entity_output&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;as_char&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;toc_levels&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;smart_quotes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;lsquo,rsquo,ldquo,rdquo&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;GFM&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;hard_wrap&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;footnote_nr&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;show_warnings&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;front-matter-defaults&quot;&gt;Front Matter defaults&lt;/h4&gt;
+
+&lt;p&gt;To avoid repetition of same configurations, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;defaults&lt;/code&gt; key in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt; is the way to go.
+You can define your custom configs, ex. Let’s say you want to add a default layout to all pages and posts in your site, do the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;defaults&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;scope&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;pages&quot;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;my-site&quot;&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;scope&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;projects&quot;&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;pages&quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# previously `page` in Jekyll 2.2.&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;project&quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# overrides previous default layout&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;yourusername&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;environments&quot;&gt;Environments&lt;/h4&gt;
+
+&lt;p&gt;Specified by adding &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JEKYLL_ENV=production&lt;/code&gt; or something while &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll build&lt;/code&gt;.&lt;br /&gt;
+Default is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JEKYLL_ENV=development&lt;/code&gt;.
+The value can be anything we want.&lt;/p&gt;
+
+&lt;h4 id=&quot;pages&quot;&gt;Pages&lt;/h4&gt;
+
+&lt;p&gt;The simplest way to add a page is to add an HTML(or .md) file in root, with a suitable name.&lt;br /&gt;
+We can organize them to sub-folders in the root directory itself, and the url will be accordingly.
+To generate page_excerpts, change the same to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;true&lt;/code&gt; in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt;.&lt;br /&gt;
+Do remember to add front matter to your page. example:&lt;/p&gt;
+
+&lt;div class=&quot;language-md highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;post&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Example&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Title&quot;&lt;/span&gt;
+&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+
+Rest of your content here
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;posts&quot;&gt;Posts&lt;/h4&gt;
+
+&lt;p&gt;Initiate a blog with the naming convention of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR-MONTH-DAY-title.MARKUP&lt;/code&gt;, example: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;2021-09-04-how-to-write-a-blog.md&lt;/code&gt;
+All &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.md&lt;/code&gt; must have a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;front matter&lt;/code&gt; which is a meta-data collection for the post.&lt;br /&gt;
+Adding assets is easy, by adding &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/assets&lt;/code&gt; in the root directory, and referencing from there itself.&lt;/p&gt;
+
+&lt;h5 id=&quot;tags-and-categorycategories&quot;&gt;Tags and Category/Categories&lt;/h5&gt;
+
+&lt;p&gt;Declare the same as space-separated list of tags, in the front matter.
+This can be accessed by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;site.tags&lt;/code&gt;. The same goes for categories. But category can be used to modify the &lt;a href=&quot;http://jekyllrb.com/docs/posts/&quot;&gt;URL&lt;/a&gt; itself.&lt;/p&gt;
+
+&lt;h5 id=&quot;excerpts&quot;&gt;Excerpts&lt;/h5&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;excerpt_separator&lt;/code&gt; is declared in the front matter. example, here is a code outputting a list of blog posts excerpts:&lt;/p&gt;
+
+&lt;div class=&quot;language-md highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;
+  
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/2021/10/08/my-approach-to-jekyll.html&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;How to approach Jekyll&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;This is my introduction to the world of static sites, and how intuitive you can make them.&lt;span class=&quot;nt&quot;&gt;&amp;lt;br&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+Jekyll is especially quite configurable. Try it out with this blog.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;
+
+    &amp;lt;/li&amp;gt;
+&lt;/span&gt;  
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/2021/10/08/ethereum-and-blockchains.html&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Ethereum and BlockChains&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Yeah, This is the part of a project I took up in the Summers of 2021. We were being introduced to BlockChains, especially, Ethereum (ETH). Let&apos;s introduce that to you too!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;
+
+    &amp;lt;/li&amp;gt;
+&lt;/span&gt;  
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;permalinks-layouts-and-published-default-and-custom-options&quot;&gt;Permalinks, Layouts and published default and custom options&lt;/h5&gt;
+
+&lt;p&gt;Front-matter contains the above default options as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;permalink&lt;/code&gt; (the baseURL of page), &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;layout&lt;/code&gt; (all layouts should be in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/_layouts&lt;/code&gt;), and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;published&lt;/code&gt; which won’t let the page show up if set to false.
+You can declare your own variables that can be used in that page just like:&lt;/p&gt;
+
+&lt;div class=&quot;language-md highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;The not-mentioned ones are default options available to you&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;food&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Pizza&lt;/span&gt;
+&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;2021-10-08 00:00:00 +0530&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;drafts&quot;&gt;Drafts&lt;/h4&gt;
+
+&lt;p&gt;Declared in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/_drafts&lt;/code&gt;, these aren’t displayed in production build. You have to explicitly specify by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll build --drafts&lt;/code&gt;.&lt;br /&gt;
+This is a location for all blogs you’re working on rn.&lt;/p&gt;
+
+&lt;h3 id=&quot;liquid&quot;&gt;Liquid&lt;/h3&gt;
+
+&lt;p&gt;Smart site-generation is performed by Liquid, which can be used to create flow-control in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.md&lt;/code&gt; itself.&lt;/p&gt;
+
+&lt;h4 id=&quot;data-folder&quot;&gt;Data Folder&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/_data&lt;/code&gt; folder is where you should store all additional data for Jekyll to use when rendering the site.&lt;br /&gt;
+Allowed data files are &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.yml&lt;/code&gt;,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.json&lt;/code&gt;,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.csv&lt;/code&gt;,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.tsv&lt;/code&gt;,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.yaml&lt;/code&gt; and are accessed by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;site.data.filename&lt;/code&gt;
+This is freaking useful, and check it out &lt;a href=&quot;http://jekyllrb.com/docs/datafiles/&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;static-files&quot;&gt;Static Files&lt;/h4&gt;
+
+&lt;p&gt;A file that won’t have any front matter, and to be displayed on its own.&lt;br /&gt;
+It can be accessed by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;site.static_files&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;configuration&quot;&gt;Configuration&lt;/h4&gt;
+
+&lt;p&gt;Instead of following along with some video tutorials or docs, the best approach I found to configure this site was by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bundle info yourthemename&lt;/code&gt;.&lt;br /&gt;
+This will give your theme’s template location on your system.&lt;br /&gt;
+All that’s left to do is to explore it!&lt;/p&gt;
+
+&lt;h4 id=&quot;deployment&quot;&gt;Deployment&lt;/h4&gt;
+
+&lt;p&gt;Enter the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_site&lt;/code&gt; folder, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git init&lt;/code&gt;, and set origin of this folder as the GitHub repo you want to host this site on.&lt;br /&gt;
+Do the same through:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git init
+git remote add origin https://github.com/yourusername/yourreponame.git
+git branch &lt;span class=&quot;nt&quot;&gt;-M&lt;/span&gt; main
+git add &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
+git commit &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;your commit details&quot;&lt;/span&gt;
+git push origin main
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This will directly push the built site from jekyll to your repo.&lt;br /&gt;
+Now activate GitHub pages on that Repository.
+You’re done!&lt;/p&gt;</content><author><name>B.Anshuman</name></author><summary type="html">This is my introduction to the world of static sites, and how intuitive you can make them. Jekyll is especially quite configurable. Try it out with this blog.</summary></entry><entry><title type="html">Ethereum and BlockChains</title><link href="http://localhost:4000/2021/10/08/ethereum-and-blockchains.html" rel="alternate" type="text/html" title="Ethereum and BlockChains" /><published>2021-10-08T00:00:00+05:30</published><updated>2021-10-08T00:00:00+05:30</updated><id>http://localhost:4000/2021/10/08/ethereum-and-blockchains</id><content type="html" xml:base="http://localhost:4000/2021/10/08/ethereum-and-blockchains.html">&lt;p&gt;Yeah, This is the part of a project I took up in the Summers of 2021. We were being introduced to BlockChains, especially, Ethereum (ETH). Let&apos;s introduce that to you too!&lt;/p&gt;
+
+&lt;p&gt;First of all, &lt;strong&gt;AltCoins&lt;/strong&gt; are all cryptocurrencies other than Bit-coin.&lt;br /&gt;Why do we need any AltCoins, if Bit-coin is working fine?&lt;/p&gt;
+
+&lt;p&gt;The answer is quite wide of course, but the basic idea of cryptocurrencies, and blockchains in general is the idea of decentralization.&lt;br /&gt;Introduction of more such crypto-currencies, have enforced this underlying principle of blockchains. Also, Bit-coin still inherits flaws that couldn&apos;t be predicted by its anonymous creator &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://en.wikipedia.org/wiki/Satoshi_Nakamoto&quot; target=&quot;_blank&quot;&gt;Satoshi Nakamoto&lt;/a&gt;, including being and inflexible. Now moving on to the point of discussion.&lt;/p&gt;
+
+&lt;!-- wp:heading --&gt;
+&lt;h2&gt;Ethereum&lt;/h2&gt;
+&lt;!-- /wp:heading --&gt;
+
+&lt;p&gt;&lt;strong&gt;E&lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://en.wikipedia.org/wiki/Ethereum&quot; target=&quot;_blank&quot;&gt;thereum&lt;/a&gt;&lt;/strong&gt; is a decentralized, open-source blockchain with smart contract functionality. &lt;strong&gt;ETH &lt;/strong&gt;(ether) is the actual cryptocurrency involved in this blockchain system.&lt;br /&gt;Ethereum is the most active blockchain in the world, currently. It is actively used to create and host decentralized apps, or &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://ethereum.org/en/dapps/#what-are-dapps&quot; target=&quot;_blank&quot;&gt;Dapps&lt;/a&gt;, which actually are Smart Contracts.&lt;br /&gt;Its creator are Vitalik Buterin and &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://en.wikipedia.org/wiki/Gavin_Wood&quot; target=&quot;_blank&quot;&gt;Gavin Wood&lt;/a&gt;, and this was initially community funded.&lt;br /&gt;The idea of Ethereum was mainly to implement the smart contract system, and The platform allows developers to build and operate decentralized applications that any user can interact with. It has become a battle-tested platform on which other tokens can build-over.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;There are some standards over which smart contracts started getting standardised:&lt;/p&gt;
+
+&lt;!-- wp:list --&gt;
+&lt;ul&gt;&lt;li&gt;ERC-20 : Fungible Tokens&lt;/li&gt;&lt;li&gt;ERC-721 : Non-fungible Tokens.&lt;/li&gt;&lt;li&gt;ERC-1155 : Best of both standards.&lt;/li&gt;&lt;/ul&gt;
+&lt;!-- /wp:list --&gt;
+
+&lt;p&gt;Fungiblity refers to being like a denomination of a currency. All tokens of the same denomination accounts for the same value. Non-fungible therefore refers to each token being unique on its own, and this type of token is useful to assign value to art-forms and physical entities.&lt;br /&gt;This standardization was necessary and a community decision, cause of rampant smart contracts surfacing each day, with no good means to compare to each other. &lt;br /&gt;Another great thing about Ethereum over Bit-coin is, its going to implement &lt;em&gt;proof of stake&lt;/em&gt; in &lt;em&gt;Ethereum 2.0&lt;/em&gt;, which is far more efficient consensus, but not much hardened against exploitation.&lt;/p&gt;
+
+&lt;!-- wp:heading --&gt;
+&lt;h2&gt;&lt;strong&gt;Smart Contracts&lt;/strong&gt;&lt;/h2&gt;
+&lt;!-- /wp:heading --&gt;
+
+&lt;p&gt;We need to talk about this, before moving on.&lt;br /&gt;Smart contracts, as the term suggests, are literally contracts, a piece of code, program, which is instructed beforehand to perform something once some pre-planned conditions are met, and the main idea is that the implementation itself requires no third-party. The contract decides itself, when to execute, and its execution is transmitted everywhere.&lt;br /&gt;More formally, &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://www.ibm.com/in-en/topics/smart-contracts&quot; target=&quot;_blank&quot;&gt;Smart contracts&lt;/a&gt; are event-driven code contracts with state attributes, used to automate the execution of a pre-made-agreement so that all participants can be immediately certain of the outcome, without intermediary involvement or time delay.&lt;br /&gt;Such guarantees are there because of this is implemented on a blockchain. The blockchain itself is updated when this transaction takes place, and therefore no-one can deny its happening, and parties who are granted permission can see the results.&lt;br /&gt;&lt;br /&gt;A layman&apos;s analogy of a smart contract is a vending machine. Insert a coin (feedback), the vending machine was designed (programmed) such as it would deliver (transactions) your drinks (assets) according to the feedback, without anyone&apos;s intervention.&lt;/p&gt;
+
+&lt;!-- wp:heading --&gt;
+&lt;h2&gt;&lt;strong&gt;Ethereum Virtual Machine&lt;/strong&gt;&lt;/h2&gt;
+&lt;!-- /wp:heading --&gt;
+
+&lt;p&gt;This concept has transformed what cryptocurrencies are meant for. It takes the idea of a blockchain, beyond the ledger meaning, and enabling to take decisions, given some initial code and feedback. This decision, once all requirements are achieved, is fail-safe, literally. Therefore Ethereum is called a distributed &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://en.wikipedia.org/wiki/Finite-state_machine&quot; target=&quot;_blank&quot;&gt;state machine&lt;/a&gt;, not just a decentralized ledger, that just tracks transactions. &lt;br /&gt;&lt;br /&gt;A state machine/finite state machine is, abstractly and in mathematical terms, is a model that can be in exactly one of a finite number of states at any given time. Fixed and unique state at a time, i.e. its configurations but in a broader sense.&lt;br /&gt;A state machine can change from one state to another in response to some inputs; the change from one state to another is called a transition. Such a model is completely defined by a list of its states, its initial state, and the inputs that trigger each transition.&lt;br /&gt;Ethereum&apos;s state is a large data structure which holds not only all accounts and balances, but a machine state, which can change from block to block according to a pre-defined set of rules, and which can execute arbitrary machine code.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;Ethereum Virtual Machine(referred to as EVMs), therefore being a State Machine, that too decentralized, therefore has some remarkable features.&lt;/p&gt;
+
+&lt;!-- wp:list --&gt;
+&lt;ul&gt;&lt;li&gt;Can execute without failing if the pre-requisites are met.&lt;/li&gt;&lt;li&gt;Extremely flexible as can include arbitrary code.&lt;/li&gt;&lt;li&gt;Can&apos;t be down due to any kind of local problems, because of decentralization.&lt;/li&gt;&lt;li&gt;All costs and value circulation are confined to this blockchain itself, value being transacted by ETH. So a self-reliant system.&lt;/li&gt;&lt;/ul&gt;
+&lt;!-- /wp:list --&gt;
+
+&lt;p&gt;This feature of Ethereum, being a state machine, enables smart contract implementation, in a practical manner. As mentioned prior, Smart contracts intrinsically contain state attributes&lt;br /&gt;Therefore being deployed on a state machine, they are quite reliable. Let&apos;s compare to a case when a smart contract is deployed on a regular network (still decentralized). The code would still be available to everyone, but because there is no concept of &apos;state&apos;, there is always a possibility to reverse the decision and execution of the contract, cause the network doesn&apos;t know if the execution had taken place. Note that I am talking about the network itself, not the nodes.&lt;br /&gt;Therefore Ethereum is unique, needed as a blockchain, and as a platform that can manage smart contracts.&lt;/p&gt;
+
+&lt;!-- wp:heading --&gt;
+&lt;h2&gt;&lt;strong&gt;Solidity&lt;/strong&gt;&lt;/h2&gt;
+&lt;!-- /wp:heading --&gt;
+
+&lt;p&gt;Another programming language! One might ask, why do we need this, as Solidity is often described as a child language of JavaScript, C and Python. Take a look at the &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://docs.soliditylang.org/en/v0.8.5/&quot; target=&quot;_blank&quot;&gt;official documentation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;!-- wp:quote --&gt;
+&lt;blockquote class=&quot;wp-block-quote&quot;&gt;&lt;p&gt;&lt;br /&gt;Solidity is a statically-typed curly-braces programming language designed for developing smart contracts that run on the Ethereum Virtual Machine. Smart contracts are programs that are executed inside a peer-to-peer network where nobody has special authority over the execution.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;!-- /wp:quote --&gt;
+
+&lt;p&gt;&lt;br /&gt;Solidity was created for implementing smart contracts in the first place, that too efficiently, securely and syntactically flexible as can be.&lt;br /&gt;The field of smart contracts is sensitive, handling billions worth of value, and strict measures have to be taken, and being secure is the priority.&lt;/p&gt;
+
+&lt;p&gt;This led to a few uncommon features about solidity (found while doing this project):&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;No Back-Compatibility&lt;/strong&gt;&lt;br /&gt;The first thing one would encounter while being introduced to Solidity is:&lt;/p&gt;
+
+&lt;!-- wp:verse --&gt;
+&lt;pre class=&quot;wp-block-verse&quot;&gt;pragma solidity ^0.8.0&lt;/pre&gt;
+&lt;!-- /wp:verse --&gt;
+
+&lt;p&gt;We are declaring compiler version with which the contract in context is compatible with. Why? Its not common, at least wasn&apos;t for me. The reason is the topic. All compilers are updated, new versions are launched, but most compilers support their previously handled commands, which might have been deprecated. But that leads to inheriting previous flaws and exceptions as well.&lt;br /&gt;This can&apos;t be done in case of smart contracts. Any vulnerability, is a vulnerability, can be exploited so way or the other.&lt;br /&gt;Therefore while creating your contract you have to designate the compatible compilers which your code can run on, and it is recommended to go for the latest &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://github.com/ethereum/solidity/releases&quot; target=&quot;_blank&quot;&gt;compiler&lt;/a&gt;, unless you know what you are doing.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;No Support for F&lt;span class=&quot;uppercase&quot;&gt;loating numbers&lt;/span&gt;&lt;/strong&gt;&lt;br /&gt;Vanilla Solidity doesn&apos;t support floating point! There are some external libraries which can implement that, but none of them is official. Strange? π is literally 3 here, natively.&lt;br /&gt;This is from the updated documentation:&lt;/p&gt;
+
+&lt;!-- wp:quote --&gt;
+&lt;blockquote class=&quot;wp-block-quote&quot;&gt;&lt;p&gt;&quot;Fixed point numbers are not fully supported by Solidity yet. They can be declared, but cannot be assigned to or from.&quot;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;!-- /wp:quote --&gt;
+
+&lt;p&gt;But of course you can work-around this *minor* drawback. Actually, EVM itself doesn&apos;t support floating points. You will have to understand floats implementation to understand why, here is the &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html&quot; target=&quot;_blank&quot;&gt;link&lt;/a&gt;.&lt;br /&gt;For the workarounds, this &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://www.reddit.com/r/ethdev/comments/8fo6po/the_lack_of_decimalsfloatdouble_in_solidity_is/&quot; target=&quot;_blank&quot;&gt;dialogue&lt;/a&gt; explains how to concisely:&lt;/p&gt;
+
+&lt;!-- wp:list --&gt;
+&lt;ul&gt;&lt;li&gt;&lt;em&gt;Bob&lt;/em&gt;: Please EVM 3/2=?&lt;/li&gt;&lt;li&gt;&lt;em&gt;EVM&lt;/em&gt;: Lol, 1.&lt;/li&gt;&lt;li&gt;&lt;em&gt;Bob&lt;/em&gt;: Ok…what about 3000/2=?&lt;/li&gt;&lt;li&gt;&lt;em&gt;EVM&lt;/em&gt;: Easy; 1500.&lt;/li&gt;&lt;/ul&gt;
+&lt;!-- /wp:list --&gt;
+
+&lt;p&gt;See? Manipulating numbers a bit would manage most of the calculations that one would be needed to perform, satisfactorily. You multiply by how many decimals you want to be precise to first, e.g. 10&lt;sub&gt;&lt;sup&gt;18&lt;/sup&gt;&lt;/sub&gt; do your calculation, then divide to remove the extra decimals.&lt;br /&gt;It&apos;s more precise and better for financial calculations.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Several Numeric Types&lt;/strong&gt;&lt;br /&gt;Precisely, &lt;a href=&quot;https://medium.com/coinmonks/math-in-solidity-part-1-numbers-384c8377f26d&quot;&gt;5,248&lt;/a&gt;. Yes, according to the documentation, there are 32 signed integer, 32 unsigned integer, 2592 signed fixed-point, and 2592 unsigned fixed-point types. JavaScript has only two numeric types. Python 2 used to have four, but in Python 3 type “long” was dropped, so now there are only three. Java has seven and C++ has something about fourteen.&lt;br /&gt;So many data types, and still can&apos;t support floating points. This has a reason. Common types used in other languages are quite flexible, but inherit weird semantics of underlying CPU instructions, like silent over- and underflow, asymmetric range, binary fractions, byte ordering issues etc. Straightforward usage makes the program vulnerable, and secure usage renders it unreadable.&lt;br /&gt;Actually, EVM natively supports two data-types, 256-bit word and 8-bit byte. Therefore it supports 2 numeric types originally, signed 256-bit and unsigned 256-bit integers.&lt;br /&gt;All data-types of int in solidity are just multiples of 8. Assigning so many different spaced numeric types made this more flexible, as we have to save space and computational power consumed, as much as possible.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Usual Arithmetic avoided&lt;/strong&gt;&lt;br /&gt;Solidity does support all usual arithmetic symbols, but there use for calculations are not recommended. This is unusual, but again, needed for being more secure.&lt;br /&gt;There is a &lt;code&gt;Safemath&lt;/code&gt; Library in Solidity, whose source code you can look up right &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/SafeMath.sol&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;. Its implementation is trivial, nearly too trivial to be thought as needed.&lt;br /&gt;Arithmetic operations in Solidity wrap on overflow. This can easily result in bugs, because programmers usually assume that an overflow raises an error, which is the standard behavior in high level programming languages. &lt;code&gt;SafeMath&lt;/code&gt; restores this intuition by reverting the transaction when an operation overflows. Using this library instead of the unchecked operations eliminates an entire class of bugs, so it’s recommended to use it always.&lt;/p&gt;
+
+&lt;p&gt;This list can maybe go on, but these points are what I came across during this &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://github.com/ba-13/GameOfBlocks2021&quot; target=&quot;_blank&quot;&gt;project&lt;/a&gt;.&lt;br /&gt;Else, Solidity is a neat language, actually quite similar to Javascript, and extremely intuitive keywords.&lt;/p&gt;
+
+&lt;!-- wp:heading --&gt;
+&lt;h2&gt;Path to Choose Ahead&lt;/h2&gt;
+&lt;!-- /wp:heading --&gt;
+
+&lt;p&gt;For getting started with Solidity, which is a language, for smart contracts, you would require a network. Your contract may be deployed directly to the official Ethereum Virtual Machine, which would cost you ETH and Gas, but as a beginner, one is recommended to use &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;http://remix.ethereum.org&quot; target=&quot;_blank&quot;&gt;REMIX&lt;/a&gt;, an online IDE made for the development of Smart Contracts. You can move directly to local compilers that deploy your contract to popular public test networks: &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://ropsten.etherscan.io/&quot; target=&quot;_blank&quot;&gt;Ropsten&lt;/a&gt;, &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://goerli-faucet.slock.it/&quot; target=&quot;_blank&quot;&gt;Göerli&lt;/a&gt;, &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://faucet.kovan.network/&quot; target=&quot;_blank&quot;&gt;Kovan&lt;/a&gt;, and &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://www.rinkeby.io/&quot; target=&quot;_blank&quot;&gt;Rinkeby&lt;/a&gt;. All of these networks can be accessed via Infura’s &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://infura.io/&quot; target=&quot;_blank&quot;&gt;API&lt;/a&gt;.&lt;br /&gt;We developed basic smart contracts through REMIX\label{remix}, so would explain about that.&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;wp-image-46&quot; style=&quot;width:900px;&quot; src=&quot;https://newpov13.files.wordpress.com/2021/09/remixe1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Pardon my squiggles. The above picture briefly explains what remix is all about, as a beginner. Write your contract, syntax is intuitive as said before, compile, then choose your virtual environment on which you want to deploy this on (in this case, JavaScript VM), choose one of the 15 addresses Remix provides by default, then Deploy, and interact with the contract by exchanging addresses, taking care of the Debug terminal at the bottom.&lt;br /&gt;There is a section on left column, Gas consumed. We have to care for computational power, as it is equivalent to spending ETH.&lt;br /&gt;Note the License declaration at the top of the .sol file, the extension of solidity files.&lt;br /&gt;From Solidity^0.6.8 SPDX License is introduced, which needs to be in a contract before being deployed.&lt;br /&gt;You&apos;re good to get started with Solidity!&lt;/p&gt;</content><author><name>B.Anshuman</name></author><summary type="html">Yeah, This is the part of a project I took up in the Summers of 2021. We were being introduced to BlockChains, especially, Ethereum (ETH). Let&apos;s introduce that to you too!</summary></entry></feed>
