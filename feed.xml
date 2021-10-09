@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-10-08T21:47:30+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Domus</title><subtitle>a blog site made with 💚 by ba-13</subtitle><author><name>B.Anshuman</name></author><entry><title type="html">How to approach Jekyll</title><link href="http://localhost:4000/2021/10/08/my-approach-to-jekyll.html" rel="alternate" type="text/html" title="How to approach Jekyll" /><published>2021-10-08T00:00:00+05:30</published><updated>2021-10-08T00:00:00+05:30</updated><id>http://localhost:4000/2021/10/08/my-approach-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2021/10/08/my-approach-to-jekyll.html">&lt;p&gt;This is my introduction to the world of static sites, and how intuitive you can make them.&lt;br /&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-10-09T13:34:55+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Domus</title><subtitle>a blog site made with 💚 by ba-13</subtitle><author><name>B.Anshuman</name></author><entry><title type="html">How to approach Jekyll</title><link href="http://localhost:4000/2021/10/08/my-approach-to-jekyll.html" rel="alternate" type="text/html" title="How to approach Jekyll" /><published>2021-10-08T00:00:00+05:30</published><updated>2021-10-08T00:00:00+05:30</updated><id>http://localhost:4000/2021/10/08/my-approach-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2021/10/08/my-approach-to-jekyll.html">&lt;p&gt;This is my introduction to the world of static sites, and how intuitive you can make them.&lt;br /&gt;
 Jekyll is especially quite configurable. Try it out with this blog.&lt;/p&gt;
 
-&lt;!---Here---&gt;
+&lt;!----&gt;
 
 &lt;h1 id=&quot;jekyll-it-is&quot;&gt;Jekyll it is&lt;/h1&gt;
 
@@ -186,6 +186,13 @@ Jekyll is especially quite configurable. Try it out with this blog.&lt;span clas
 
     &amp;lt;/li&amp;gt;
 &lt;/span&gt;  
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/2021/10/01/hello-world.html&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Hello, World!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Hello there!&lt;span class=&quot;nt&quot;&gt;&amp;lt;br&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+This is an inaugural post on the blog part of this site.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;
+
+    &amp;lt;/li&amp;gt;
+&lt;/span&gt;  
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
@@ -248,6 +255,8 @@ git push origin main
 &lt;p&gt;This will directly push the built site from jekyll to your repo.&lt;br /&gt;
 Now activate GitHub pages on that Repository.
 You’re done!&lt;/p&gt;</content><author><name>B.Anshuman</name></author><summary type="html">This is my introduction to the world of static sites, and how intuitive you can make them. Jekyll is especially quite configurable. Try it out with this blog.</summary></entry><entry><title type="html">Ethereum and BlockChains</title><link href="http://localhost:4000/2021/10/08/ethereum-and-blockchains.html" rel="alternate" type="text/html" title="Ethereum and BlockChains" /><published>2021-10-08T00:00:00+05:30</published><updated>2021-10-08T00:00:00+05:30</updated><id>http://localhost:4000/2021/10/08/ethereum-and-blockchains</id><content type="html" xml:base="http://localhost:4000/2021/10/08/ethereum-and-blockchains.html">&lt;p&gt;Yeah, This is the part of a project I took up in the Summers of 2021. We were being introduced to BlockChains, especially, Ethereum (ETH). Let&apos;s introduce that to you too!&lt;/p&gt;
+
+&lt;!----&gt;
 
 &lt;p&gt;First of all, &lt;strong&gt;AltCoins&lt;/strong&gt; are all cryptocurrencies other than Bit-coin.&lt;br /&gt;Why do we need any AltCoins, if Bit-coin is working fine?&lt;/p&gt;
 
@@ -337,4 +346,10 @@ You’re done!&lt;/p&gt;</content><author><name>B.Anshuman</name></author><summa
 
 &lt;p&gt;&lt;img class=&quot;wp-image-46&quot; style=&quot;width:900px;&quot; src=&quot;https://newpov13.files.wordpress.com/2021/09/remixe1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Pardon my squiggles. The above picture briefly explains what remix is all about, as a beginner. Write your contract, syntax is intuitive as said before, compile, then choose your virtual environment on which you want to deploy this on (in this case, JavaScript VM), choose one of the 15 addresses Remix provides by default, then Deploy, and interact with the contract by exchanging addresses, taking care of the Debug terminal at the bottom.&lt;br /&gt;There is a section on left column, Gas consumed. We have to care for computational power, as it is equivalent to spending ETH.&lt;br /&gt;Note the License declaration at the top of the .sol file, the extension of solidity files.&lt;br /&gt;From Solidity^0.6.8 SPDX License is introduced, which needs to be in a contract before being deployed.&lt;br /&gt;You&apos;re good to get started with Solidity!&lt;/p&gt;</content><author><name>B.Anshuman</name></author><summary type="html">Yeah, This is the part of a project I took up in the Summers of 2021. We were being introduced to BlockChains, especially, Ethereum (ETH). Let&apos;s introduce that to you too!</summary></entry></feed>
+&lt;p&gt;Pardon my squiggles. The above picture briefly explains what remix is all about, as a beginner. Write your contract, syntax is intuitive as said before, compile, then choose your virtual environment on which you want to deploy this on (in this case, JavaScript VM), choose one of the 15 addresses Remix provides by default, then Deploy, and interact with the contract by exchanging addresses, taking care of the Debug terminal at the bottom.&lt;br /&gt;There is a section on left column, Gas consumed. We have to care for computational power, as it is equivalent to spending ETH.&lt;br /&gt;Note the License declaration at the top of the .sol file, the extension of solidity files.&lt;br /&gt;From Solidity^0.6.8 SPDX License is introduced, which needs to be in a contract before being deployed.&lt;br /&gt;You&apos;re good to get started with Solidity!&lt;/p&gt;</content><author><name>B.Anshuman</name></author><summary type="html">Yeah, This is the part of a project I took up in the Summers of 2021. We were being introduced to BlockChains, especially, Ethereum (ETH). Let&apos;s introduce that to you too!</summary></entry><entry><title type="html">Hello, World!</title><link href="http://localhost:4000/2021/10/01/hello-world.html" rel="alternate" type="text/html" title="Hello, World!" /><published>2021-10-01T00:00:00+05:30</published><updated>2021-10-01T00:00:00+05:30</updated><id>http://localhost:4000/2021/10/01/hello-world</id><content type="html" xml:base="http://localhost:4000/2021/10/01/hello-world.html">&lt;p&gt;Hello there!&lt;br /&gt;
+This is an inaugural post on the blog part of this site.&lt;/p&gt;
+
+&lt;!----&gt;
+
+&lt;p&gt;These blogs are meant to be the compilation of what I have learnt and completed regarding any topic that comes my way and peaks interest high enough. You can expect this to contain occasional Computer Logic based, Computer Architecture based, some programming projects, or even a few Mathematical concepts that fascinates me personally, and I feel it worthy of sharing with the world. I hope everyone enjoys it.&lt;br /&gt;
+Do contact me if you found something worthwhile here!&lt;/p&gt;</content><author><name>B.Anshuman</name></author><summary type="html">Hello there! This is an inaugural post on the blog part of this site.</summary></entry></feed>
