@@ -1,4 +1,141 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-10-09T13:34:55+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Domus</title><subtitle>a blog site made with 💚 by ba-13</subtitle><author><name>B.Anshuman</name></author><entry><title type="html">How to approach Jekyll</title><link href="http://localhost:4000/2021/10/08/my-approach-to-jekyll.html" rel="alternate" type="text/html" title="How to approach Jekyll" /><published>2021-10-08T00:00:00+05:30</published><updated>2021-10-08T00:00:00+05:30</updated><id>http://localhost:4000/2021/10/08/my-approach-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2021/10/08/my-approach-to-jekyll.html">&lt;p&gt;This is my introduction to the world of static sites, and how intuitive you can make them.&lt;br /&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-10-12T02:31:20+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Domus</title><subtitle>a blog site made with 💚 by ba-13</subtitle><author><name>B.Anshuman</name></author><entry><title type="html">My approach to DSA</title><link href="http://localhost:4000/2021/10/12/revise-dsa.html" rel="alternate" type="text/html" title="My approach to DSA" /><published>2021-10-12T00:00:00+05:30</published><updated>2021-10-12T00:00:00+05:30</updated><id>http://localhost:4000/2021/10/12/revise-dsa</id><content type="html" xml:base="http://localhost:4000/2021/10/12/revise-dsa.html">&lt;p&gt;This is my set of resources for going through Data Structures and Algorithms. You’ll find them well-compiled, and maybe not that expected.&lt;/p&gt;
+
+&lt;!----&gt;
+
+&lt;p&gt;Higher one are of higher priority. This will keep getting updated for sure, but do complete these. Please do go over STL first of all before moving on, cause doing everything from scratch, might be a great learning experience, but it’s stupidity, as you’ll take more time to grasp the same thing.&lt;/p&gt;
+
+&lt;p&gt;My approach of these are,&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;for video tutorials, I follow along with the tutor, pausing if a question is revealed.&lt;/li&gt;
+  &lt;li&gt;for written tutorials, ideally you should first go through the entire article in one-go with a bird eye view. Then delve into those parts which would seem more relevant to you for now. As you can always come back to them later for more advanced concepts. Just try not getting stuck for long.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;some-standard-resources-i-think-are-great-and-still-left-to-follow&quot;&gt;Some standard Resources I think are great and still left to follow&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;STL&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.topcoder.com/thrive/articles/Power%20up%20C++%20with%20the%20Standard%20Template%20Library%20Part%20One&quot;&gt;Topcoder-I&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.topcoder.com/thrive/articles/Power%20up%20C++%20with%20the%20Standard%20Template%20Library%20Part%20Two:%20Advanced%20Uses&quot;&gt;Topcoder-II&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Structures&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/playlist?list=PLDV1Zeh2NRsB6SWUrDFW2RmDotAfPbeHu&quot;&gt;William Fiset&lt;/a&gt; : Collection of all data structures you need to know till an intermediate level. Explanation is extremely well done.&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/playlist?list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P&quot;&gt;MyCodeSchool&lt;/a&gt; : Not as exhaustive as above, but may suit your style. Emphasis given on particular topics.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Pointers&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=zuegQmMdy8M&quot;&gt;Freecodecamp by Harsha and Animesh&lt;/a&gt; : Can watch for a quick review of it’s concepts.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Linked List&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.geeksforgeeks.org/top-20-linked-list-interview-question/&quot;&gt;Interview Questions&lt;/a&gt; : You know LL, you should know how to do these.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Matrix&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.geeksforgeeks.org/matrix/&quot;&gt;Matrix Questions&lt;/a&gt; : Never hurts to know how matrices are manipulated in programming. This will make you better in handling limits in iterations.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Trees&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/playlist?list=PLDV1Zeh2NRsDfGc8rbQ0_58oEZQVtvoIc&quot;&gt;William Fiset&lt;/a&gt; : Extremely useful, intuitively explained, in pseudo-cum-python code.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Backtracking&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=A80YzvNwqXA&quot;&gt;Freecodecamp by Lynn&lt;/a&gt; : It’s a video tutorial, with a “base format” explained by the author, a boilerplate for backtracking.&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.cis.upenn.edu/~matuszek/cit594-2012/Pages/backtracking.html&quot;&gt;University of Pennsylvania&lt;/a&gt; : It’s an extensive article.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Recursion&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=IJDJ0kBx2LM&amp;amp;t=2637s&quot;&gt;Freecodecamp by the Simple Engineer&lt;/a&gt; : You will be slowly demystified about Recursion here.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Dynamic Programming&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=oBt53YbR9Kk&amp;amp;t=223s&quot;&gt;Freecodecamp by Zablan&lt;/a&gt; : Claimed to be one of the best resources for DP on YT.&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/playlist?list=PLDV1Zeh2NRsAsbafOroUBnNV8fhZa7P4u&quot;&gt;William Fiset&lt;/a&gt; : Slides, suit my style.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Hash Tables&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/playlist?list=PLDV1Zeh2NRsDH5Wq-Vk5tDb8gH03cULZS&quot;&gt;William Fiset&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Graph Theory&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/playlist?list=PLDV1Zeh2NRsDGO4--qE8yH72HFL1Km93P&quot;&gt;William Fiset&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://codeforces.com/blog/entry/60717&quot;&gt;RestingR&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.hackerearth.com/practice/algorithms/graphs/graph-representation/tutorial/&quot;&gt;Practice at Hackerrank&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://codeforces.com/blog/entry/16221&quot;&gt;Prince Of Persia&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Number Theory&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.hackerearth.com/practice/notes/number-theory-1/&quot;&gt;Hackerrank&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://artofproblemsolving.com/community/c90633h1291397&quot;&gt;AOPS&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.codechef.com/wiki/tutorial-number-theory&quot;&gt;CodeChef&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://docs.google.com/document/d/1z3NtURVMyCkD1Ed4HuzkycpzKyc6kBaD9OYTbKJiDlU/edit&quot;&gt;Compilation Summary&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Perfect Reference&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://web.ist.utl.pt/~fabio.ferreira/material/asa/clrs.pdf&quot;&gt;CSLR&lt;/a&gt; : Bible&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://cses.fi/problemset/&quot;&gt;CSES Perfect Problem-set&lt;/a&gt; : the Problem Set I have been following for a while.&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://cp-algorithms.com&quot;&gt;CP-Algo&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;A few points I would like to mention:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Debugging:
+Throwing Exceptions can be useful, or using debuggers.&lt;br /&gt;
+A good ol’ print statement is always the master weapon in debugging. If you do write a lot of print statements for cleaning up your code, these constitute of code too, so instead of removing them when you’re done or commenting them out, use conditionals. Example:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;debugging&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debugging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;x is &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Keep your env clean. Use Zen Mode if you have dual monitors, else hide out all bars in your text editor. This will keep you focussed more than you would be, and you’ll appreciate the look too.&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>B.Anshuman</name></author><summary type="html">This is my set of resources for going through Data Structures and Algorithms. You’ll find them well-compiled, and maybe not that expected.</summary></entry><entry><title type="html">How to approach Jekyll</title><link href="http://localhost:4000/2021/10/08/my-approach-to-jekyll.html" rel="alternate" type="text/html" title="How to approach Jekyll" /><published>2021-10-08T00:00:00+05:30</published><updated>2021-10-08T00:00:00+05:30</updated><id>http://localhost:4000/2021/10/08/my-approach-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2021/10/08/my-approach-to-jekyll.html">&lt;p&gt;This is my introduction to the world of static sites, and how intuitive you can make them.&lt;br /&gt;
 Jekyll is especially quite configurable. Try it out with this blog.&lt;/p&gt;
 
 &lt;!----&gt;
@@ -173,6 +310,12 @@ This can be accessed by &lt;code class=&quot;language-plaintext highlighter-roug
 
 &lt;div class=&quot;language-md highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;
   
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/2021/10/12/revise-dsa.html&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;My approach to DSA&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;This is my set of resources for going through Data Structures and Algorithms. You’ll find them well-compiled, and maybe not that expected.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;
+
+    &amp;lt;/li&amp;gt;
+&lt;/span&gt;  
     &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;nt&quot;&gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/2021/10/08/my-approach-to-jekyll.html&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;How to approach Jekyll&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;This is my introduction to the world of static sites, and how intuitive you can make them.&lt;span class=&quot;nt&quot;&gt;&amp;lt;br&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
