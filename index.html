@@ -55,86 +55,93 @@
 
 <style>
   .link {
+    background-color: #1c1d22;
     font-size: 1.6rem;
     font-weight: 600;
     padding: 5px;
     padding-left: 8.6rem;
+    z-index: 1;
+    display: flex;
   }
   #container {
     height: 63vh;
     padding-top: 5.9rem;
   }
   #dp {
-    background-color: linear-gradient(
-      to bottom,
-      rgba(245, 246, 252, 0.52),
-      rgba(117, 19, 93, 0.73)
-    );
-    scale: 0.5;
-    border-radius: 50%;
+    width: 500px;
+    height: auto;
+    border-radius: 52% 48% 44% 56% / 0% 53% 47% 100%;
     position: absolute;
-    margin-top: -7%;
+    margin-top: -4%;
     margin-left: 27%;
-    /* background-color: white; */
+    z-index: -0.1;
   }
   #name {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
     font-family: "Lucida Handwriting";
     border-radius: 70%;
     /* filter: blur(4px);
     -webkit-filter: blur(8px); */
     color: #fff;
     position: absolute;
-    /* margin-top: 20%; */
-    /* margin-right: -200%; */
-    transform: translate(220%, 770%);
+    transform: translate(180%, 520%);
     animation: slide 0.5s forwards;
     -webkit-animation: slide 0.5s forwards;
+  }
+  header {
+    z-index: 1;
   }
 
   @keyframes slide {
     0% {
     }
     100% {
-      transform: translate(180%, 770%);
+      transform: translate(140%, 520%);
     }
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1290px) {
+    #name {
+      transform: translate(50%, 520%);
+      animation: slide2 0.5s forwards;
+    }
+  }
+
+  @media (max-width: 1120px) {
     #dp {
-      margin-top: -15%;
+      margin-left: 27%;
+      margin-top: -4%;
     }
     #name {
-      transform: translate(120%, 760%);
+      font-size: 3rem;
+      transform: translate(80%, 650%);
       animation: slide2 0.5s forwards;
     }
     @keyframes slide2 {
       100% {
-        transform: translate(100%, 760%);
+        transform: translate(100%, 650%);
       }
     }
   }
-  @media (max-width: 570px) {
+  @media (max-width: 780px) {
     #name {
       opacity: 0;
     }
     #dp {
-      /* z-index: -1; */
-      margin-top: -20%;
-      transform: translate(-70%, 70vh);
       opacity: 0;
-    }
-    #name {
-      z-index: -1;
     }
   }
 </style>
 <img src="./dp_recent.png" id="dp" />
 <div id="container">
+  <div class="link"></div>
+  <div class="link"></div>
   <div class="link"><a href="/about">/about</a></div>
   <div class="link"><a href="/Blogs">/blogs</a></div>
   <div class="link"><a href="/cv.pdf">/resume</a></div>
   <div class="link"><a href="/contact">/contact</a></div>
+  <div class="link"></div>
+  <div class="link"></div>
 </div>
 <div id="name">B.Anshuman</div>
 
