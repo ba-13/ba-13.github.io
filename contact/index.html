@@ -73,7 +73,7 @@
     border-left: 0.5px;
     border-right: 0px;
     border-style: solid;
-    border-color: white;
+    border-color: gray;
   }
   .container>li>label,
   .container li {
@@ -100,6 +100,10 @@
   #message {
       font-size: 1rem;
       font-family: Helvetica;
+  }
+  textarea {
+    width: 600px !important;
+    height: 600px !important;
   }
 </style>
 
@@ -158,9 +162,9 @@
         <textarea
           name="Message"
           id="message"
-          cols="30"
-          rows="5"
           class="form-control"
+          rows=5
+          columns=30
           placeholder="Here we go again.."
           required
         ></textarea>
