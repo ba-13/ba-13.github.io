@@ -1,0 +1,114 @@
+---
+permalink: /contact/
+layout: page
+title: "Contact"
+---
+
+<style>
+  .container li {
+    padding: 0.5rem;
+    padding-left: 0.5rem;
+    margin-left: -2.5rem;
+    margin-top: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-bottom: 1px;
+    border-top: 0px;
+    border-left: 0.5px;
+    border-right: 0px;
+    border-style: solid;
+    border-color: gray;
+  }
+
+  .container>li>label,
+  .container li {
+    flex: 1 0 15px;
+    max-width: 600px;
+  }
+
+  .container>li>label+* {
+    flex: 1 0 2rem;
+  }
+
+  .container button {
+    margin-left: auto;
+    padding: 8px 16px;
+    border: none;
+    background: #333;
+    color: #f2f2f2;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    border-radius: 2px;
+    cursor: pointer;
+    margin-bottom: 0.4rem;
+  }
+
+  #name,
+  #emailAddress,
+  #message {
+    font-size: 1rem;
+    font-family: Helvetica;
+  }
+
+  textarea {
+    width: 600px !important;
+    height: 600px !important;
+  }
+</style>
+
+<div>
+  <!-- <b>Heyo!</b> <br/> -->
+  Thanks a tonne for visiting my place, ever so virtual. <br />
+  You're always invited at my actual residence, which right now is <b>E154 - Hall 3, IIT Kanpur</b>. <br />
+  I realise that forms as below are well, <i>too boring to fill</i>, but these are not unlike small talks...<br /> the
+  initiators to <b>greater conversations</b> ahead! <br />
+  You can always contact me from one of the handles in the footer. <br />
+  I do hope to hear from you. Later.
+</div>
+
+<form action="post" autocomplete="off" name="google-sheets">
+  <ul class="container">
+    <li>
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" name="Name" aria-describedby="nameOfPerson"
+        placeholder="Enter your Name" required />
+    </li>
+    <li>
+      <label for="emailAddress">Email Address</label>
+      <input type="email" class="form-control" name="Email" id="emailAddress" aria-describedby="emailOfPerson"
+        placeholder="Enter your Email Address" required />
+      <span><small id="emailHelp" class="form-text text-muted">Fill with your own email ID :)</small></span>
+    </li>
+    <li>
+      <label for="message">Enter your Message</label>
+      <textarea name="Message" id="message" class="form-control" rows=5 columns=30 placeholder="Here we go again.."
+        required></textarea>
+    </li>
+    <li>
+      <button type="submit" name="submit" value="Send Message" class="btn btn-primary">
+        Submit
+      </button>
+    </li>
+  </ul>
+</form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+  const scriptURL =
+    "https://script.google.com/macros/s/AKfycbwVI3jOlyelyzqc4FMNv35SRMui_guw4niK-NfOmQ7um0sZyvTpcW_x6Ca9MH2MMFxx/exec";
+  const form = document.forms["google-sheets"];
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    fetch(scriptURL, { method: "POST", body: new FormData(form) })
+      .then((res) => alert("Thanks for Contacting Us!"))
+      .catch((err) => console.error(err));
+  });
+</script>
