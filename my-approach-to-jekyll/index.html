@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>How to approach Jekyll | Domus</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="B.Anshuman">
+<meta name="generator" content="Jekyll v4.2.2">
+<link rel="canonical" href="http://localhost:4000/my-approach-to-jekyll/">
+
+<link rel="stylesheet" href="/assets/css/frame.css">
+
+<link rel="alternate" href="/feed.xml" type="application/atom+xml" title="Domus">
+
+
+
+
+
+
+
+<header>
+  <a href="/" class="title">Domus</a>
+  <nav><a href="/" >Home</a><a href="/Blogs/" >Blogs</a><a href="/about/" >About</a><a href="/contact/" >Contact</a></nav>
+
+</header>
+
+<article>
+  <header>
+  <h1><a href="/my-approach-to-jekyll/">How to approach Jekyll</a></h1><time datetime="2021-10-08T00:00:00+05:30">October 08, 2021</time>
+</header>
+
+  <p>This is my introduction to the world of static sites, and how intuitive you can make them.<br />
+Jekyll is especially quite configurable. Try it out with this blog.</p>
+
+<!---->
+
+<h1 id="jekyll-it-is">Jekyll it is</h1>
+
+<p>A static file-system generator, that is incredibly convenient.<br />
+Install <code class="language-plaintext highlighter-rouge">ruby</code> with</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update <span class="nt">-y</span> <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt-get upgrade <span class="nt">-y</span>
+<span class="nb">sudo </span>apt-add-repository ppa:brightbox/ruby-ng
+<span class="nb">sudo </span>apt-get update
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>ruby2.5 ruby2.5-dev build-essential dh-autoreconf
+gem update
+gem <span class="nb">install </span>jekyll bundler <span class="c"># installing jekyll and bundler</span>
+</code></pre></div></div>
+
+<p>Now to initiate your site:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jekyll new mysite
+<span class="nb">cd </span>mysite
+bundle add webrick
+</code></pre></div></div>
+
+<p>Try running the site with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">exec </span>jekyll serve
+</code></pre></div></div>
+
+<h3 id="some-basics-of-jekyll-subsystem">Some basics of Jekyll subsystem:</h3>
+
+<h4 id="_configyml">_config.yml</h4>
+
+<p>The location to customize the site’s configuration. The following are defaults:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Where things are</span>
+<span class="na">source</span><span class="pi">:</span> <span class="s">.</span>
+<span class="na">destination</span><span class="pi">:</span> <span class="s">./_site</span>
+<span class="na">collections_dir</span><span class="pi">:</span> <span class="s">.</span>
+<span class="na">plugins_dir</span><span class="pi">:</span> <span class="s">_plugins</span> <span class="c1"># takes an array of strings and loads plugins in that order</span>
+<span class="na">layouts_dir</span><span class="pi">:</span> <span class="s">_layouts</span>
+<span class="na">data_dir</span><span class="pi">:</span> <span class="s">_data</span>
+<span class="na">includes_dir</span><span class="pi">:</span> <span class="s">_includes</span>
+<span class="na">sass</span><span class="pi">:</span>
+  <span class="na">sass_dir</span><span class="pi">:</span> <span class="s">_sass</span>
+<span class="na">collections</span><span class="pi">:</span>
+  <span class="na">posts</span><span class="pi">:</span>
+    <span class="na">output</span><span class="pi">:</span> <span class="no">true</span>
+
+<span class="c1"># Handling Reading</span>
+<span class="na">safe</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">include</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">.htaccess"</span><span class="pi">]</span>
+<span class="na">exclude</span><span class="pi">:</span>
+  <span class="pi">[</span>
+    <span class="s2">"</span><span class="s">Gemfile"</span><span class="pi">,</span>
+    <span class="s2">"</span><span class="s">Gemfile.lock"</span><span class="pi">,</span>
+    <span class="s2">"</span><span class="s">node_modules"</span><span class="pi">,</span>
+    <span class="s2">"</span><span class="s">vendor/bundle/"</span><span class="pi">,</span>
+    <span class="s2">"</span><span class="s">vendor/cache/"</span><span class="pi">,</span>
+    <span class="s2">"</span><span class="s">vendor/gems/"</span><span class="pi">,</span>
+    <span class="s2">"</span><span class="s">vendor/ruby/"</span><span class="pi">,</span>
+  <span class="pi">]</span>
+<span class="na">keep_files</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">.git"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">.svn"</span><span class="pi">]</span>
+<span class="na">encoding</span><span class="pi">:</span> <span class="s2">"</span><span class="s">utf-8"</span>
+<span class="na">markdown_ext</span><span class="pi">:</span> <span class="s2">"</span><span class="s">markdown,mkdown,mkdn,mkd,md"</span>
+<span class="na">strict_front_matter</span><span class="pi">:</span> <span class="no">false</span>
+
+<span class="c1"># Filtering Content</span>
+<span class="na">show_drafts</span><span class="pi">:</span> <span class="no">null</span>
+<span class="na">limit_posts</span><span class="pi">:</span> <span class="m">0</span>
+<span class="na">future</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">unpublished</span><span class="pi">:</span> <span class="no">false</span>
+
+<span class="c1"># Plugins</span>
+<span class="na">whitelist</span><span class="pi">:</span> <span class="pi">[]</span>
+<span class="na">plugins</span><span class="pi">:</span> <span class="pi">[]</span>
+
+<span class="c1"># Conversion</span>
+<span class="na">markdown</span><span class="pi">:</span> <span class="s">kramdown</span>
+<span class="na">highlighter</span><span class="pi">:</span> <span class="s">rouge</span>
+<span class="na">lsi</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">excerpt_separator</span><span class="pi">:</span> <span class="s2">"</span><span class="se">\n\n</span><span class="s">"</span>
+<span class="na">incremental</span><span class="pi">:</span> <span class="no">false</span>
+
+<span class="c1"># Serving</span>
+<span class="na">detach</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">port</span><span class="pi">:</span> <span class="m">4000</span>
+<span class="na">host</span><span class="pi">:</span> <span class="s">127.0.0.1</span>
+<span class="na">baseurl</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span> <span class="c1"># does not include hostname</span>
+<span class="na">show_dir_listing</span><span class="pi">:</span> <span class="no">false</span>
+
+<span class="c1"># Outputting</span>
+<span class="na">permalink</span><span class="pi">:</span> <span class="s">date</span>
+<span class="na">paginate_path</span><span class="pi">:</span> <span class="s">/page:num</span>
+<span class="na">timezone</span><span class="pi">:</span> <span class="no">null</span>
+
+<span class="na">quiet</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">verbose</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">defaults</span><span class="pi">:</span> <span class="pi">[]</span>
+
+<span class="na">liquid</span><span class="pi">:</span>
+  <span class="na">error_mode</span><span class="pi">:</span> <span class="s">warn</span>
+  <span class="na">strict_filters</span><span class="pi">:</span> <span class="no">false</span>
+  <span class="na">strict_variables</span><span class="pi">:</span> <span class="no">false</span>
+
+<span class="c1"># Markdown Processors</span>
+<span class="na">kramdown</span><span class="pi">:</span>
+  <span class="na">auto_ids</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">entity_output</span><span class="pi">:</span> <span class="s">as_char</span>
+  <span class="na">toc_levels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">1</span><span class="pi">,</span> <span class="nv">2</span><span class="pi">,</span> <span class="nv">3</span><span class="pi">,</span> <span class="nv">4</span><span class="pi">,</span> <span class="nv">5</span><span class="pi">,</span> <span class="nv">6</span><span class="pi">]</span>
+  <span class="na">smart_quotes</span><span class="pi">:</span> <span class="s">lsquo,rsquo,ldquo,rdquo</span>
+  <span class="na">input</span><span class="pi">:</span> <span class="s">GFM</span>
+  <span class="na">hard_wrap</span><span class="pi">:</span> <span class="no">false</span>
+  <span class="na">footnote_nr</span><span class="pi">:</span> <span class="m">1</span>
+  <span class="na">show_warnings</span><span class="pi">:</span> <span class="no">false</span>
+</code></pre></div></div>
+
+<h4 id="front-matter-defaults">Front Matter defaults</h4>
+
+<p>To avoid repetition of same configurations, <code class="language-plaintext highlighter-rouge">defaults</code> key in <code class="language-plaintext highlighter-rouge">_config.yml</code> is the way to go.
+You can define your custom configs, ex. Let’s say you want to add a default layout to all pages and posts in your site, do the following:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">defaults</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">scope</span><span class="pi">:</span>
+      <span class="na">path</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+      <span class="na">type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">pages"</span>
+    <span class="na">values</span><span class="pi">:</span>
+      <span class="na">layout</span><span class="pi">:</span> <span class="s2">"</span><span class="s">my-site"</span>
+  <span class="pi">-</span> <span class="na">scope</span><span class="pi">:</span>
+      <span class="na">path</span><span class="pi">:</span> <span class="s2">"</span><span class="s">projects"</span>
+      <span class="na">type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">pages"</span> <span class="c1"># previously `page` in Jekyll 2.2.</span>
+    <span class="na">values</span><span class="pi">:</span>
+      <span class="na">layout</span><span class="pi">:</span> <span class="s2">"</span><span class="s">project"</span> <span class="c1"># overrides previous default layout</span>
+      <span class="na">author</span><span class="pi">:</span> <span class="s2">"</span><span class="s">yourusername"</span>
+</code></pre></div></div>
+
+<h4 id="environments">Environments</h4>
+
+<p>Specified by adding <code class="language-plaintext highlighter-rouge">JEKYLL_ENV=production</code> or something while <code class="language-plaintext highlighter-rouge">jekyll build</code>.<br />
+Default is <code class="language-plaintext highlighter-rouge">JEKYLL_ENV=development</code>.
+The value can be anything we want.</p>
+
+<h4 id="pages">Pages</h4>
+
+<p>The simplest way to add a page is to add an HTML(or .md) file in root, with a suitable name.<br />
+We can organize them to sub-folders in the root directory itself, and the url will be accordingly.
+To generate page_excerpts, change the same to <code class="language-plaintext highlighter-rouge">true</code> in <code class="language-plaintext highlighter-rouge">_config.yml</code>.<br />
+Do remember to add front matter to your page. example:</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">layout</span><span class="pi">:</span> <span class="s">post</span>
+<span class="na">title</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Example</span><span class="nv"> </span><span class="s">Title"</span>
+<span class="nn">---</span>
+
+Rest of your content here
+</code></pre></div></div>
+
+<h4 id="posts">Posts</h4>
+
+<p>Initiate a blog with the naming convention of <code class="language-plaintext highlighter-rouge">YEAR-MONTH-DAY-title.MARKUP</code>, example: <code class="language-plaintext highlighter-rouge">2021-09-04-how-to-write-a-blog.md</code>
+All <code class="language-plaintext highlighter-rouge">.md</code> must have a <code class="language-plaintext highlighter-rouge">front matter</code> which is a meta-data collection for the post.<br />
+Adding assets is easy, by adding <code class="language-plaintext highlighter-rouge">/assets</code> in the root directory, and referencing from there itself.</p>
+
+<h5 id="tags-and-categorycategories">Tags and Category/Categories</h5>
+
+<p>Declare the same as space-separated list of tags, in the front matter.
+This can be accessed by <code class="language-plaintext highlighter-rouge">site.tags</code>. The same goes for categories. But category can be used to modify the <a href="http://jekyllrb.com/docs/posts/">URL</a> itself.</p>
+
+<h5 id="excerpts">Excerpts</h5>
+
+<p><code class="language-plaintext highlighter-rouge">excerpt_separator</code> is declared in the front matter. example, here is a code outputting a list of blog posts excerpts:</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ul&gt;</span>
+  
+    <span class="nt">&lt;li&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/haskell-1/"</span><span class="nt">&gt;</span>My Take on Haskell#1<span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;p&gt;</span>Haskell is a functional programming language. Why do you need to know about it? Because you should.<span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+This is the First out of a series of 5.<span class="nt">&lt;/p&gt;</span><span class="sb">
+
+
+    &lt;/li&gt;
+</span>  
+    <span class="nt">&lt;li&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/revise-dsa/"</span><span class="nt">&gt;</span>My approach to DSA<span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;p&gt;</span>This is my set of resources and shortcuts for going through Data Structures and Algorithms. You’ll find them well-compiled, and maybe not that expected.<span class="nt">&lt;/p&gt;</span><span class="sb">
+
+
+    &lt;/li&gt;
+</span>  
+    <span class="nt">&lt;li&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/my-approach-to-jekyll/"</span><span class="nt">&gt;</span>How to approach Jekyll<span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;p&gt;</span>This is my introduction to the world of static sites, and how intuitive you can make them.<span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+Jekyll is especially quite configurable. Try it out with this blog.<span class="nt">&lt;/p&gt;</span><span class="sb">
+
+
+    &lt;/li&gt;
+</span>  
+    <span class="nt">&lt;li&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/ethereum-and-blockchains/"</span><span class="nt">&gt;</span>Ethereum and BlockChains<span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;p&gt;</span>Yeah, This is the part of a project I took up in the Summers of 2021. We were being introduced to BlockChains, especially, Ethereum (ETH). Let's introduce that to you too!<span class="nt">&lt;/p&gt;</span><span class="sb">
+
+
+    &lt;/li&gt;
+</span>  
+    <span class="nt">&lt;li&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/hello-world/"</span><span class="nt">&gt;</span>Hello, World!<span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;p&gt;</span>Hello there!<span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+This is an inaugural post on the blog part of this site.<span class="nt">&lt;/p&gt;</span><span class="sb">
+
+
+    &lt;/li&gt;
+</span>  
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre></div></div>
+
+<h5 id="permalinks-layouts-and-published-default-and-custom-options">Permalinks, Layouts and published default and custom options</h5>
+
+<p>Front-matter contains the above default options as <code class="language-plaintext highlighter-rouge">permalink</code> (the baseURL of page), <code class="language-plaintext highlighter-rouge">layout</code> (all layouts should be in <code class="language-plaintext highlighter-rouge">/_layouts</code>), and <code class="language-plaintext highlighter-rouge">published</code> which won’t let the page show up if set to false.
+You can declare your own variables that can be used in that page just like:</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="s">The not-mentioned ones are default options available to you</span>
+<span class="na">food</span><span class="pi">:</span> <span class="s">Pizza</span>
+<span class="nn">---</span>
+
+<span class="nt">&lt;h1&gt;&lt;/h1&gt;</span>
+<span class="nt">&lt;h1&gt;</span>2021-10-08 00:00:00 +0530<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;h1&gt;&lt;/h1&gt;</span>
+<span class="nt">&lt;h1&gt;&lt;/h1&gt;</span>
+<span class="nt">&lt;h1&gt;&lt;/h1&gt;</span>
+</code></pre></div></div>
+
+<h4 id="drafts">Drafts</h4>
+
+<p>Declared in <code class="language-plaintext highlighter-rouge">/_drafts</code>, these aren’t displayed in production build. You have to explicitly specify by <code class="language-plaintext highlighter-rouge">jekyll build --drafts</code>.<br />
+This is a location for all blogs you’re working on rn.</p>
+
+<h3 id="liquid">Liquid</h3>
+
+<p>Smart site-generation is performed by Liquid, which can be used to create flow-control in <code class="language-plaintext highlighter-rouge">.md</code> itself.</p>
+
+<h4 id="data-folder">Data Folder</h4>
+
+<p><code class="language-plaintext highlighter-rouge">/_data</code> folder is where you should store all additional data for Jekyll to use when rendering the site.<br />
+Allowed data files are <code class="language-plaintext highlighter-rouge">.yml</code>,<code class="language-plaintext highlighter-rouge">.json</code>,<code class="language-plaintext highlighter-rouge">.csv</code>,<code class="language-plaintext highlighter-rouge">.tsv</code>,<code class="language-plaintext highlighter-rouge">.yaml</code> and are accessed by <code class="language-plaintext highlighter-rouge">site.data.filename</code>
+This is freaking useful, and check it out <a href="http://jekyllrb.com/docs/datafiles/">here</a></p>
+
+<h4 id="static-files">Static Files</h4>
+
+<p>A file that won’t have any front matter, and to be displayed on its own.<br />
+It can be accessed by <code class="language-plaintext highlighter-rouge">site.static_files</code>.</p>
+
+<h4 id="configuration">Configuration</h4>
+
+<p>Instead of following along with some video tutorials or docs, the best approach I found to configure this site was by <code class="language-plaintext highlighter-rouge">bundle info yourthemename</code>.<br />
+This will give your theme’s template location on your system.<br />
+All that’s left to do is to explore it!</p>
+
+<h4 id="deployment">Deployment</h4>
+
+<p>Enter the <code class="language-plaintext highlighter-rouge">_site</code> folder, <code class="language-plaintext highlighter-rouge">git init</code>, and set origin of this folder as the GitHub repo you want to host this site on.<br />
+Do the same through:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git init
+git remote add origin https://github.com/yourusername/yourreponame.git
+git branch <span class="nt">-M</span> main
+git add <span class="k">*</span>
+git commit <span class="nt">-m</span> <span class="s2">"your commit details"</span>
+git push origin main
+</code></pre></div></div>
+
+<p>This will directly push the built site from jekyll to your repo.<br />
+Now activate GitHub pages on that Repository.
+You’re done!</p>
+
+  
+</article>
+
+
+
+<footer>
+  <div>Made with <b style="color: #f45;">&lt;3</b></div>
+  <nav><a href="mailto:b.anshuman1305@gmail.com" ><svg aria-label="Mail" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#envelope"></use></svg></a><a href="https://github.com/ba-13" ><svg aria-label="Github" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#github"></use></svg></a><a href="https://www.linkedin.com/in/b-anshuman13/" ><svg aria-label="LinkedIn" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#linkedin"></use></svg></a><a href="https://stackoverflow.com/users/14015559/ba-13" ><svg aria-label="StackOverflow" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#stack-overflow"></use></svg></a><a href="https://www.instagram.com/be_a_ribbon/" ><svg aria-label="Instagram" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#instagram"></use></svg></a></nav>
+
+</footer>
+
+
+</html>
