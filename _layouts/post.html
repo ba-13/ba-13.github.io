@@ -1,14 +1,17 @@
 ---
 layout: default
+comments: true
 ---
 
 <article>
   {% include meta.html post=page %}
   {{ content }}
-  {% if page.comments != false and site.comments.isso or site.comments.disqus %}
-    <hr>
-    {% if site.comments.isso_domain %}<div id="isso-thread"></div>{% endif %}
-    {% if site.comments.disqus_shortname %}<div id="disqus_thread"></div>{% endif %}
-    <noscript>Please enable JavaScript to view comments.</noscript>
-  {% endif %}
+  {% if page.comments != false %}
+  <hr>
+  {% if site.comments.isso_domain %}<div id="isso-thread"></div>{% endif %}
+  {% if site.comments.disqus_shortname %}<div id="disqus_thread">
+    {% include disqus.html %}
+    {% endif %}
+    {% endif %}
+    <script id="dsq-count-scr" src="//ba-13-github-io.disqus.com/count.js" async></script>
 </article>

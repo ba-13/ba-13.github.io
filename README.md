@@ -1,5 +1,5 @@
 # Current Site
 
-Hosted [here](ba-13.github.io). If you make any changes here, do commit it. This folder `.` is found [here](https://github.com/ba-13/Website_Source).
-
-Once you find changes is done well enough, by running `bundle exec jekyll serve` (may need to do `bundle update` before), cd to `_site`, commit changes, and push at branch `v3`. This branch contains the latest (i.e. this) codebase.
+Hosted [here](ba-13.github.io). If you make any changes here, do commit it.  
+Confirm that you're pushing here itself.
+The deployment is handled by github workflows, so only source code needs to be up.
