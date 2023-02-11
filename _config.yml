@@ -2,25 +2,29 @@ title: "Domus"
 author: "B. Anshuman"
 # description: 'Made with <b style="color: #f45;">&lt;3</b>'
 description: "Being a 🎀"
-permalink: /:title/
+permalink: /:year/:month/:title/
 lang: "en"
 excerpt_separator: "<!---->"
 date_format: "%B %d, %Y"
+paginate: 5
+paginate_path: /page/:num/
 
 # Layout
 
 show_excerpts: true # show article excerpts on the home page
 show_frame: true # adds a gray frame to the site
 show_sidebar: false # show a sidebar instead of the usual header
+show_title: true
+show_related: true # show previous and next posts
 minimal: false # use a dark header
 
 # Menu
 
 navigation: # accepts {file, title, url, icon, sidebaricon}
-  # - { file: "index.html" }
-  - { file: "blogs.html" }
-  - { file: "about.md" }
-  - { file: "contact.html" }
+  - { file: "index.html", icon: home }
+  - { file: "blogs.html", icon: blog }
+  - { file: "about.md", icon: address-card }
+  - { file: "contact.html", icon: address-book }
   # - { file: "archive.html" }
   # - { file: "README.md" }
 
@@ -42,6 +46,7 @@ external: # shows a footer with social links - for available icons see fontaweso
       icon: instagram,
       url: "https://www.instagram.com/be_a_ribbon/",
     }
+  - { title: Subscribe, icon: rss, url: "/feed.xml" }
 
 comments:
   # disqus_shortname: "" # see https://disqus.com/
@@ -49,3 +54,5 @@ comments:
 
 plugins:
   - jekyll-feed
+  - jekyll-paginate
+  - jekyll-sitemap
