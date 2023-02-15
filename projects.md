@@ -6,6 +6,18 @@ title: "Projects"
 
 <hr style="border:2px solid gray">
 
+## 2023
+
+<hr style="border:2px solid gray">
+
+### Inter IIT Techmeet 11.0
+
+The problem this time was tackled by 4 juniors and 6 sophomores, a High Prep problem statement. We were tasked to create a communication link between a provided drone and our machines, send it MSP encoded packets, and use the same for implementing a position control using a single monocular webcam stuck on a ceiling. Use the same as well to control 2 drones simultaneously. We were meant to do all these in python. But we created a `C++` backend for parallel feedback processing, used sockets to communicate the same to our python controller at nearly the same rate of 54Hz, and used the controller and the protocol implemented above for handling the drone. More problems arose related to motor burnout and swarm single host connections, but those were taken care of. Our team finally attained sixth position, but our score went down in documentation and presentation, even though I still think it was clean enough.
+
+---
+
+<hr style="border:2px solid gray">
+
 ## 2022
 
 <hr style="border:2px solid gray">
@@ -61,6 +73,11 @@ The PhD I mentioned before, remember? He asked me to join his problem statement 
 ### Phoenix's Resurrection
 
 Aerial was dying, and I had to do something. So in the mid-term vacation, I approached a PhD for guiding me to construct a drone, which I thought would motivate my other teammates to start working again. So by the end of the vacation, I built the Phoenix, with the constant guidance of that PhD, and he flew it the second day after vacation ended. I wasn't present that time, and the battery flew off, leading to a crash. The following days, we started working hard on completely fixing the drone, and made another one during the process. To be honest, it wasn't much of a mind-work compared to following procedures properly and knowing some heuristics. We were finally able to debug all problems and showcase 2 drones in the Pavillion'22, flying them in process. It's actually thrilling to fly a drone. You should try it out some day, so approach me for that. Again, it wasn't much of a brain-tingling task, so I'm not much satisfied with how much time it took, but it was worth it. The team seems to have a future, let's see.
+
+### Shaastra Pick up and Delivery
+
+Picked up by the team as a PS that would be done and over with within 6 days, we spent 1.5 months on it, with 20 days straight day-night. Our codebase lies [here](https://github.com/AerialRobotics-IITK/shastra23). We spent first working on a simulation ground, preparing that in order to "be able to tackle" the original problem, but in mid of that ditched the idea.
+Moving back to actually building a drone, making it convenient enough for regular flights, including Autopilot handling, then mounting an Odroid XU4 for inducing autonomy, took us 1 month. Then back to the PS, we made sensor handling modules, position control module, and a flight planner as an FSM to detect an object, align with it, pickup with an electromagnet, go to the dropzone, turn off the electromagnet, repeat once more, and land back. We were unable to fully complete the PS due to barometer of our FC glitching out, but the whole pipeline creation was worth the huge time investment.
 
 ---
 <hr style="border:2px solid gray">
