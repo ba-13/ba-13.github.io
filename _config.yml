@@ -17,6 +17,8 @@ show_sidebar: false # show a sidebar instead of the usual header
 show_title: true
 show_related: true # show previous and next posts
 minimal: true # use a dark header
+mathjax: true
+markdown: kramdown
 
 # Menu
 

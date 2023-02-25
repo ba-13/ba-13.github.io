@@ -1,6 +1,6 @@
 ---
 layout: post
-title: My approach to DSA
+title: Usual Collection for DSA
 excerpt-separator: <!---->
 ---
 
