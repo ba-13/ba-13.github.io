@@ -10,6 +10,24 @@ title: "Projects"
 
 <hr style="border:2px solid gray">
 
+### Goldman Sachs Equities SMM
+
+I had my summer internship at Goldman Sachs, Global Banking and Markets division (`GBM`). Two months spent on developing a data pipeline in Python and `Slang`, GS intra-language. The task was to collect daily aggregate data on a set of stocks and a set of proxies, which could be futures and commodities, on exchanges throughout the world. The problem lay in timing mismatch, time-zones as well as close times/noon breaks, missing days, no ticks, etc. across all 56 exchanges. Finally built a scheduler on Apache-Airflow, capable of sorting through all those inconsistencies through an elaborate control flow. All this dumped to an instance of database on Apache-Hive. The second pipeline picked up data from Hive and ran a rolling regression over a duration, to analyse RMSE and obtain correlations between every stock and it's correspoding set of proxies. This is now saved as correlation coefficients $$\beta_{stock}^{proxy}$$, and furthur on used to estimate fair value of macro assets (`ETFs` in our case). The experience was quite comfortable for me in technical perspective, but quite new in social one. I met some people here including Marianne, Jiahui, Mehul, Anu, Derek who I won't ever forget.
+
+---
+
+### MIPS Processor
+
+This was a course project under Prof. Urbi Chatterjee. We had to implement a processor with a data cache, using a reduced set architecture, in `Verilog`. I became quite proficient in iVerilog after this. To add a cherry on top, I implemented an `assembler` that converts MIPS assembly directly to 32 bit instruction set, that can then be picked up by the processor. The whole experience was added to my goal of understanding computers bottoms-up.
+
+---
+
+### WFSM Strategy
+
+I approached Prof. Shubham Sahay for a project on Security, and he pointed me to look into `Logic Locking`. The idea is to build logic circuits with inherent security mechanism, usually in form of extra inputs to the circuit as the key. I liked the idea and went through a literature review. The Professor then showed me a custom logic architecture that his group had devised that used 3D NAND Flash **Memory** as a logic circuit, with impressive stats of what it's capable of computing. Being a bit skeptic, I pointed out some flaws in the architecture, but continued to thinking of ways to develop a defense/logic locking mechanism for that architecture that's resilient to `SAT attacks` asked by the Prof. specifically because of the attack's prominence. Inspired by State Machines, I devised a way that assumes no hardware overhead in the memory itself, with assumptions on the Memory Controller. I furthur implemented a brute force attacking mechanism and implemented them all in Python. The beauty of the defense, Wordline Finite State Machine is what I call it, that it can be extended to infinite key space!
+
+---
+
 ### Inter IIT Techmeet 11.0
 
 The problem this time was tackled by 4 juniors and 6 sophomores, a High Prep problem statement. We were tasked to create a communication link between a provided drone and our machines, send it MSP encoded packets, and use the same for implementing a position control using a single monocular webcam stuck on a ceiling. Use the same as well to control 2 drones simultaneously. We were meant to do all these in python. But we created a `C++` backend for parallel feedback processing, used sockets to communicate the same to our python controller at nearly the same rate of 54Hz, and used the controller and the protocol implemented above for handling the drone. More problems arose related to motor burnout and swarm single host connections, but those were taken care of. Our team finally attained sixth position, but our score went down in documentation and presentation, even though I still think it was clean enough.

@@ -1,7 +1,7 @@
 title: "Domus"
-author: "B. Anshuman"
+author: "Anshuman Barnwal"
 # description: 'Made with <b style="color: #f45;">&lt;3</b>'
-description: "Being a 🎀"
+description: "RISC Dominates"
 permalink: /:year/:month/:title/
 lang: "en"
 excerpt_separator: "<!---->"
@@ -13,7 +13,7 @@ paginate_path: /page/:num/
 
 show_excerpts: true # show article excerpts on the home page
 show_frame: true # adds a gray frame to the site
-show_sidebar: false # show a sidebar instead of the usual header
+show_sidebar: true # show a sidebar instead of the usual header
 show_title: true
 show_related: true # show previous and next posts
 minimal: true # use a dark header
@@ -23,7 +23,7 @@ markdown: kramdown
 # Menu
 
 navigation: # accepts {file, title, url, icon, sidebaricon}
-  # - { file: "index.html", icon: home }
+  - { file: "index.html", icon: home }
   - { file: "blogs.html" }
   - { file: "about.md" }
   - { file: "contact.html" }
