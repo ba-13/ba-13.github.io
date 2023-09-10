@@ -9,7 +9,7 @@ Jekyll is especially quite configurable. Try it out with this blog.
 
 <!---->
 
-# Jekyll it is
+## Jekyll it is
 
 A static file-system generator, that is incredibly convenient.  
 Install `ruby` with
@@ -37,28 +37,35 @@ Try running the site with:
 bundle exec jekyll serve
 ```
 
-### Some basics of Jekyll subsystem:
+---
 
-#### \_config.yml
+## Some basics of Jekyll subsystem
+
+### \_config.yml
 
 The location to customize the site's configuration. The following are defaults:
 
-```yml
+<details>
+
+<summary>_config.yml</summary>
+
+<pre>
 # Where things are
 source: .
 destination: ./_site
 collections_dir: .
-plugins_dir: _plugins # takes an array of strings and loads plugins in that order
+plugins_dir:_plugins # takes an array of strings and loads plugins in that order
 layouts_dir: _layouts
-data_dir: _data
+data_dir:_data
 includes_dir: _includes
 sass:
-  sass_dir: _sass
+sass_dir:_sass
 collections:
   posts:
     output: true
 
 # Handling Reading
+
 safe: false
 include: [".htaccess"]
 exclude:
@@ -77,16 +84,19 @@ markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 strict_front_matter: false
 
 # Filtering Content
+
 show_drafts: null
 limit_posts: 0
 future: false
 unpublished: false
 
 # Plugins
+
 whitelist: []
 plugins: []
 
 # Conversion
+
 markdown: kramdown
 highlighter: rouge
 lsi: false
@@ -94,6 +104,7 @@ excerpt_separator: "\n\n"
 incremental: false
 
 # Serving
+
 detach: false
 port: 4000
 host: 127.0.0.1
@@ -101,6 +112,7 @@ baseurl: "" # does not include hostname
 show_dir_listing: false
 
 # Outputting
+
 permalink: date
 paginate_path: /page:num
 timezone: null
@@ -115,6 +127,7 @@ liquid:
   strict_variables: false
 
 # Markdown Processors
+
 kramdown:
   auto_ids: true
   entity_output: as_char
@@ -124,9 +137,11 @@ kramdown:
   hard_wrap: false
   footnote_nr: 1
   show_warnings: false
-```
+</pre>
 
-#### Front Matter defaults
+</details>
+
+### Front Matter defaults
 
 To avoid repetition of same configurations, `defaults` key in `_config.yml` is the way to go.
 You can define your custom configs, ex. Let's say you want to add a default layout to all pages and posts in your site, do the following:
@@ -146,13 +161,13 @@ defaults:
       author: "yourusername"
 ```
 
-#### Environments
+### Environments
 
 Specified by adding `JEKYLL_ENV=production` or something while `jekyll build`.  
 Default is `JEKYLL_ENV=development`.
 The value can be anything we want.
 
-#### Pages
+### Pages
 
 The simplest way to add a page is to add an HTML(or .md) file in root, with a suitable name.  
 We can organize them to sub-folders in the root directory itself, and the url will be accordingly.
@@ -168,33 +183,36 @@ title: "Example Title"
 Rest of your content here
 ```
 
-#### Posts
+---
+
+## Posts
 
 Initiate a blog with the naming convention of `YEAR-MONTH-DAY-title.MARKUP`, example: `2021-09-04-how-to-write-a-blog.md`
 All `.md` must have a `front matter` which is a meta-data collection for the post.  
 Adding assets is easy, by adding `/assets` in the root directory, and referencing from there itself.
 
-##### Tags and Category/Categories
+### Tags and Category/Categories
 
 Declare the same as space-separated list of tags, in the front matter.
 This can be accessed by `site.tags`. The same goes for categories. But category can be used to modify the [URL](http://jekyllrb.com/docs/posts/) itself.
 
-##### Excerpts
+### Excerpts
 
-`excerpt_separator` is declared in the front matter. example, here is a code outputting a list of blog posts excerpts:
+`excerpt_separator` is declared in the front matter.  
+Example, here is a code outputting a list of blog posts excerpts:
 
 ```md
 <ul>
-  {% for post in site.posts %}
+  {% raw %}{% for post in site.posts %}
     <li>
       <a href="{{ post.url }}">{{ post.title }}</a>
       {{ post.excerpt }}
     </li>
-  {% endfor %}
+  {% endfor %}{% endraw %}
 </ul>
 ```
 
-##### Permalinks, Layouts and published default and custom options
+### Permalinks, Layouts and published default and custom options
 
 Front-matter contains the above default options as `permalink` (the baseURL of page), `layout` (all layouts should be in `/_layouts`), and `published` which won't let the page show up if set to false.
 You can declare your own variables that can be used in that page just like:
@@ -212,35 +230,45 @@ food: Pizza
 <h1>{{ page.tags }}</h1>
 ```
 
-#### Drafts
+---
+
+### Drafts
 
 Declared in `/_drafts`, these aren't displayed in production build. You have to explicitly specify by `jekyll build --drafts`.  
-This is a location for all blogs you're working on rn.
+This is a location for all blogs you're working on right now.
 
 ### Liquid
 
 Smart site-generation is performed by Liquid, which can be used to create flow-control in `.md` itself.
 
-#### Data Folder
+### Data Folder
 
 `/_data` folder is where you should store all additional data for Jekyll to use when rendering the site.  
 Allowed data files are `.yml`,`.json`,`.csv`,`.tsv`,`.yaml` and are accessed by `site.data.filename`
 This is freaking useful, and check it out [here](http://jekyllrb.com/docs/datafiles/)
 
-#### Static Files
+### Static Files
 
 A file that won't have any front matter, and to be displayed on its own.  
 It can be accessed by `site.static_files`.
 
-#### Configuration
+### Configuration
 
 Instead of following along with some video tutorials or docs, the best approach I found to configure this site was by `bundle info yourthemename`.  
 This will give your theme's template location on your system.  
 All that's left to do is to explore it!
 
-#### Deployment
+### Deployment
 
-Enter the `_site` folder, `git init`, and set origin of this folder as the GitHub repo you want to host this site on.  
+#### Recommended
+
+Create a `.github` directory that contains workflows directing GitHub on how to build your site! Therefore you only need to push the entire source code to your repo, which will then be built and deployed automatically by GitHub Workflows.
+
+Checkout configuration file [here](https://github.com/ba-13/ba-13.github.io/tree/master/.github/workflows) and modify according to your preferences.
+
+#### Old Manner (NOT RECOMMENDED)
+
+Enter the `_site` folder, `git init`, and set origin of this folder as the GitHub repo you want to host the site.  
 Do the same through:
 
 ```bash
@@ -254,4 +282,3 @@ git push origin main
 
 This will directly push the built site from jekyll to your repo.  
 Now activate GitHub pages on that Repository.
-You're done!
