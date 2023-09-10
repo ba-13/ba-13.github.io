@@ -46,7 +46,7 @@ external: # shows a footer with social links - for available icons see fontaweso
   - {
       title: Instagram,
       icon: instagram,
-      url: "https://www.instagram.com/be_a_ribbon/",
+      url: "https://www.instagram.com/human_b.a/",
     }
   - { title: Subscribe, icon: rss, url: "/feed.xml" }
 
