@@ -28,3 +28,7 @@ pyinstaller --onefile --add-data "baron333.pickle;." flash_baron.py
 `baron333.pickle` contains a python dictionary that's been pickled, dictionary contains word to definition pairs.
 
 This would yield an executable, which you can now add to your app drawer, by following steps on the README in the repo above.
+
+### Update (15-07-23)
+
+Fixed my GRE on 20th October, TOEFL on 28th October. Wish me luck!

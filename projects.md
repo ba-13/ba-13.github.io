@@ -32,8 +32,6 @@ I approached Prof. Shubham Sahay for a project on Security, and he pointed me to
 
 The problem this time was tackled by 4 juniors and 6 sophomores, a High Prep problem statement. We were tasked to create a communication link between a provided drone and our machines, send it MSP encoded packets, and use the same for implementing a position control using a single monocular webcam stuck on a ceiling. Use the same as well to control 2 drones simultaneously. We were meant to do all these in python. But we created a `C++` backend for parallel feedback processing, used sockets to communicate the same to our python controller at nearly the same rate of 54Hz, and used the controller and the protocol implemented above for handling the drone. More problems arose related to motor burnout and swarm single host connections, but those were taken care of. Our team finally attained sixth position, but our score went down in documentation and presentation, even though I still think it was clean enough.
 
----
-
 <hr style="border:2px solid gray">
 
 ## 2022
@@ -97,7 +95,6 @@ Aerial was dying, and I had to do something. So in the mid-term vacation, I appr
 Picked up by the team as a PS that would be done and over with within 6 days, we spent 1.5 months on it, with 20 days straight day-night. Our codebase lies [here](https://github.com/AerialRobotics-IITK/shastra23). We spent first working on a simulation ground, preparing that in order to "be able to tackle" the original problem, but in mid of that ditched the idea.
 Moving back to actually building a drone, making it convenient enough for regular flights, including Autopilot handling, then mounting an Odroid XU4 for inducing autonomy, took us 1 month. Then back to the PS, we made sensor handling modules, position control module, and a flight planner as an FSM to detect an object, align with it, pickup with an electromagnet, go to the dropzone, turn off the electromagnet, repeat once more, and land back. We were unable to fully complete the PS due to barometer of our FC glitching out, but the whole pipeline creation was worth the huge time investment.
 
----
 <hr style="border:2px solid gray">
 
 ## 2021
