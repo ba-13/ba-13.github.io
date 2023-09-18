@@ -2,9 +2,11 @@
 layout: post
 title: Usual Collection for DSA
 excerpt-separator: <!---->
+tags: dsa resources
 ---
 
-This is my set of resources and shortcuts for going through Data Structures and Algorithms. You'll find them well-compiled, and maybe not that expected.
+This is my set of resources and shortcuts for going through Data Structures and Algorithms.  
+You'll find them well-compiled, and maybe not that expected.
 
 <!---->
 

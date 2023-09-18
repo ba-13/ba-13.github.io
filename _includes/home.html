@@ -3,7 +3,14 @@
   <article>
     {% include meta.html post=post preview=true %}
     {{ post.excerpt }}
-    <div class="more"><a href="{{ post.url | relative_url }}">read more</a></div>
+    <div class="excerpt-bottom">
+        <div class="more"><a href="{{ post.url | relative_url }}">read more</a></div>
+        <div class="tags">
+          {% for tag in post.tags %}
+            <div class="tag-inside">{{ tag }}</div>
+          {% endfor %}
+        </div>
+    </div>
   </article>
 {% endfor %}
 

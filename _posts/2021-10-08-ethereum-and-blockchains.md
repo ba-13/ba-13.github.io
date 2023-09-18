@@ -2,6 +2,7 @@
 layout: post
 title: Ethereum and BlockChains
 excerpt-separator: <!---->
+tags: project-report ETH solidity
 ---
 
 Yeah, This is the part of a project I took up in the Summers of 2021. We were being introduced to BlockChains, especially, Ethereum (ETH). Let's introduce that to you too!
@@ -85,4 +86,5 @@ For getting started with Solidity, which is a language, for smart contracts, you
 
 ![Remix IDE](https://newpov13.files.wordpress.com/2021/09/remixe1.png)
 
-Pardon my squiggles. The above picture briefly explains what remix is all about, as a beginner. Write your contract, syntax is intuitive as said before, compile, then choose your virtual environment on which you want to deploy this on (in this case, JavaScript VM), choose one of the 15 addresses Remix provides by default, then Deploy, and interact with the contract by exchanging addresses, taking care of the Debug terminal at the bottom.  There is a section on left column, Gas consumed. We have to care for computational power, as it is equivalent to spending ETH.  Note the License declaration at the top of the .sol file, the extension of solidity files.  From `Solidity^0.6.8` SPDX License is introduced, which needs to be in a contract before being deployed.  You're good to get started with Solidity!
+Pardon my squiggles. The above picture briefly explains what remix is all about, as a beginner. Write your contract, syntax is intuitive as said before, compile, then choose your virtual environment on which you want to deploy this on (in this case, JavaScript VM), choose one of the 15 addresses Remix provides by default, then Deploy, and interact with the contract by exchanging addresses, taking care of the Debug terminal at the bottom.  There is a section on left column, Gas consumed. We have to care for computational power, as it is equivalent to spending ETH.  Note the License declaration at the top of the .sol file, the extension of solidity files.  From `Solidity^0.6.8` SPDX License is introduced, which needs to be in a contract before being deployed.  
+You're good to get started with Solidity!

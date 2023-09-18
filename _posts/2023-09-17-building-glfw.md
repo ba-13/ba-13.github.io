@@ -2,7 +2,7 @@
 layout: post
 title: Setting up GLFW Locally
 excerpt-seperator: <!---->
-tags: local-build, glfw, graphics
+tags: local build glfw graphics
 ---
 
 I wanted to get started working with OpenGL, with context handling using a local build of GLFW.  

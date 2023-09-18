@@ -3,7 +3,7 @@ layout: post
 title: Short and Frequent
 excerpt-seperator: <!---->
 comments: false
-tags: meta, update
+tags: meta update
 ---
 
 This blogging manner seems infeasible.

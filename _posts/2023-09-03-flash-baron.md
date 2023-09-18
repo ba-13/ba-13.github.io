@@ -2,7 +2,7 @@
 layout: post
 title: Flash Baron
 excerpt-seperator: <!---->
-tags: vocabulary, gre
+tags: vocabulary gre
 ---
 
 I am preparing for going for a Masters, and need to take GRE Test for the same.

@@ -6,6 +6,11 @@ comments: true
 <article>
   {% include meta.html post=page %}
   {{ content }}
+  <div class="tags in-post-tags">
+    {% for tag in page.tags %}
+    <div class="tag-inside">{{ tag }}</div>
+    {% endfor %}
+  </div>
   {% if page.comments != false %}
   <hr>
   {% if site.comments.isso_domain %}<div id="isso-thread"></div>{% endif %}

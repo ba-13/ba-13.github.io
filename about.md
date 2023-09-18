@@ -6,7 +6,7 @@ layout: page
 
 <!-- > Things that you choose, are the best you could ever have had.. -->
 
-<span style="font-size: 2rem;">H</span>eyo! My Name is <span style="font-size: 1.5rem;color:white !important;">**Anshuman Barnwal**</span>, earlier known as _B. Anshuman_; You may call me either.  
+<span style="font-size: 2rem;">H</span>eyo! My Name is **Anshuman Barnwal**, earlier known as _B. Anshuman_; You may call me either.  
 Currently a Senior, I am majoring in `Electrical Engineering` from `IIT Kanpur`.  
 I am, by default, curious in nature.
 
