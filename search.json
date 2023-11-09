@@ -1,0 +1,99 @@
+[
+  
+    {
+      "title"    : "Setting up GLFW Locally",
+      "category" : "",
+      "tags"     : "local, build, glfw, graphics",
+      "url"      : "/2023/09/building-glfw/",
+      "date"     : "2023-09-17 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Weights Traversal",
+      "category" : "",
+      "tags"     : "intuition, ML",
+      "url"      : "/2023/09/sgd/",
+      "date"     : "2023-09-12 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Flash Baron",
+      "category" : "",
+      "tags"     : "vocabulary, gre",
+      "url"      : "/2023/09/flash-baron/",
+      "date"     : "2023-09-03 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Short and Frequent",
+      "category" : "",
+      "tags"     : "meta, update",
+      "url"      : "/2023/08/shorterposts/",
+      "date"     : "2023-08-27 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Handling i3",
+      "category" : "",
+      "tags"     : "window-manager, convenience",
+      "url"      : "/2023/03/i3/",
+      "date"     : "2023-03-01 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "First take on Data Processing",
+      "category" : "",
+      "tags"     : "dsp, basics, fourier-analysis",
+      "url"      : "/2023/02/dsp1/",
+      "date"     : "2023-02-23 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Periodic Writer",
+      "category" : "",
+      "tags"     : "convenience, cron",
+      "url"      : "/2023/02/crontab/",
+      "date"     : "2023-02-15 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "First take on Haskell",
+      "category" : "",
+      "tags"     : "basics, functional, haskell",
+      "url"      : "/2021/12/haskell-1/",
+      "date"     : "2021-12-23 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Usual Collection for DSA",
+      "category" : "",
+      "tags"     : "dsa, resources",
+      "url"      : "/2021/10/revise-dsa/",
+      "date"     : "2021-10-12 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "How to approach Jekyll",
+      "category" : "",
+      "tags"     : "basics, static-site",
+      "url"      : "/2021/10/my-approach-to-jekyll/",
+      "date"     : "2021-10-08 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Ethereum and BlockChains",
+      "category" : "",
+      "tags"     : "project-report, ETH, solidity",
+      "url"      : "/2021/10/ethereum-and-blockchains/",
+      "date"     : "2021-10-08 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Hello, World!",
+      "category" : "",
+      "tags"     : "update",
+      "url"      : "/2021/10/hello-world/",
+      "date"     : "2021-10-01 00:00:00 +0000"
+    } 
+  
+]

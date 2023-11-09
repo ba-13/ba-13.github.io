@@ -1,0 +1,1186 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-11-09T15:30:16+00:00</updated><id>/feed.xml</id><title type="html">Domus</title><subtitle>RISC Dominates</subtitle><author><name>Anshuman Barnwal</name></author><entry><title type="html">Setting up GLFW Locally</title><link href="/2023/09/building-glfw/" rel="alternate" type="text/html" title="Setting up GLFW Locally" /><published>2023-09-17T00:00:00+00:00</published><updated>2023-09-17T00:00:00+00:00</updated><id>/2023/09/building-glfw</id><content type="html" xml:base="/2023/09/building-glfw/"><![CDATA[<p>I wanted to get started working with OpenGL, with context handling using a local build of GLFW.<br />
+Here’s how to setup perfectly.</p>
+
+<!---->
+
+<h2 id="opengl-setup">OpenGL Setup</h2>
+
+<p>First things first, Install OpenGL Development Libraries.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt <span class="nb">install </span>mesa-common-dev libgl1-mesa-dev
+</code></pre></div></div>
+
+<p>To check if correctly available</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>mesa-utils
+glxinfo | <span class="nb">grep</span> <span class="s2">"OpenGL version"</span>
+</code></pre></div></div>
+
+<h2 id="glfw-setup">GLFW Setup</h2>
+
+<p>Great. Now create an empty directory, suppose <code class="language-plaintext highlighter-rouge">~/project/</code>. This will contain all the project and it’s dependencies
+apart from OpenGL libraries. Clone GLFW in it.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/project
+git clone git@github.com:glfw/glfw.git
+</code></pre></div></div>
+
+<p>You have the source ready! Build this to libraries that you can link using</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmake <span class="nt">-DCMAKE_INSTALL_PREFIX</span>:PATH<span class="o">=</span><span class="nb">.</span> <span class="nt">-B</span> ./glfw-build <span class="nt">-S</span> ./glfw
+<span class="nb">cd </span>glfw-build
+make
+make <span class="nb">install</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">CMAKE_INSTALL_PREFIX:PATH</code> is a predefined variable that points to the path where cmake would install the library to.
+Here you directed cmake to install the library at <code class="language-plaintext highlighter-rouge">.</code>, which while using <code class="language-plaintext highlighter-rouge">make install</code> is inside <code class="language-plaintext highlighter-rouge">~/project/glsl-build</code>.</p>
+
+<p>At this point your <code class="language-plaintext highlighter-rouge">glsl-build</code> would have <code class="language-plaintext highlighter-rouge">lib/cmake</code> directory inside that would contain <code class="language-plaintext highlighter-rouge">glfw3Configure.cmake</code> and <code class="language-plaintext highlighter-rouge">glfw3Targets.cmake</code>. These are necessary to let your main project find the <code class="language-plaintext highlighter-rouge">glfw</code> libraries.</p>
+
+<h2 id="code-setup">Code Setup</h2>
+
+<p>Now with <code class="language-plaintext highlighter-rouge">glfw</code> installed and ready, <code class="language-plaintext highlighter-rouge">cd ~/project</code> and create a bunch of folders and files</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>build src
+<span class="nb">touch </span>CMakeLists.txt src/main.cpp README.md
+</code></pre></div></div>
+
+<p>Copy over the <code class="language-plaintext highlighter-rouge">.cpp</code> file <a href="https://www.glfw.org/documentation.html">here</a> inside your <code class="language-plaintext highlighter-rouge">main.cpp</code>.
+Also copy over the following to your <code class="language-plaintext highlighter-rouge">CMakeLists.txt</code></p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">CMAKE_MINIMUM_REQUIRED</span><span class="p">(</span>VERSION 3.7<span class="p">)</span>
+<span class="nf">PROJECT</span><span class="p">(</span>project<span class="p">)</span>
+
+<span class="nf">SET</span><span class="p">(</span>CMAKE_CXX_STANDARD 14<span class="p">)</span>
+<span class="nf">SET</span><span class="p">(</span>CMAKE_BUILD_TYPE DEBUG<span class="p">)</span>
+
+<span class="nf">SET</span><span class="p">(</span>CMAKE_PREFIX_PATH <span class="si">${</span><span class="nv">CMAKE_PREFIX_PATH</span><span class="si">}</span> ~/project/glfw-build/lib/cmake<span class="p">)</span>
+
+<span class="nf">FIND_PACKAGE</span><span class="p">(</span>glfw3 REQUIRED<span class="p">)</span>
+<span class="nf">FIND_PACKAGE</span><span class="p">(</span>OpenGL REQUIRED<span class="p">)</span>
+
+<span class="nf">SET</span><span class="p">(</span>SOURCE_FILES src/main.cpp<span class="p">)</span>
+
+<span class="nf">ADD_EXECUTABLE</span><span class="p">(</span>project <span class="si">${</span><span class="nv">SOURCE_FILES</span><span class="si">}</span><span class="p">)</span>
+<span class="nf">TARGET_LINK_LIBRARIES</span><span class="p">(</span>project glfw GL<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Note that <code class="language-plaintext highlighter-rouge">CMAKE_PREFIX_PATH</code> specifies where to look for custom <code class="language-plaintext highlighter-rouge">cmake</code> files to libraries you want to include.
+<code class="language-plaintext highlighter-rouge">TARGET_LINK_LIBRARIES</code> specify the executable should be linked to which libraries. You can check out what keyword to mention, e.g. here <code class="language-plaintext highlighter-rouge">glfw</code>, from <code class="language-plaintext highlighter-rouge">glfw3Targets.cmake</code>, where you’ll find a line <code class="language-plaintext highlighter-rouge">add_library(glfw STATIC IMPORTED)</code>, similarily for OpenGL.</p>
+
+<h2 id="building-project">Building Project</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/project/build
+cmake ..
+make
+</code></pre></div></div>
+
+<p>This would build the project.</p>
+
+<h2 id="vscode-setup">VSCode setup</h2>
+
+<p>So to ease development in <code class="language-plaintext highlighter-rouge">C++</code> (or any language per se), VSCode provides Intellisense, which essentially reads through headers/references/libraries you provide and helps you write code knowing the context. If your Intellisense is not setup well for your files,
+you would see</p>
+
+<p><img src="/images/building-glfw/red-squiggles.png" alt="Red Squiggles" /></p>
+
+<p>To clear this, create <code class="language-plaintext highlighter-rouge">mkdir ~/project/.vscode/</code> and <code class="language-plaintext highlighter-rouge">touch c_cpp_properties.json</code>.
+Fill that file with the following</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="dl">"</span><span class="s2">configurations</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Linux</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">includePath</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="dl">"</span><span class="s2">/usr/include/</span><span class="dl">"</span><span class="p">,</span>                        <span class="c1">// to include GL/gl.h</span>
+                <span class="dl">"</span><span class="s2">/usr/include/x86_64-linux-gnu</span><span class="dl">"</span><span class="p">,</span>        <span class="c1">// to include bits/types.h</span>
+                <span class="dl">"</span><span class="s2">${workspaceFolder}/**</span><span class="dl">"</span><span class="p">,</span>                <span class="c1">// default include, can remove</span>
+                <span class="dl">"</span><span class="s2">${workspaceFolder}/glfw-build/include</span><span class="dl">"</span> <span class="c1">// to include glfw headers</span>
+            <span class="p">],</span>
+            <span class="dl">"</span><span class="s2">defines</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="dl">"</span><span class="s2">__x86_64__</span><span class="dl">"</span>            <span class="c1">// declares this if preprocessor directive as true</span>
+            <span class="p">],</span>
+            <span class="dl">"</span><span class="s2">intelliSenseMode</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">linux-clang-x64</span><span class="dl">"</span>       <span class="c1">// default value</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="dl">"</span><span class="s2">version</span><span class="dl">"</span><span class="p">:</span> <span class="mi">4</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Each path you specify here, includes that in Intellisense’s path to check for header files.
+This will make your squiggles go away, and enable link jumps using <code class="language-plaintext highlighter-rouge">Ctrl</code> and Hovering above functions.</p>
+<blockquote>
+  <p>Try removing the above lines one at a time and see where Intellisense failed to pick headers from.</p>
+</blockquote>
+
+<h3 id="sidenote">Sidenote</h3>
+
+<p>Another feature of VSCode I actively use is <code class="language-plaintext highlighter-rouge">Go Forward</code> and <code class="language-plaintext highlighter-rouge">Go Back</code>. Open Keyboard Shortcuts using <code class="language-plaintext highlighter-rouge">Ctrl+K Ctrl+S</code>,
+type <code class="language-plaintext highlighter-rouge">Go Forward</code> and allot <code class="language-plaintext highlighter-rouge">Alt + RightArrow</code>, similarly for <code class="language-plaintext highlighter-rouge">Go Back</code> allot <code class="language-plaintext highlighter-rouge">Alt + LeftArrow</code>.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Once you had done the <code class="language-plaintext highlighter-rouge">Building Project</code> part, you should find an executable <code class="language-plaintext highlighter-rouge">~/project/build/project</code>, which should directly run to render a window titled “Hello World”. Note that GLFW is a minimal library that handles windows, OpenGL contexts and inputs gracefully.
+You still need to handle OpenGL on your own! But a clean setup should give you a boost.</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="local" /><category term="build" /><category term="glfw" /><category term="graphics" /><summary type="html"><![CDATA[I wanted to get started working with OpenGL, with context handling using a local build of GLFW. Here’s how to setup perfectly.]]></summary></entry><entry><title type="html">Weights Traversal</title><link href="/2023/09/sgd/" rel="alternate" type="text/html" title="Weights Traversal" /><published>2023-09-12T00:00:00+00:00</published><updated>2023-09-12T00:00:00+00:00</updated><id>/2023/09/sgd</id><content type="html" xml:base="/2023/09/sgd/"><![CDATA[<p>In Machine Learning models, our final optimization/goal usually ends in minimizing an objective function with respect to a set of model parameters, but what does that look like?</p>
+
+<!---->
+
+<h2 id="you-know-that">You know that</h2>
+
+<p>Our models are usually of the form \(f(X, \theta)\) where \(\theta\) is a set of parameters.
+Optimizing a loss \(\mathcal{L}(\theta)\) encapsulates the constraint you want your model to learn as a single metric. If the loss itself is made from differentiable functions’ compositions, then using derivatives/gradients or backpropagation in general can yield the nudge you may want to give each of your weights to perform better on your dataset.</p>
+
+<h2 id="loss-hypersurface">Loss hypersurface</h2>
+
+<p>\(\mathcal{L}(\theta)\) as you see it is actually \(\mathcal{L}(\theta, X, y)\), aka the loss value depends on the data in context. Whenever we are knudging the parameters \(\theta\), we are trying to optimize the value of that set of parameters such that the loss is minimised given \(X, y\).</p>
+
+<p>Now comes the fun part, the Stochastic Batch Gradient Descent as you know, takes a set of samples from your dataset \((X_B, y_B)\), and calculates loss as well as the gradients on that <em>particular</em> batch! Note how it changes things. Your initial need was to optimize loss on your whole training dataset, but you’re optimizing it just over a batch. That’s what makes it different. The hypersurface of  \(\mathcal{L}(\theta, X, y)\) v/s \(\theta\) is the key figure you need to keep in mind. There exists minima in its surface may and wouldn’t exactly coincide with the minima of \(\mathcal{L}(\theta, X_B, y_B)\). This is what leads to a different gradient than what it should be, inducing noise in your descent.</p>
+
+<p>Also the graph of Loss v/s Parameters usage doesn’t end here. It’s a good perspective to keep in mind while working with your loss function. The graph yields an idea about weight initialisation method.</p>
+
+<h2 id="better-weight-initialisation">Better Weight Initialisation</h2>
+
+<p>Assume you want to obtain \(\theta\) that’s regularised and that optimizes the loss function. During initialisation usually what’s done is drawing of particular \(\theta_0\) that is then used for furthur optimization via descent or other means. Also descent requires you to calculate the loss value (forward-propagation) followed by weight update via gradient calculation per weight (back-propagation).</p>
+
+<blockquote>
+  <p>What I propose that it might be helpful to define a \(R^{D}\) dimensional “cube” and perform a grid search over any refinement of your liking.</p>
+</blockquote>
+
+<p>Each grid vertex would correspond to a particular loss value. This would roughly give an idea of the location of optima prior to even starting any weight update. This works because your weights are anyways near zero, so such a cube would cover the range of your weights span.</p>
+
+<p>There is one caveat of this method is that bias terms are usually not regularised because you can’t guarantee bias to be near zero. Ignoring that particular set of axes, you still would have a pretty good idea about the structure of Loss v/s Parameters space, which only comes out from forward propagation.<br />
+This is not costly because anyways forward propagation occurs thousands of times during training, so investing some initially to pick a better starting point leads to no harm.</p>
+
+<h2 id="example-of-grid-search-initialisation">Example of grid search initialisation</h2>
+
+<p>Imports needed</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">griddata</span>
+<span class="kn">import</span> <span class="nn">plotly</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="n">go</span>
+</code></pre></div></div>
+
+<p>Generate some dummy data</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">w_true</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.5</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">45</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">random</span><span class="p">((</span><span class="mi">45</span><span class="p">))</span><span class="o">*</span><span class="mi">10</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w_true</span> <span class="o">+</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">random</span><span class="p">((</span><span class="mi">45</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">45</span><span class="p">)))</span> <span class="o">*</span> <span class="mi">6</span>
+</code></pre></div></div>
+
+<p>Take a batch for forward-propagation</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># take a batch
+</span><span class="n">y_b</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">X_b</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>Define your loss function, vectorize it (note that this doesn’t make it faster, but leads to automatic broadcasting)</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">np</span><span class="p">.</span><span class="n">vectorize</span>
+<span class="k">def</span> <span class="nf">loss_</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">):</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">y_b</span> <span class="o">-</span> <span class="n">X_b</span> <span class="o">@</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Perform Grid Search, you can always tweak these ranges</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">w1_grid</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mf">10.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="n">w2_grid</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mf">50.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="n">W1_grid</span><span class="p">,</span> <span class="n">W2_grid</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">w1_grid</span><span class="p">,</span> <span class="n">w2_grid</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">loss_</span><span class="p">(</span><span class="n">W1_grid</span><span class="p">,</span> <span class="n">W2_grid</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now trying to check what value of W1 and W2 already leads to near minimum, one easy way might be</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt; print(np.where(Z == np.min(Z)))
+(array([295]), array([68]))
+&gt;&gt; Z[295, 68], W1_grid[295, 68], W2_grid[295, 68]
+(252.41028750748706, 3.5999999999999517, 9.000000000000838)
+</code></pre></div></div>
+
+<p>And these values are already pretty close to the real values of <code class="language-plaintext highlighter-rouge">(3.5, 7)</code>!<br />
+Note that we just used 5 data points out of the training set to estimate this.<br />
+This works out because all our data points are actually from the same original distribution, which is one of the fundamental assumptions we make when working with classical machine learning:</p>
+
+<blockquote>
+  <p>Training and Test (unseen) dataset are sampled from the same distributions</p>
+</blockquote>
+
+<p>Plot the surface for visualization</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plotly</span><span class="p">.</span><span class="n">offline</span><span class="p">.</span><span class="n">init_notebook_mode</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="p">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">go</span><span class="p">.</span><span class="n">Surface</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">W1_grid</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">W2_grid</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">Z</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">update_scenes</span><span class="p">(</span><span class="n">xaxis_title_text</span><span class="o">=</span><span class="s">'W1'</span><span class="p">,</span>  
+                  <span class="n">yaxis_title_text</span><span class="o">=</span><span class="s">'W2'</span><span class="p">,</span>  
+                  <span class="n">zaxis_title_text</span><span class="o">=</span><span class="s">'Loss'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<details>
+<summary>Output Figure</summary>
+<img src="/images/weights-traversal/2dweights.png" />
+</details>
+
+<p>I know people might argue that this seems infeasible to do for let’s say a neural network.<br />
+I would agree! Visualisation of that many dimensions is not easy or useful (or is it?), but you don’t need to visualize this, you can work with the weights corresponding to the minimum loss you obtained, or if you’ve multiple such minima, that’s great news, it means you can parallely work on all of them to find the global minima via descent.</p>
+
+<h2 id="extras">Extras</h2>
+
+<p>Even though Deep Learning seems to be the norm these days, the classical Machine learning still works well and is essentially statistics. One of the rules for calculating gradients that keeps on being useful is</p>
+
+\[\frac{\partial (u^T A v)}{\partial x} = u^T A \frac{\partial v}{\partial x} + v^T A^T \frac{\partial u}{\partial x}\]
+
+<p>See ya.</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="intuition" /><category term="ML" /><summary type="html"><![CDATA[In Machine Learning models, our final optimization/goal usually ends in minimizing an objective function with respect to a set of model parameters, but what does that look like?]]></summary></entry><entry><title type="html">Flash Baron</title><link href="/2023/09/flash-baron/" rel="alternate" type="text/html" title="Flash Baron" /><published>2023-09-03T00:00:00+00:00</published><updated>2023-09-03T00:00:00+00:00</updated><id>/2023/09/flash-baron</id><content type="html" xml:base="/2023/09/flash-baron/"><![CDATA[<p>I am preparing for going for a Masters, and need to take GRE Test for the same.</p>
+
+<!---->
+
+<p>While looking through the verbals section, I realised that vocabulary plays a key role in scoring. A quick google search will show that there exists lists of recommended words for GRE. Visiting <a href="https://www.vocabulary.com/lists/182204">vocabulary.com</a> will show you a set of “Flash cards” that you may go through, but I found the way it’s laid out inconvenient.</p>
+
+<p>Anyways I was looking into building something with <code class="language-plaintext highlighter-rouge">tkinter</code>, a cross-platform Python package to build desktop applets. A few lines of code yields something like this:</p>
+
+<p style="text-align:center">
+  <img src="/images/flash-baron/app_screenshot.png" />
+</p>
+
+<p>A simple applet for sure, and much more convenient for me. Code <a href="https://github.com/ba-13/Mystery_Box/tree/main/flash_baron">here</a>.</p>
+
+<p>I packaged the entire thing into an executable using <code class="language-plaintext highlighter-rouge">pyinstaller</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pyinstaller <span class="nt">--onefile</span> <span class="nt">--add-data</span> <span class="s2">"baron333.pickle;."</span> flash_baron.py
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">baron333.pickle</code> contains a python dictionary that’s been pickled, dictionary contains word to definition pairs.</p>
+
+<p>This would yield an executable, which you can now add to your app drawer, by following steps on the README in the repo above.</p>
+
+<h3 id="update-15-07-23">Update (15-07-23)</h3>
+
+<p>Fixed my GRE on 20th October, TOEFL on 28th October. Wish me luck!</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="vocabulary" /><category term="gre" /><summary type="html"><![CDATA[I am preparing for going for a Masters, and need to take GRE Test for the same.]]></summary></entry><entry><title type="html">Short and Frequent</title><link href="/2023/08/shorterposts/" rel="alternate" type="text/html" title="Short and Frequent" /><published>2023-08-27T00:00:00+00:00</published><updated>2023-08-27T00:00:00+00:00</updated><id>/2023/08/shorterposts</id><content type="html" xml:base="/2023/08/shorterposts/"><![CDATA[<p>This blogging manner seems infeasible.</p>
+
+<!---->
+
+<p>To be truthful, I tried starting multiple sequences of blogs in here, but all of them failed.<br />
+I think this posting needs a revamp.<br />
+So from now on, I would be posting a lot more, but much shorter blogs.<br />
+Will see you around then.</p>
+
+<h2 id="post-idea">Post Idea</h2>
+
+<p>I heard from Prof. Saikat quote Richard Feynman, about remembering a theory through a very simple example.<br />
+I’ll also quote Feynman here</p>
+
+<blockquote>
+  <p>… And it’s rather complicated, technically, but I’ll give a rather simple, idealized example.</p>
+</blockquote>
+
+<p>I think discussing some key simple examples on theories I learn would be nice to share
+Note that coming up with an example that covers up at least most of the nuances of the theory is non-trivial!</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="meta" /><category term="update" /><summary type="html"><![CDATA[This blogging manner seems infeasible.]]></summary></entry><entry><title type="html">Handling i3</title><link href="/2023/03/i3/" rel="alternate" type="text/html" title="Handling i3" /><published>2023-03-01T00:00:00+00:00</published><updated>2023-03-01T00:00:00+00:00</updated><id>/2023/03/i3</id><content type="html" xml:base="/2023/03/i3/"><![CDATA[<p>i3 is a tiling window manager. Why do you need that?</p>
+
+<!---->
+
+<p>Scaling i3 screen: <a href="https://unix.stackexchange.com/questions/267885/how-do-i-scale-i3-window-manager-for-my-hidpi-display">here</a></p>
+
+<p>Correcting font:</p>
+
+<ul>
+  <li>i3-config-wizard</li>
+  <li>sudo apt install feh</li>
+  <li>unzip fontawesome-free-6.1.1-web.zip</li>
+  <li>unzip YosemiteSanFranciscoFont-master.zip</li>
+  <li>sudo apt install lxappearance</li>
+  <li>Edit Font at ~/.gtkrc-2.0 and ~/.config/gtk-3.0/settings.ini</li>
+  <li>sudo apt-get install rofi</li>
+</ul>]]></content><author><name>Anshuman Barnwal</name></author><category term="window-manager" /><category term="convenience" /><summary type="html"><![CDATA[i3 is a tiling window manager. Why do you need that?]]></summary></entry><entry><title type="html">First take on Data Processing</title><link href="/2023/02/dsp1/" rel="alternate" type="text/html" title="First take on Data Processing" /><published>2023-02-23T00:00:00+00:00</published><updated>2023-02-23T00:00:00+00:00</updated><id>/2023/02/dsp1</id><content type="html" xml:base="/2023/02/dsp1/"><![CDATA[<p>When Data Processing is thought about these days, computers are in the picture mostly.
+So understanding how real time data can be interpreted and modified by discrete state machines becomes essential.</p>
+
+<!---->
+
+<p>Yes, I’m going to talk about Discrete Signal Processing, with all necessary introductions. I’m also expecting you know high-school calculus, and what \(e^{j\theta} = cos(\theta) + j sin(\theta)\) means.</p>
+
+<p>Apart from this, to ensure you’re on the same page, let’s discuss over frequencies, and why consider them at all.</p>
+
+<h2 id="need-for-defining-frequency">Need for defining Frequency</h2>
+
+<p>When I was first introduced to \(f = \frac{1}{t}\) during a lecture on Simple Harmonic Motion, where \(f\) is in \(Hz\) if \(t\) is in \(sec\). I ignored this topic. It seemed too trivial for being worthwhile. Why need to discuss about such a term at all, if time \(t\) is already sufficient to describe signals.</p>
+
+<p>It turns out, as a general rule of thumb, the scientific community runs because there exists multiple perspective of the same thing. It’s easier to understand the motion of a pendulum in terms of energy than the laws of force. It’s also easier to understand materials in terms of chemical composition instead of molecular interactions.</p>
+
+<p>True, level of abstraction differs in each perspective, but what’s special in the case of \(f\) v/s \(t\) is that they are not just different, but are representing exactly the same thing, no details missed whatsover.</p>
+
+<blockquote>
+  <p>Abstraction is the process of taking away or removing characteristics from something to reduce it to some set of essential characteristics. Making things simpler, and more general.</p>
+</blockquote>
+
+<p>Despite of being equivalent, one perspective might be much more insightful than the other, depending on the case of course.</p>
+
+<p>The bigger picture to keep in mind is, what representation makes you understand the phenomenon at hand from axioms (or principles you agree that are fundamental), and what helps you predict other useful information about the same.
+From information, you can only derieve other information. Usecase is a matter of different concern, which also I’ll touch upon.</p>
+
+<p>So here we have it, \(f\) might be significant.</p>
+
+<h2 id="different-domain">Different Domain</h2>
+
+<p>After a few years, I stumbled upon the term of fourier analysis, and heard how it can solve many problems which are extremely difficult to deal with. Unsurprisingly, I searched it up, saw a <a href="https://www.youtube.com/watch?v=spUNpyF58BY">video</a>, and thought wow, downright hits as a usual 3b1b video does!
+But what to do with it now? So it swept out of my mind, until our curriculum induced it into a course.</p>
+
+<h3 id="first-axiom">First axiom</h3>
+
+<p>You know that sinusoids, \(sin(x)\) and \(cos(x)\) together, are periodic functions.
+It turns out, shown by Joseph Fourier in 1800s, that <strong>any periodic signal</strong> can be said to be a weighted sum of different kinds of sinusoids.
+Take it for granted now. I won’t prove it.</p>
+
+<p>Let’s understand the statement again. If you saw it as “Periodic signal - combination of sinusoids”, observe again, there are a few vague terms in there.</p>
+
+<h4 id="sinusoids-and-frequencies">Sinusoids and frequencies</h4>
+
+<p>Think about \(cos(x)\). It’s plot is something like:</p>
+
+<p><img src="/images/dsp/cosx.png" alt="cosx" /></p>
+
+<p>Consider now \(cos(2x)\). Something like:</p>
+
+<p><img src="/images/dsp/cos2x.png" alt="cosx" /></p>
+
+<p>Something changed. The function shrunk along the x-axis. Another way to say it, the function changes faster in the second case. More specifically, before the period of the function was \(2\pi\), which now decreased to \(\pi\). Rename the x-axis as the time axis (another beauty of abstraction). It’s <em>time</em> period decreased. Now from the above definition, it’s <em>frequency</em> increased, from \(\frac{1}{2\pi} = 0.15915 \,\mathrm{Hz}\) to \(\frac{1}{\pi} = 0.31831 \,\mathrm{Hz}\).
+Admittedly, working with such frequencies seems cumbersome, so for sinusoids, we opt for angular frequencies, defined as \(2\pi f\), denoted as \(\omega\).</p>
+
+<p><img src="/images/dsp/cos2pix.png" alt="cos2pix" /></p>
+
+<p>Now the frequencies involved are much nicer, \(1\) and \(2\) respectively. Doing so translated to change in period from \(2\pi\) to \(1\).</p>
+
+<h3 id="weighted-combination-of-different-sinusoids">Weighted combination of different sinusoids</h3>
+
+<p>Different sinusoids means sinusoids of different frequencies. And not just any set of frequencies.
+Let the \(x(t)\) periodic signal under consideration have a period of \(T\). So it’s angular frequency is \(\omega_0 = \frac{2\pi}{T}\).
+Claim of Joseph Fourier was, the periodic signal can be decomposed to/is weighted sum of sinusoids with frequencies as integral multiples of \(\omega_0\).</p>
+
+<p>\(x(t) = w^s_0 sin(0\:\omega_0 t) + w^s_1 sin(1\:\omega_0 t) + w^s_2 sin(2\:\omega_0 t) + \cdots\)<br />
+\(\;\;\;\;\;\;\;\;\;\;\;\;\; + w^c_0 cos(0\:\omega_0 t) + w^c_1 cos(1\:\omega_0 t) + w^c_2 cos(2\:\omega_0 t) + \cdots\)</p>
+
+<p>Yes, <strong>all</strong> positive integral multiples.
+Represented more neatly as:</p>
+
+\[\begin{aligned}
+x(t) &amp; = \sum_{n=0}^{\infty} a_n cos(n\omega_0 t) + \sum_{n=0}^{\infty} b_n sin(n\omega_0 t) \\
+     &amp; = \sum_{n=0}^{\infty} a_n cos(n\omega_0 t) + b_n sin(n\omega_0 t)
+\end{aligned}\]
+
+<p>Here, complex exponentials are included to simplify the representation.</p>
+
+\[a_n cos(n\omega_0 t) + b_n sin(n\omega_0 t) = \frac{a_n + b_n}{2} e^{j n\omega_0 t} + \frac{a_n - b_n}{2} e^{-j n\omega_0 t} \\
+\begin{aligned}
+x(t) &amp; = \sum_{n=0}^{\infty} \frac{a_n + b_n}{2} e^{j n\omega_0 t} + \frac{a_n - b_n}{2} e^{-j n\omega_0 t} \\
+\end{aligned}\]
+
+\[\tag{1} x(t) = \sum_{n=-\infty}^{\infty} c_n e^{j n\omega_0 t}\]
+
+<p>Good enough, so if you know \(c_n\)’s for a signal, you can combine them as above.
+But what about computing \(c_n\) in the first place, if your signal \(f(t)\) is given?</p>
+
+<p>We use orthogonality.</p>
+
+<h3 id="orthogonality">Orthogonality</h3>
+
+<p>Two functions are defined to be orthogonal for \(t \in (a, b)\) if</p>
+
+\[\langle u, v\rangle = 0 \iff \int_{a}^{b} u(t) v^*(t) dt = 0\]
+
+<p>It’s good to know that the complex exponential family are orthogonal w.r.t. each other.</p>
+
+\[\langle e^{j \omega nt}, e^{j \omega mt}\rangle =
+    \begin{cases}
+      0 &amp; n\neq m \\
+      1 &amp; n = m \\
+    \end{cases} \\
+\ni t \in (a, a + 2\pi) \;\; \forall a \in \mathbb{Z}\]
+
+<p>Proof as follows</p>
+
+\[\begin{aligned}
+\int_{a}^{a + 2\pi} e^{j \omega mt} \cdot e^{-j \omega nt} dt &amp; = \int_{a}^{a + 2\pi} e^{j \omega (m-n)t} dt \\
+&amp; = \frac{e^{j \omega (m-n)t}}{j \omega (m-n)} \Biggr|_{a}^{a + 2\pi} \\
+&amp; = \frac{e^{j \omega (m-n) (a + 2\pi)} - e^{j \omega (m-n) (a)}}{j \omega (m-n)} \\
+&amp; = e^{j \omega (m-n) (a)}\frac{e^{j 2\pi\omega (m-n)} - 1}{j \omega (m-n)} \\
+&amp; = \begin{cases}
+      0 &amp; n\neq m \\
+      1 &amp; n = m \\
+    \end{cases} \\
+\end{aligned}\]
+
+<p>Using this concept in <strong>Eqn (1)</strong>, consider the following expression</p>
+
+\[\begin{aligned}
+\int_{0}^{2\pi} x(t) e^{-j\omega_0 nt} dt &amp; = \int_{0}^{2\pi} \underbrace{\Big(\sum_{m=-\infty}^{\infty} c_m e^{j m\omega_0 t}\:\Big) e^{-j\omega_0 nt}}*{c_n} dt \\
+&amp; = c_n \int*{0}^{2\pi} dt
+\end{aligned}\]
+
+\[\tag{2} c_n = \frac{1}{2\pi} \int_{0}^{2\pi} x(t) e^{-j\omega_0 nt} dt\]
+
+<p>Lo behold, you have completed the <strong>Fourier Series Analysis</strong> that includes Eqn (1) and (2), which is the first step towards the idea of decomposing data into, well, simpler data.
+Sinusoids are simple to understand, they come up many places in academia or reality (most places via approximations, but still).</p>
+
+<p>You won’t find the following function as common though:</p>
+
+<p><img src="/images/dsp/rand_4_periodic.png" alt="rand_4" /></p>
+
+<p>This can be decomposed to the following sinusoids, given \(\omega_0 = 0.6\pi \implies T = 3.333\)</p>
+
+\[\begin{aligned}
+f(t) &amp; = 5.535 cos(0\omega_0 t) + 8.379 cos(1\omega_0 t) + 2.417 cos(2\omega_0 t) + 8.804 cos(3\omega_0 t) \\
+ &amp; + 4.204 sin(0\omega_0 t) + 8.809 sin(1\omega_0 t) + 6.841 sin(2\omega_0 t) + 1.414 sin(3\omega_0 t)
+\end{aligned}\]
+
+<p>This was constructed as</p>
+
+<p><img src="/images/dsp/components_4.png" alt="components_4" /></p>
+
+<p>How is this useful now? Any periodic function, however large the period, can be decomposed as above. You can drop some higher order (larger frequency) terms, and the left function would still approximate the original one.
+But you might say, usual data/signals are NOT periodic, also we would like to know how to deal with discrete signals, continuous signal processing is for analog peeps.</p>
+
+<p>Nice points, so we will again leverage beauty of abstraction so move on to the next post.</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="dsp" /><category term="basics" /><category term="fourier-analysis" /><summary type="html"><![CDATA[When Data Processing is thought about these days, computers are in the picture mostly. So understanding how real time data can be interpreted and modified by discrete state machines becomes essential.]]></summary></entry><entry><title type="html">Periodic Writer</title><link href="/2023/02/crontab/" rel="alternate" type="text/html" title="Periodic Writer" /><published>2023-02-15T00:00:00+00:00</published><updated>2023-02-15T00:00:00+00:00</updated><id>/2023/02/crontab</id><content type="html" xml:base="/2023/02/crontab/"><![CDATA[<p>I don’t like to pick up a journal, search for the first new page, and write out about the day.<br />
+So I asked my laptop.</p>
+
+<!---->
+
+<p>Actually I’m stuck on my laptop for a significant portion of my awake time, take it 60% or above on average.
+I have also heard that journaling is good for mental health, and quoting social psychologist James Pennebaker</p>
+
+<blockquote>
+  <p>Emotional upheavals touch every part of our lives. You don’t just lose a job, you don’t just get divorced. These things affect all aspects of who we are — our financial situation, our relationships with others, our views of ourselves. … Writing helps us focus and organize the experience.</p>
+</blockquote>
+
+<p>So why not have a nagging journal just pop-up in every <code class="language-plaintext highlighter-rouge">T</code> timespan, where <code class="language-plaintext highlighter-rouge">T</code> is decided by your dedication frequency.</p>
+
+<p>We’ll use <code class="language-plaintext highlighter-rouge">crontab</code>, your favourite terminal text-editor (<code class="language-plaintext highlighter-rouge">Vim</code> for me), and some <code class="language-plaintext highlighter-rouge">scripts</code> to run and compile your entries.<br />
+I’m assuming that you’re working on a Linux-based OS, I’ll update on the alternatives for Windows.</p>
+
+<h2 id="writer">Writer</h2>
+
+<p>I chose my <code class="language-plaintext highlighter-rouge">T</code> to be 1 hour. A journal therefore should have space for seperate entry for each such time-slots, and ideally they should be hierarchially organised. I thought keeping a journal of the following format is more than enough:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">year</span>
+<span class="s">└── date</span>
+    <span class="s">└── hour</span>
+</code></pre></div></div>
+
+<p>So a script like the following should work fine:</p>
+
+<details>
+<summary>Gist from GitHub</summary>
+<script src="https://gist.github.com/ba-13/7d27fbad5a0898de34298cabd9b343bf.js"></script>
+</details>
+
+<p>Now if you’ve not done already, and you should for automation again, create a user bin folder.
+What I’ve done is the following:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> ~/bin
+<span class="nb">echo</span> <span class="s2">"export PATH=</span><span class="nv">$PATH</span><span class="s2">:/home/&lt;username&gt;/bin"</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">source</span> ~/.bashrc
+</code></pre></div></div>
+
+<p>This means that any executable in that folder would now be directly accessible as a tool, using it’s name directly on the terminal. So put <code class="language-plaintext highlighter-rouge">writer.sh</code> as <code class="language-plaintext highlighter-rouge">writer</code> in the folder.</p>
+
+<h2 id="crontab">Crontab</h2>
+
+<p>Naturally I wanted a regular poking device that can slap the above script on my face, and came across <code class="language-plaintext highlighter-rouge">cron</code>.</p>
+
+<blockquote>
+  <p>The cron command-line utility is a job scheduler on Unix-like operating systems. Users who set up and maintain software environments use cron to schedule jobs, also known as cron jobs, to run periodically at fixed times, dates, or intervals.</p>
+</blockquote>
+
+<p>Quite conveniently, use <code class="language-plaintext highlighter-rouge">crontab -e</code> to generate a file for your user’s personal schedules.
+Once inside, insert the following line:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># minute (m), hour (h), day of month (dom), month (mon), day of week (dow)</span>
+00 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /home/&lt;username&gt;/bin/writer
+
+</code></pre></div></div>
+
+<p>Note the extra line at the end? That’s necessary for <code class="language-plaintext highlighter-rouge">cron</code> to detect your schedule.
+You can change your preferred scheduling by altering those numbers above.<br />
+Example, if you want to write every alternate day at 2pm</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>00 02 <span class="k">*</span> <span class="k">*</span> 1,3,5,7 /home/&lt;username&gt;/bin/writer
+</code></pre></div></div>
+
+<p>You may want to logout and login again for this to have affect.</p>
+
+<h2 id="journal-view">Journal View</h2>
+
+<p>You might like to view what you wrote, just like you would want to review your journal.<br />
+Worry not, use the following:</p>
+
+<details>
+<summary>Gist from GitHub</summary>
+<script src="https://gist.github.com/ba-13/f0145c0dda0af430b6216d6d4bd6060e.js"></script>
+</details>
+
+<p>Run this script, choosing <code class="language-plaintext highlighter-rouge">-type</code> flag as <code class="language-plaintext highlighter-rouge">md</code> or <code class="language-plaintext highlighter-rouge">txt</code>. I recommend <code class="language-plaintext highlighter-rouge">md</code> (leave it default). Open the <code class="language-plaintext highlighter-rouge">txt</code> file, if you chose that, in LibreOffice Writer to convert it into a pdf.</p>
+
+<p>Otherwise install <code class="language-plaintext highlighter-rouge">grip</code> using <code class="language-plaintext highlighter-rouge">pip install grip</code>, and do <code class="language-plaintext highlighter-rouge">grip -b compiled.md</code> that opens the journal in your browser, viewed exactly as it would on GitHub.</p>
+
+<h2 id="keyring-pop-up">Keyring Pop-up</h2>
+
+<p>Due to the crontab trigger, I started facing a new pop-up saying <code class="language-plaintext highlighter-rouge">Unlock your keyring</code>.<br />
+To prevent this from happening, use:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">rm</span> ~/.local/share/keyrings/login.keyring
+</code></pre></div></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Congratulations! You’ll now be smacked every hour (or what your schedule requires you) by a journal page.
+Yes it’s interruptive sometimes, but that’s good for me, as it keeps track of time as well. Watching too many shorts? Smack!<br />
+Write down that you spent your last hour watching a giraffe falling over a tent, and you might not do that again.<br />
+Your journal is saved in <code class="language-plaintext highlighter-rouge">~/my_log</code> as above, and generating a compilation is as easy as that.
+Enjoy!</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="convenience" /><category term="cron" /><summary type="html"><![CDATA[I don’t like to pick up a journal, search for the first new page, and write out about the day. So I asked my laptop.]]></summary></entry><entry><title type="html">First take on Haskell</title><link href="/2021/12/haskell-1/" rel="alternate" type="text/html" title="First take on Haskell" /><published>2021-12-23T00:00:00+00:00</published><updated>2021-12-23T00:00:00+00:00</updated><id>/2021/12/haskell-1</id><content type="html" xml:base="/2021/12/haskell-1/"><![CDATA[<p>Haskell is a functional programming language.<br />
+Why do you need to know about it? Because you should.</p>
+
+<!---->
+
+<p>The utilities you should have once Haskell is setup on your PC.</p>
+
+<blockquote>
+  <p>ghc, ghci and cabal <br />
+Load a script with functions with <code class="language-plaintext highlighter-rouge">:l &lt;fileName&gt;</code></p>
+</blockquote>
+
+<p>Pure functions, Immutable Data
+So <strong>no</strong> side effects</p>
+
+<p>Declarative
+Easier to verify correctness<br />
+Definition of complex enough algorithms can be done elegantly in Haskell.<br />
+Note that I have learnt that examples help in understanding a lot more than definitions by themselves. So including a tonne of them.</p>
+
+<h2 id="function-definition">Function Definition</h2>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">name</span> <span class="n">arg1</span> <span class="n">arg2</span> <span class="n">arg3</span> <span class="o">=</span> <span class="o">&lt;</span> <span class="n">exp</span> <span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>There is no return statement. The last statement evaluated is returned</p>
+
+<h2 id="types">Types</h2>
+
+<p><code class="language-plaintext highlighter-rouge">var :: Type</code><br />
+e.g. x :: Integer<br />
+<code class="language-plaintext highlighter-rouge">func :: Type</code><br />
+e.g. inRange :: Integer -&gt; Integer -&gt; Integer -&gt; Bool</p>
+
+<h3 id="let">Let</h3>
+
+<p>Imperative isn’t allowed, i.e. you can’t return a value.
+So instead, we use <code class="language-plaintext highlighter-rouge">let</code></p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">func</span> <span class="n">params</span> <span class="o">=</span>
+    <span class="kr">let</span> <span class="n">params</span> <span class="o">=</span> <span class="o">&lt;</span> <span class="n">exp</span> <span class="o">&gt;</span>
+    <span class="kr">in</span> <span class="n">params</span>
+</code></pre></div></div>
+
+<p>That is, we define a name, and bind it to an expression, i.e. some name and expression, another name and it’s expression…and finally <code class="language-plaintext highlighter-rouge">in</code> and all “bind-ed” expression containing all names</p>
+
+<blockquote>
+  <p>Things are evaluated only when needed, Lazy Haskell</p>
+</blockquote>
+
+<h3 id="where">Where</h3>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">func</span> <span class="n">params</span> <span class="o">=</span> <span class="n">paramsToBeReturned</span> <span class="c1">--technically not "returned"</span>
+    <span class="kr">where</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="o">&lt;</span> <span class="n">exp</span> <span class="o">&gt;</span>
+</code></pre></div></div>
+
+<h3 id="if-then-else">if-then-else</h3>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">if</span> <span class="o">&lt;</span> <span class="n">exp</span> <span class="o">&gt;</span> <span class="kr">then</span> <span class="o">&lt;</span> <span class="n">exp</span> <span class="o">&gt;</span> <span class="kr">else</span> <span class="o">&lt;</span> <span class="n">exp</span> <span class="o">&gt;</span>
+</code></pre></div></div>
+
+<h2 id="infix-functions">Infix Functions</h2>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">:</span><span class="n">t</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="c1">--for checking type of any function</span>
+<span class="o">&gt;</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="o">::</span> <span class="kt">Num</span> <span class="n">a</span><span class="o">=&gt;</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">a</span>
+</code></pre></div></div>
+
+<p>Any function can be written in Infix style by ` ` around them</p>
+
+<h2 id="recursion">Recursion</h2>
+
+<p>No loops in Haskell. So we need recursion</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fac</span> <span class="n">n</span> <span class="o">=</span>
+    <span class="kr">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="kr">then</span>
+        <span class="mi">1</span>
+    <span class="kr">else</span>
+        <span class="n">n</span> <span class="o">*</span> <span class="n">fac</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="guards">Guards</h3>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">otherwise</code> always evaluates to True</p>
+</blockquote>
+
+<p>Guards can replace if-then-else, as that guard is executed, and returned as THE expression of the function which evaluates to True</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fac</span> <span class="n">n</span>
+    <span class="o">|</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">n</span><span class="o">*</span><span class="n">fac</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    | &lt; exp to be evaluated for True or False &gt; = &lt; exp returned &gt;
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">_</code> is a wild card</p>
+</blockquote>
+
+<h2 id="pattern-matching">Pattern Matching</h2>
+
+<p>Multiple definitions of the same functions can occur in Haskell, each with different set of inputs</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ghci&gt; is_zero 0 = True
+...
+ghci&gt; is_zero _ = False
+</code></pre></div></div>
+
+<p>This means that for 0, is_zero will return True, and for a wild card “Excluding the already defined input set”, the function returns False</p>
+
+<h3 id="accumulators">Accumulators</h3>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fac</span> <span class="n">n</span> <span class="o">=</span> <span class="n">aux</span> <span class="n">n</span> <span class="mi">1</span> <span class="c1">--aux is an auxiliary function, which takes an accumulator</span>
+    <span class="kr">where</span>
+        <span class="n">aux</span> <span class="n">n</span> <span class="n">acc</span> <span class="c1">--definition of aux</span>
+         <span class="o">|</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="o">=</span> <span class="n">acc</span>
+         <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">aux</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">acc</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>In short, accumulators are applying Tail Recursion.<br />
+This is much more efficient than usual recursion, cause it takes a lot less memory and same complexity.<br />
+The main thing to remember about tail recursion is that the recursive step is always the last step at a particular depth.</p>
+
+<p>Another example on Fibonacci</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fib</span> <span class="n">n</span> <span class="o">=</span> <span class="n">go</span> <span class="n">n</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="kr">where</span>
+        <span class="n">go</span> <span class="mi">0</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="n">go</span> <span class="mi">1</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span>
+        <span class="n">go</span> <span class="n">n</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="n">go</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="lists">Lists</h2>
+
+<p>Lists only have one internal type. They can be constructed via constructors <code class="language-plaintext highlighter-rouge">[]</code> (empty) and <code class="language-plaintext highlighter-rouge">:</code> (pre-pend)</p>
+
+<p>example:</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">asc</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span>
+<span class="n">asc</span> <span class="n">n</span> <span class="n">m</span> <span class="c1">--list from n to m</span>
+    <span class="o">|</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">=</span> <span class="kt">[]</span>
+    <span class="o">|</span> <span class="n">m</span> <span class="o">==</span> <span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="p">]</span>
+    <span class="o">|</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">:</span> <span class="n">asc</span> <span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="n">m</span>
+</code></pre></div></div>
+
+<p>Many functions of Lists are predefined, quite a lot of them in <code class="language-plaintext highlighter-rouge">Data.List</code> module.</p>
+
+<h4 id="for-polymorphic-lists">For Polymorphic Lists</h4>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">elem</span> <span class="o">::</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="c1">--returns if given element belongs to the list</span>
+<span class="n">head</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="c1">--returns the first element of the list</span>
+<span class="n">tail</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="c1">--returns all of list except the head</span>
+<span class="n">length</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="c1">--returns length of list</span>
+<span class="n">init</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="c1">--returns a last-element-removed list</span>
+<span class="n">last</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="c1">--returns the last element of list</span>
+<span class="n">null</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="c1">--check if a list is empty</span>
+</code></pre></div></div>
+
+<p>Every data structure in Haskell is immutable, so we always get a copy with modifications to current structure, which we may reassign to the same variable name, that effectively changes the data structure.</p>
+
+<h4 id="for-boolean-lists">For Boolean Lists</h4>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">and</span> <span class="o">::</span> <span class="p">[</span><span class="kt">Bool</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="c1">--and operation over all elements of list</span>
+<span class="n">or</span> <span class="o">::</span> <span class="p">[</span><span class="kt">Bool</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="c1">--or operation over all elements of list</span>
+</code></pre></div></div>
+
+<p>When can such a thing be useful, a list of booleans?<br />
+The case of List Comprehensions.</p>
+
+<h2 id="list-comprehension">List Comprehension</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[&lt;gen&gt; | &lt;elem&gt; &lt;- &lt;list&gt;, ... , &lt;guard&gt;, ... ]
+</code></pre></div></div>
+
+<h4 id="patterns-in-lists">Patterns in Lists</h4>
+
+<p>Pattern matching with Lists is quite useful. It is used mostly in recursion tbh</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sum</span> <span class="kt">[]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">sum</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">sum</span> <span class="n">xs</span>
+<span class="c1">-- is equivalent to</span>
+<span class="n">sum</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">0</span> <span class="n">xs</span>
+
+<span class="c1">-- another example</span>
+<span class="n">evens</span> <span class="o">::</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span>
+<span class="n">evens</span> <span class="kt">[]</span> <span class="o">=</span> <span class="kt">[]</span>
+<span class="n">evens</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="c1">--colon constructor</span>
+    <span class="o">|</span> <span class="n">mod</span> <span class="n">x</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">=</span> <span class="n">x</span> <span class="o">:</span> <span class="n">evens</span> <span class="n">xs</span>
+    <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">evens</span> <span class="n">xs</span>
+</code></pre></div></div>
+
+<h2 id="tuples">Tuples</h2>
+
+<p>Tuples can have any number of elements, but a fixed number</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fst</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a</span>
+<span class="n">fst</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="kr">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span>
+
+<span class="n">snd</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">b</span>
+<span class="n">snd</span> <span class="p">(</span><span class="kr">_</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">y</span>
+</code></pre></div></div>
+
+<h4 id="tuple-unpacking">Tuple “unpacking”</h4>
+
+<p><code class="language-plaintext highlighter-rouge">let (x, y) = (1, 2) in x</code></p>
+
+<h3 id="higher-order-functions">Higher Order Functions</h3>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">app</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span>
+<span class="n">app</span> <span class="n">f</span> <span class="n">x</span> <span class="o">=</span> <span class="n">f</span> <span class="n">x</span>
+<span class="n">add1</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+<span class="n">add1</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">app</span> <span class="n">add1</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<h4 id="anonymous-functions">Anonymous Functions</h4>
+
+<p>(\&lt;args&gt; -&gt; &lt;expr&gt;)</p>
+
+<p>example <code class="language-plaintext highlighter-rouge">(\x -&gt; x+1)</code><br />
+Functions are just values in Haskell, just like Js, can be assigned to variables</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">increment</span> <span class="o">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">addAll</span> <span class="o">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">+</span><span class="n">z</span><span class="p">)</span>
+
+<span class="n">app</span> <span class="n">f</span> <span class="n">x</span> <span class="o">=</span> <span class="n">f</span> <span class="n">x</span>
+<span class="n">incrementOne</span> <span class="o">=</span> <span class="n">app</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<h4 id="some-common-higher-order-functions">Some common Higher order functions</h4>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- Map is useful to map each element of a list to another list via a function</span>
+<span class="n">map</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">b</span><span class="p">]</span>
+<span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">)]</span>
+
+<span class="c1">-- Filter is used to filter out a list on the basis of a provided function</span>
+<span class="c1">-- this is a predicate function</span>
+<span class="c1">-- the predicate when returns True, then the element will be in the new list</span>
+<span class="n">filter</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="n">filter</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">)</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="n">filter</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">/=</span><span class="n">y</span><span class="p">)</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<h3 id="currying">Currying</h3>
+
+<p>Essentially, functions having multiple arguments don’t exist.
+<code class="language-plaintext highlighter-rouge">f :: a -&gt; b -&gt; c -&gt; d</code> is equivalent to <code class="language-plaintext highlighter-rouge">f :: a -&gt; (b -&gt; (c -&gt; d))</code></p>
+
+<p>So, example:</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">add</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+<span class="n">add</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+<span class="c1">-- or equivalent to</span>
+<span class="n">add</span> <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">y</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span>
+<span class="c1">-- or equivalent to</span>
+<span class="n">add</span> <span class="o">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nf">\</span><span class="n">y</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">))</span>
+<span class="c1">-- so clearly, anonymous functions are fundamental, while any function itself is just a variable which has an anonymous function assigned to it.</span>
+
+<span class="n">add</span> <span class="mi">1</span> <span class="c1">-- returns a function</span>
+<span class="n">add</span> <span class="mi">1</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+</code></pre></div></div>
+
+<p>The last statement is generating a new function from an old function. This is called the <strong>partial function application</strong>.</p>
+
+<p>This is done everywhere in Haskell. Example, you might use a map or filter (higher order functions), but have to rewrite it’s filtering function every time. Partial function application is a way out.</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">doubleList</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+<span class="c1">-- now we don't need any function argument to do this operation. Just pass a list, and doubleList will double it element wise ofc</span>
+</code></pre></div></div>
+
+<h2 id="function-composition">Function Composition</h2>
+
+<p>Haskell is great for implementing mathematical functions, and its exactly that.</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="o">.</span><span class="p">)</span> <span class="o">::</span> <span class="p">(</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="n">c</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">c</span>
+<span class="n">f</span> <span class="o">::</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span>
+<span class="n">g</span> <span class="o">::</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span>
+<span class="n">composite</span> <span class="n">f</span> <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">g</span>
+<span class="n">composite</span> <span class="n">f</span> <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="p">(</span><span class="n">g</span> <span class="n">x</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>Application? If you have a sorting function <code class="language-plaintext highlighter-rouge">sort</code> and reverting function <code class="language-plaintext highlighter-rouge">reverse</code>, define</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">descSort</span> <span class="o">=</span> <span class="n">reverse</span><span class="o">.</span><span class="n">sort</span>
+<span class="n">descSort</span> <span class="o">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">reverse</span> <span class="p">(</span><span class="n">sort</span> <span class="n">x</span><span class="p">))</span>
+<span class="n">descSort</span> <span class="n">x</span> <span class="o">=</span> <span class="n">reverse</span> <span class="p">(</span><span class="n">sort</span> <span class="n">x</span><span class="p">)</span>
+<span class="c1">-- All are equivalent</span>
+</code></pre></div></div>
+
+<p>Another example, mapping of mappings</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">map2D</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="n">a</span><span class="p">]]</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="n">b</span><span class="p">]]</span>
+<span class="n">map2D</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="n">map</span>
+</code></pre></div></div>
+
+<h4 id="-function">$ function</h4>
+
+<p>Used to write cleaner code while using composition or higher order functions</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="o">$</span><span class="p">)</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">$</span> <span class="n">x</span> <span class="o">=</span> <span class="n">f</span> <span class="n">x</span>
+<span class="c1">-- or</span>
+<span class="p">(</span><span class="o">$</span><span class="p">)</span> <span class="n">f</span> <span class="n">x</span> <span class="o">=</span> <span class="n">f</span> <span class="n">x</span>
+<span class="c1">-- or</span>
+<span class="p">(</span><span class="o">$</span><span class="p">)</span> <span class="o">=</span> <span class="n">id</span>
+</code></pre></div></div>
+
+<p>Applications:</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">f</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="n">filter</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span> <span class="n">xs</span><span class="p">)</span>
+<span class="c1">-- or</span>
+<span class="n">f</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">$</span> <span class="n">filter</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span> <span class="n">xs</span>
+</code></pre></div></div>
+
+<h2 id="folding">Folding</h2>
+
+<p>One of the most important concept in Lists. Folding up a list’s element into a value, on the basis of a binary function and an initiator (accumulator)</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foldr</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">b</span>
+<span class="n">foldr</span> <span class="p">(</span><span class="nf">\</span><span class="n">elem</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="o">&lt;</span><span class="n">term</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">start_acc</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">list</span><span class="o">&gt;</span>
+
+<span class="n">foldr</span> <span class="p">(</span><span class="o">%</span><span class="p">)</span> <span class="n">a</span> <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">x4</span><span class="p">]</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">%</span> <span class="n">x2</span> <span class="o">%</span> <span class="n">x3</span> <span class="o">%</span> <span class="n">x4</span> <span class="o">%</span> <span class="n">a</span>
+<span class="c1">-- a is accumulator, % is a binary function</span>
+</code></pre></div></div>
+
+<p>Applications:</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- some partial functions</span>
+<span class="n">sum</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">0</span>
+<span class="n">and</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="kt">True</span>
+<span class="n">or</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="o">||</span><span class="p">)</span> <span class="kt">False</span>
+<span class="n">length</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">0</span>
+<span class="n">length'</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="n">const</span> <span class="o">$</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">0</span> <span class="c1">-- as x isn't used, replace it by const</span>
+<span class="n">map</span> <span class="n">f</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">((</span><span class="o">:</span><span class="p">)</span> <span class="o">.</span> <span class="n">f</span><span class="p">)</span> <span class="kt">[]</span>
+
+<span class="n">count</span> <span class="n">x</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="nf">\</span><span class="n">y</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="kr">if</span> <span class="n">x</span><span class="o">==</span><span class="n">y</span> <span class="kr">then</span> <span class="n">acc</span><span class="o">+</span><span class="mi">1</span> <span class="kr">else</span> <span class="n">acc</span><span class="p">)</span> <span class="mi">0</span> <span class="c1">-- a partial function that counts how many times an element occurs in a list</span>
+<span class="n">isAll</span> <span class="n">e</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">e</span><span class="o">==</span><span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">acc</span><span class="p">)</span> <span class="kt">True</span> <span class="c1">-- note that this isn't efficient, but that's not the point</span>
+<span class="n">isAll'</span> <span class="n">e</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">$</span> <span class="n">e</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span> <span class="kt">True</span>
+</code></pre></div></div>
+
+<p>Now, folding has direction. We have seen <code class="language-plaintext highlighter-rouge">foldr</code>, and there exists a <code class="language-plaintext highlighter-rouge">foldl</code></p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foldr</span> <span class="p">(</span><span class="nf">\</span><span class="n">elem</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="o">&lt;</span><span class="n">term</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">start_acc</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">list</span><span class="o">&gt;</span> <span class="c1">--from last element of list with the acc, we build upto the first</span>
+<span class="n">foldl</span> <span class="p">(</span><span class="nf">\</span><span class="n">acc</span> <span class="n">elem</span> <span class="o">-&gt;</span> <span class="o">&lt;</span><span class="n">term</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">start_acc</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">list</span><span class="o">&gt;</span> <span class="c1">--from the first element with the acc, we build upto the last</span>
+</code></pre></div></div>
+
+<h4 id="tree-folding">Tree folding</h4>
+
+<p>In a Lazy based language, the order of folding of trees actually shouldn’t matter.<br />
+But while printing, we need to take order into account.</p>
+
+<h2 id="data-types">Data Types</h2>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">data</span> <span class="kt">Name</span> <span class="o">=</span>
+    <span class="kt">Constructor1</span> <span class="o">&lt;</span><span class="n">args</span><span class="o">&gt;</span> <span class="o">|</span> <span class="kt">Constructor2</span> <span class="o">&lt;</span><span class="n">args</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">..</span>
+    <span class="c1">-- args shouldn't contain literals, but the type itself</span>
+</code></pre></div></div>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">data</span> <span class="kt">Color</span> <span class="o">=</span>
+    <span class="kt">Red</span> <span class="o">|</span> <span class="kt">Green</span> <span class="o">|</span> <span class="kt">Blue</span>
+
+<span class="kr">data</span> <span class="kt">PeaNum</span> <span class="o">=</span>
+    <span class="kt">Succ</span> <span class="kt">PeaNum</span> <span class="o">|</span> <span class="kt">Zero</span>
+
+<span class="kr">data</span> <span class="kt">Calculation</span> <span class="o">=</span>
+    <span class="kt">Add</span> <span class="kt">Int</span> <span class="kt">Int</span> <span class="o">|</span> <span class="kt">Mul</span> <span class="kt">Int</span> <span class="kt">Int</span> <span class="o">|</span> <span class="kt">Sub</span> <span class="kt">Int</span> <span class="kt">Int</span> <span class="o">|</span> <span class="kt">Div</span> <span class="kt">Int</span> <span class="kt">Int</span>
+
+<span class="kr">data</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">=</span>
+    <span class="kt">Leaf</span> <span class="o">|</span> <span class="kt">Node</span> <span class="p">(</span><span class="kt">Tree</span> <span class="n">a</span><span class="p">)</span> <span class="n">a</span> <span class="p">(</span><span class="kt">Tree</span> <span class="n">a</span><span class="p">)</span>
+    <span class="c1">-- specifying a is necessary cause a tree should have a particular datatype stored</span>
+</code></pre></div></div>
+
+<p>Using the above defined data-types</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- using the custom datatype Calculation</span>
+<span class="n">calc</span> <span class="o">::</span> <span class="kt">Calculation</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+<span class="n">calc</span> <span class="p">(</span><span class="kt">Add</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span>
+<span class="n">calc</span> <span class="p">(</span><span class="kt">Sub</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span>
+<span class="n">calc</span> <span class="p">(</span><span class="kt">Mul</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span>
+<span class="n">calc</span> <span class="p">(</span><span class="kt">Div</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">/</span><span class="n">y</span>
+
+
+<span class="n">tree</span> <span class="o">::</span> <span class="kt">Tree</span> <span class="kt">Int</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="kt">Node</span> <span class="p">(</span><span class="kt">Node</span> <span class="kt">Leaf</span> <span class="mi">1</span> <span class="kt">Leaf</span><span class="p">)</span> <span class="mi">2</span> <span class="p">(</span><span class="kt">Node</span> <span class="p">(</span><span class="kt">Node</span> <span class="kt">Leaf</span> <span class="mi">3</span> <span class="kt">Leaf</span><span class="p">)</span> <span class="mi">4</span> <span class="kt">Leaf</span><span class="p">)</span>
+
+<span class="c1">-- recursive data-type</span>
+<span class="n">add</span> <span class="o">::</span> <span class="kt">PeaNum</span> <span class="o">-&gt;</span> <span class="kt">PeaNum</span> <span class="o">-&gt;</span> <span class="kt">PeaNum</span>
+<span class="n">add</span> <span class="kt">Zero</span> <span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+<span class="n">add</span> <span class="p">(</span><span class="kt">Succ</span> <span class="n">m</span><span class="p">)</span> <span class="n">n</span> <span class="o">=</span> <span class="kt">Succ</span> <span class="p">(</span><span class="n">add</span> <span class="n">m</span> <span class="n">n</span><span class="p">)</span>
+
+<span class="n">sum</span> <span class="o">::</span> <span class="p">[</span><span class="kt">PeaNum</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">PeaNum</span>
+<span class="n">sum</span> <span class="kt">[]</span> <span class="o">=</span> <span class="kt">Zero</span>
+<span class="n">sum</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="o">=</span> <span class="n">add</span> <span class="n">x</span> <span class="p">(</span><span class="n">sum</span> <span class="n">xs</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="references">References</h2>
+
+<p>All mighty reference link, an interactive guide:
+<a href="http://learnyouahaskell.com/">http://learnyouahaskell.com/</a><br />
+This is a summary/writeup of Lessons by <strong>Philipp Hagenlocher</strong></p>]]></content><author><name>Anshuman Barnwal</name></author><category term="basics" /><category term="functional" /><category term="haskell" /><summary type="html"><![CDATA[Haskell is a functional programming language. Why do you need to know about it? Because you should.]]></summary></entry><entry><title type="html">Usual Collection for DSA</title><link href="/2021/10/revise-dsa/" rel="alternate" type="text/html" title="Usual Collection for DSA" /><published>2021-10-12T00:00:00+00:00</published><updated>2021-10-12T00:00:00+00:00</updated><id>/2021/10/revise-dsa</id><content type="html" xml:base="/2021/10/revise-dsa/"><![CDATA[<p>This is my set of resources and shortcuts for going through Data Structures and Algorithms.<br />
+You’ll find them well-compiled, and maybe not that expected.</p>
+
+<!---->
+
+<p>Higher one are of higher priority. This will keep getting updated for sure, but do complete these. Please do go over STL first of all before moving on, cause doing everything from scratch, might be a great learning experience, but it’s stupidity, as you’ll take more time to grasp the same thing.</p>
+
+<p>My approach of these are,</p>
+
+<ul>
+  <li>for video tutorials, I follow along with the tutor, pausing if a question is revealed.</li>
+  <li>for written tutorials, ideally you should first go through the entire article in one-go with a bird eye view. Then delve into those parts which would seem more relevant to you for now. As you can always come back to them later for more advanced concepts. Just try not getting stuck for long.</li>
+</ul>
+
+<h2 id="some-standard-resources-i-think-are-great-and-still-left-to-follow">Some standard Resources I think are great and still left to follow</h2>
+
+<ul>
+  <li>
+    <p>STL</p>
+
+    <ul>
+      <li><a href="https://www.topcoder.com/thrive/articles/Power%20up%20C++%20with%20the%20Standard%20Template%20Library%20Part%20One">Topcoder-I</a></li>
+      <li><a href="https://www.topcoder.com/thrive/articles/Power%20up%20C++%20with%20the%20Standard%20Template%20Library%20Part%20Two:%20Advanced%20Uses">Topcoder-II</a></li>
+    </ul>
+  </li>
+  <li>
+    <p>Structures</p>
+
+    <ul>
+      <li><a href="https://www.youtube.com/playlist?list=PLDV1Zeh2NRsB6SWUrDFW2RmDotAfPbeHu">William Fiset</a> : Collection of all data structures you need to know till an intermediate level. Explanation is extremely well done.</li>
+      <li><a href="https://www.youtube.com/playlist?list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P">MyCodeSchool</a> : Not as exhaustive as above, but may suit your style. Emphasis given on particular topics.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Pointers</p>
+
+    <ul>
+      <li><a href="https://www.youtube.com/watch?v=zuegQmMdy8M">Freecodecamp by Harsha and Animesh</a> : Can watch for a quick review of it’s concepts.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Linked List</p>
+
+    <ul>
+      <li><a href="https://www.geeksforgeeks.org/top-20-linked-list-interview-question/">Interview Questions</a> : You know LL, you should know how to do these.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Matrix</p>
+
+    <ul>
+      <li><a href="https://www.geeksforgeeks.org/matrix/">Matrix Questions</a> : Never hurts to know how matrices are manipulated in programming. This will make you better in handling limits in iterations.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Trees</p>
+
+    <ul>
+      <li><a href="https://www.youtube.com/playlist?list=PLDV1Zeh2NRsDfGc8rbQ0_58oEZQVtvoIc">William Fiset</a> : Extremely useful, intuitively explained, in pseudo-cum-python code.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Backtracking</p>
+
+    <ul>
+      <li><a href="https://www.youtube.com/watch?v=A80YzvNwqXA">Freecodecamp by Lynn</a> : It’s a video tutorial, with a “base format” explained by the author, a boilerplate for backtracking.</li>
+      <li><a href="https://www.cis.upenn.edu/~matuszek/cit594-2012/Pages/backtracking.html">University of Pennsylvania</a> : It’s an extensive article.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Recursion</p>
+
+    <ul>
+      <li><a href="https://www.youtube.com/watch?v=IJDJ0kBx2LM&amp;t=2637s">Freecodecamp by the Simple Engineer</a> : You will be slowly demystified about Recursion here.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Dynamic Programming</p>
+
+    <ul>
+      <li><a href="https://www.youtube.com/watch?v=oBt53YbR9Kk&amp;t=223s">Freecodecamp by Zablan</a> : Claimed to be one of the best resources for DP on YT.</li>
+      <li><a href="https://www.youtube.com/playlist?list=PLDV1Zeh2NRsAsbafOroUBnNV8fhZa7P4u">William Fiset</a> : Slides, suit my style.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Hash Tables</p>
+
+    <ul>
+      <li><a href="https://www.youtube.com/playlist?list=PLDV1Zeh2NRsDH5Wq-Vk5tDb8gH03cULZS">William Fiset</a></li>
+    </ul>
+  </li>
+  <li>
+    <p>Graph Theory</p>
+
+    <ul>
+      <li><a href="https://www.youtube.com/playlist?list=PLDV1Zeh2NRsDGO4--qE8yH72HFL1Km93P">William Fiset</a></li>
+      <li><a href="https://codeforces.com/blog/entry/60717">RestingR</a></li>
+      <li><a href="https://www.hackerearth.com/practice/algorithms/graphs/graph-representation/tutorial/">Practice at Hackerrank</a></li>
+      <li><a href="https://codeforces.com/blog/entry/16221">Prince Of Persia</a></li>
+    </ul>
+  </li>
+  <li>
+    <p>Number Theory</p>
+
+    <ul>
+      <li><a href="https://www.hackerearth.com/practice/notes/number-theory-1/">Hackerrank</a></li>
+      <li><a href="https://artofproblemsolving.com/community/c90633h1291397">AOPS</a></li>
+      <li><a href="https://www.codechef.com/wiki/tutorial-number-theory">CodeChef</a></li>
+      <li><a href="https://docs.google.com/document/d/1z3NtURVMyCkD1Ed4HuzkycpzKyc6kBaD9OYTbKJiDlU/edit">Compilation Summary</a></li>
+    </ul>
+  </li>
+  <li>
+    <p>Perfect Reference</p>
+
+    <ul>
+      <li><a href="https://web.ist.utl.pt/~fabio.ferreira/material/asa/clrs.pdf">CSLR</a> : Bible</li>
+      <li><a href="https://cses.fi/problemset/">CSES Perfect Problem-set</a> : the Problem Set I have been following for a while.</li>
+      <li><a href="https://cp-algorithms.com">CP-Algo</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>A few points I would like to mention:</p>
+
+<ul>
+  <li>Debugging:
+Throwing Exceptions can be useful, or using debuggers.<br />
+A good ol’ print statement is always the master weapon in debugging. If you do write a lot of print statements for cleaning up your code, these constitute of code too, so instead of removing them when you’re done or commenting them out, use conditionals. Example:</li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="kt">int</span> <span class="n">debugging</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="cp">#define deb(x)                        \
+  if(debugging)                       \
+    std::cout &lt;&lt; #x &lt;&lt; " : " &lt;&lt; x;    \
+</span></code></pre></div></div>
+
+<ul>
+  <li>
+    <p>Keep your env clean. Use Zen Mode if you have dual monitors, else hide out all bars in your text editor. This will keep you focussed more than you would be, and you’ll appreciate the look too.</p>
+  </li>
+  <li>
+    <p>First and foremost, go through the STL Blog, or my GitHub repo summarizing and enhancing that. I learnt a lot there.
+Macros will save you huge time. Build your own macro for showing one variable, two variable, and any STL container’s contents. Use debugging bool. Keep a .hpp file saved somewhere, containing all your macros. I have uploaded mine, check that out. If you plan to use that in CP, I recommend making a initiator template, containing all these macros.</p>
+  </li>
+  <li>
+    <p>Do install Kite. It’s extremely useful if you hate googling for every small stuff you don’t remember. I know your pain.</p>
+  </li>
+  <li>
+    <p>Go through all Data Structures and DP next. Then graph specific algorithms. This covers upto Level C in a SRM in CP contests.</p>
+  </li>
+</ul>]]></content><author><name>Anshuman Barnwal</name></author><category term="dsa" /><category term="resources" /><summary type="html"><![CDATA[This is my set of resources and shortcuts for going through Data Structures and Algorithms. You’ll find them well-compiled, and maybe not that expected.]]></summary></entry><entry><title type="html">Ethereum and BlockChains</title><link href="/2021/10/ethereum-and-blockchains/" rel="alternate" type="text/html" title="Ethereum and BlockChains" /><published>2021-10-08T00:00:00+00:00</published><updated>2021-10-08T00:00:00+00:00</updated><id>/2021/10/ethereum-and-blockchains</id><content type="html" xml:base="/2021/10/ethereum-and-blockchains/"><![CDATA[<p>Yeah, This is the part of a project I took up in the Summers of 2021. We were being introduced to BlockChains, especially, Ethereum (ETH). Let’s introduce that to you too!</p>
+
+<!---->
+
+<p>First of all, <strong>AltCoins</strong> are all cryptocurrencies other than Bit-coin.  Why do we need any AltCoins, if Bit-coin is working fine?</p>
+
+<p>The answer is quite wide of course, but the basic idea of cryptocurrencies, and blockchains in general is the idea of decentralization.  Introduction of more such crypto-currencies, have enforced this underlying principle of blockchains. Also, Bit-coin still inherits flaws that couldn’t be predicted by its anonymous creator <a href="https://en.wikipedia.org/wiki/Satoshi_Nakamoto">Satoshi Nakamoto</a>, including being and inflexible. Now moving on to the point of discussion.</p>
+
+<h2 id="ethereum">Ethereum</h2>
+
+<p><strong><a href="https://en.wikipedia.org/wiki/Ethereum">Ethereum</a></strong> is a decentralized, open-source blockchain with smart contract functionality. <strong>ETH</strong>(Ether) is the actual cryptocurrency involved in this blockchain system.  Ethereum is the most active blockchain in the world, currently. It is actively used to create and host decentralized apps, or <a href="https://ethereum.org/en/dapps/#what-are-dapps">Dapps</a>, which actually are Smart Contracts.  Its creator are Vitalik Buterin and <a href="https://en.wikipedia.org/wiki/Gavin_Wood">Gavin Wood</a>, and this was initially community funded.  The idea of Ethereum was mainly to implement the smart contract system, and The platform allows developers to build and operate decentralized applications that any user can interact with. It has become a battle-tested platform on which other tokens can build-over.</p>
+
+<p>There are some standards over which smart contracts started getting standardised:</p>
+
+<ul>
+  <li>ERC-20 : Fungible Tokens</li>
+  <li>ERC-721 : Non-fungible Tokens.</li>
+  <li>ERC-1155 : Best of both standards.</li>
+</ul>
+
+<p>Fungiblity refers to being like a denomination of a currency. All tokens of the same denomination accounts for the same value. Non-fungible therefore refers to each token being unique on its own, and this type of token is useful to assign value to art-forms and physical entities.  This standardization was necessary and a community decision, cause of rampant smart contracts surfacing each day, with no good means to compare to each other.   Another great thing about Ethereum over Bit-coin is, its going to implement <em>proof of stake</em> in <em>Ethereum 2.0</em>, which is far more efficient consensus, but not much hardened against exploitation.</p>
+
+<h2 id="smart-contracts">Smart Contracts</h2>
+
+<p>We need to talk about this, before moving on.  Smart contracts, as the term suggests, are literally contracts, a piece of code, program, which is instructed beforehand to perform something once some pre-planned conditions are met, and the main idea is that the implementation itself requires no third-party. The contract decides itself, when to execute, and its execution is transmitted everywhere.  More formally, <a href="https://www.ibm.com/in-en/topics/smart-contracts">Smart contracts</a> are event-driven code contracts with state attributes, used to automate the execution of a pre-made-agreement so that all participants can be immediately certain of the outcome, without intermediary involvement or time delay.  Such guarantees are there because of this is implemented on a blockchain. The blockchain itself is updated when this transaction takes place, and therefore no-one can deny its happening, and parties who are granted permission can see the results.    A layman’s analogy of a smart contract is a vending machine. Insert a coin (feedback), the vending machine was designed (programmed) such as it would deliver (transactions) your drinks (assets) according to the feedback, without anyone’s intervention.</p>
+
+<h2 id="ethereum-virtual-machine">Ethereum Virtual Machine</h2>
+
+<p>This concept has transformed what cryptocurrencies are meant for. It takes the idea of a blockchain, beyond the ledger meaning, and enabling to take decisions, given some initial code and feedback. This decision, once all requirements are achieved, is fail-safe, literally. Therefore Ethereum is called a distributed <a href="https://en.wikipedia.org/wiki/Finite-state_machine">state machine</a>, not just a decentralized ledger, that just tracks transactions.<br />
+A state machine/finite state machine is, abstractly and in mathematical terms, is a model that can be in exactly one of a finite number of states at any given time. Fixed and unique state at a time, i.e. its configurations but in a broader sense.  A state machine can change from one state to another in response to some inputs; the change from one state to another is called a transition. Such a model is completely defined by a list of its states, its initial state, and the inputs that trigger each transition.  Ethereum’s state is a large data structure which holds not only all accounts and balances, but a machine state, which can change from block to block according to a pre-defined set of rules, and which can execute arbitrary machine code.</p>
+
+<p>Ethereum Virtual Machine(referred to as EVMs), therefore being a <code class="language-plaintext highlighter-rouge">State Machine</code>, that too decentralized, therefore has some remarkable features.</p>
+
+<ul>
+  <li>Can execute without failing if the pre-requisites are met.</li>
+  <li>Extremely flexible as can include arbitrary code.</li>
+  <li>Can’t be down due to any kind of local problems, because of decentralization.</li>
+  <li>All costs and value circulation are confin</li>
+</ul>
+
+<p>This feature of Ethereum, being a state machine, enables smart contract implementation, in a practical manner. As mentioned prior, Smart contracts intrinsically contain state attributes  Therefore being deployed on a state machine, they are quite reliable. Let’s compare to a case when a smart contract is deployed on a regular network (still decentralized). The code would still be available to everyone, but because there is no concept of ‘state’, there is always a possibility to reverse the decision and execution of the contract, cause the network doesn’t know if the execution had taken place. Note that I am talking about the network itself, not the nodes.  Therefore Ethereum is unique, needed as a blockchain, and as a platform that can manage smart contracts.</p>
+
+<h2 id="solidity">Solidity</h2>
+
+<p>Another programming language! One might ask, why do we need this, as Solidity is often described as a child language of JavaScript, C and Python. Take a look at the <a href="https://docs.soliditylang.org/en/v0.8.5/">official documentation</a>.</p>
+
+<blockquote>
+  <p>Solidity is a statically-typed curly-braces programming language designed for developing smart contracts that run on the Ethereum Virtual Machine. Smart contracts are programs that are executed inside a peer-to-peer network where nobody has special authority over the execution.</p>
+</blockquote>
+
+<p>Solidity was created for implementing smart contracts in the first place, that too efficiently, securely and syntactically flexible as can be.  The field of smart contracts is sensitive, handling billions worth of value, and strict measures have to be taken, and being secure is the priority.</p>
+
+<p>This led to a few uncommon features about solidity (found while doing this project):</p>
+
+<p><strong>No Back-Compatibility</strong>  The first thing one would encounter while being introduced to Solidity is:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pragma</span> <span class="n">solidity</span> <span class="o">^</span><span class="mi">0</span><span class="p">.</span><span class="mi">8</span><span class="p">.</span><span class="mi">0</span>
+</code></pre></div></div>
+
+<p>We are declaring compiler version with which the contract in context is compatible with. Why? Its not common, at least wasn’t for me. The reason is the topic. All compilers are updated, new versions are launched, but most compilers support their previously handled commands, which might have been deprecated. But that leads to inheriting previous flaws and exceptions as well.  This can’t be done in case of smart contracts. Any vulnerability, is a vulnerability, can be exploited so way or the other.  Therefore while creating your contract you have to designate the compatible compilers which your code can run on, and it is recommended to go for the latest <a href="https://github.com/ethereum/solidity/releases">compiler</a>, unless you know what you are doing.</p>
+
+<p><strong>No Support for Floating numbers</strong>  Vanilla Solidity doesn’t support floating point! There are some external libraries which can implement that, but none of them is official. Strange? π is literally 3 here, natively.  This is from the updated documentation:</p>
+
+<blockquote>
+  <p>“Fixed point numbers are not fully supported by Solidity yet. They can be declared, but cannot be assigned to or from.”</p>
+</blockquote>
+
+<p>But of course you can work-around this <em>minor</em> drawback. Actually, EVM itself doesn’t support floating points. You will have to understand floats implementation to understand why, here is the <a href="https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html">link</a>.  For the workarounds, this <a href="https://www.reddit.com/r/ethdev/comments/8fo6po/the_lack_of_decimalsfloatdouble_in_solidity_is/">dialogue</a> explains how to concisely:</p>
+
+<ul>
+  <li><em>Bob</em>: Please EVM 3/2=?</li>
+  <li><em>EVM</em>: Lol, 1.</li>
+  <li><em>Bob</em>: Ok… what about 3000/2=?</li>
+  <li><em>EVM</em>: Easy; 1500.</li>
+</ul>
+
+<p>See? Manipulating numbers a bit would manage most of the calculations that one would be needed to perform, satisfactorily. You multiply by how many decimals you want to be precise to first, e.g. 10<sub><sup>18</sup></sub> do your calculation, then divide to remove the extra decimals.  It’s more precise and better for financial calculations.</p>
+
+<p><strong>Several Numeric Types</strong>  Precisely, <a href="https://medium.com/coinmonks/math-in-solidity-part-1-numbers-384c8377f26d">5,248</a>. Yes, according to the documentation, there are 32 signed integer, 32 unsigned integer, 2592 signed fixed-point, and 2592 unsigned fixed-point types. JavaScript has only two numeric types. Python 2 used to have four, but in Python 3 type “long” was dropped, so now there are only three. Java has seven and C++ has something about fourteen.  So many data types, and still can’t support floating points. This has a reason. Common types used in other languages are quite flexible, but inherit weird semantics of underlying CPU instructions, like silent over- and underflow, asymmetric range, binary fractions, byte ordering issues etc. Straightforward usage makes the program vulnerable, and secure usage renders it unreadable.  Actually, EVM natively supports two data-types, 256-bit word and 8-bit byte. Therefore it supports 2 numeric types originally, signed 256-bit and unsigned 256-bit integers.  All data-types of int in solidity are just multiples of 8. Assigning so many different spaced numeric types made this more flexible, as we have to save space and computational power consumed, as much as possible.</p>
+
+<p><strong>Usual Arithmetic avoided</strong>  Solidity does support all usual arithmetic symbols, but there use for calculations are not recommended. This is unusual, but again, needed for being more secure.  There is a <code class="language-plaintext highlighter-rouge">SafeMath</code> Library in Solidity, whose source code you can look up right <a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/SafeMath.sol">here</a>. Its implementation is trivial, nearly too trivial to be thought as needed.  Arithmetic operations in Solidity wrap on overflow. This can easily result in bugs, because programmers usually assume that an overflow raises an error, which is the standard behavior in high level programming languages. <code class="language-plaintext highlighter-rouge">SafeMath</code> restores this intuition by reverting the transaction when an operation overflows. Using this library instead of the unchecked operations eliminates an entire class of bugs, so it’s recommended to use it always.</p>
+
+<p>This list can maybe go on, but these points are what I came across during this <a href="https://github.com/ba-13/GameOfBlocks2021">project</a>.  Else, Solidity is a neat language, actually quite similar to Javascript, and extremely intuitive keywords.</p>
+
+<h2 id="path-to-choose-ahead">Path to Choose Ahead</h2>
+
+<p>For getting started with Solidity, which is a language, for smart contracts, you would require a network. Your contract may be deployed directly to the official Ethereum Virtual Machine, which would cost you ETH and Gas, but as a beginner, one is recommended to use <a href="http://remix.ethereum.org">REMIX</a>, an online IDE made for the development of Smart Contracts. You can move directly to local compilers that deploy your contract to popular public test networks: <a href="https://ropsten.etherscan.io/">Ropsten</a>, <a href="https://goerli-faucet.slock.it/">Göerli</a>, <a href="https://faucet.kovan.network/">Kovan</a>, and <a href="https://www.rinkeby.io/">Rinkeby</a>. All of these networks can be accessed via Infura’s <a href="https://infura.io/">API</a>.  We developed basic smart contracts through REMIX, so would explain about that.</p>
+
+<p><img src="https://newpov13.files.wordpress.com/2021/09/remixe1.png" alt="Remix IDE" /></p>
+
+<p>Pardon my squiggles. The above picture briefly explains what remix is all about, as a beginner. Write your contract, syntax is intuitive as said before, compile, then choose your virtual environment on which you want to deploy this on (in this case, JavaScript VM), choose one of the 15 addresses Remix provides by default, then Deploy, and interact with the contract by exchanging addresses, taking care of the Debug terminal at the bottom.  There is a section on left column, Gas consumed. We have to care for computational power, as it is equivalent to spending ETH.  Note the License declaration at the top of the .sol file, the extension of solidity files.  From <code class="language-plaintext highlighter-rouge">Solidity^0.6.8</code> SPDX License is introduced, which needs to be in a contract before being deployed.<br />
+You’re good to get started with Solidity!</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="project-report" /><category term="ETH" /><category term="solidity" /><summary type="html"><![CDATA[Yeah, This is the part of a project I took up in the Summers of 2021. We were being introduced to BlockChains, especially, Ethereum (ETH). Let’s introduce that to you too!]]></summary></entry></feed>
