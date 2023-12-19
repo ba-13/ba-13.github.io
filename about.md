@@ -6,11 +6,11 @@ layout: page
 
 <!-- > Things that you choose, are the best you could ever have had.. -->
 
-<span style="font-size: 2rem;">H</span>eyo! My Name is **Anshuman Barnwal**, earlier known as _B. Anshuman_; You may call me either.  
+<span style="font-size: 2rem;">H</span>eyo! My Name is **Anshuman Barnwal**, earlier known as **B. Anshuman**; You may call me either.  
 Currently a Senior, I am majoring in `Electrical Engineering` from `IIT Kanpur`.  
-I am, by default, curious in nature.
+Default, I am curious in nature.
 
-> Choices makes oneself not just any stone
+> Creativity is paramount to what makes us humans.
 
 I am from Ranchi, Jharkhand, studied in `Jawahar Vidya Mandir, Shyamali`, and had invested my childhood in checking out RPGs and FPV games, reading Dahl, being teachers favourite. Standard X was consumed in preparation of National Talent Search Exam (NTSE), while XI, XII went in the preparation of JEE which got me in IITK where I'm right now.
 
