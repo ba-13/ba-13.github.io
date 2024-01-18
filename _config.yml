@@ -1,7 +1,7 @@
 title: "Domus"
 author: "Anshuman Barnwal"
 # description: 'Made with <b style="color: #f45;">&lt;3</b>'
-description: "Godot Gains"
+description: "Backend Booze"
 permalink: /:year/:month/:title/
 lang: "en"
 excerpt_separator: "<!---->"

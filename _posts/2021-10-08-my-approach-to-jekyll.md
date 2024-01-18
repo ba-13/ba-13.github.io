@@ -19,7 +19,14 @@ Install `ruby` with
 sudo apt-get update -y && sudo apt-get upgrade -y
 sudo apt-add-repository ppa:brightbox/ruby-ng
 sudo apt-get update
-sudo apt-get install ruby2.5 ruby2.5-dev build-essential dh-autoreconf
+sudo apt-get install ruby-full build-essential zlib1g-dev
+gem install jekyll bundler
+
+echo '# Install Ruby Gems to ~/gems' >> ~/.bashrc
+echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc
+echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+
 gem update
 gem install jekyll bundler # installing jekyll and bundler
 ```

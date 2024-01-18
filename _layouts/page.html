@@ -4,4 +4,9 @@ layout: default
 <article>
   <header><h1><a href="{{ page.url | relative_url }}">{{ page.title }}</a></h1></header>
   {{ content }}
+  <div class="tags in-post-tags">
+    {% for tag in page.tags %}
+    <div class="tag-inside">{{ tag }}</div>
+    {% endfor %}
+  </div>
 </article>
