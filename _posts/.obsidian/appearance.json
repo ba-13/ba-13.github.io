@@ -1,0 +1,12 @@
+{
+  "accentColor": "",
+  "theme": "obsidian",
+  "textFontFamily": "Ubuntu,Ubuntu Condensed,Roboto",
+  "monospaceFontFamily": "Ubuntu Mono",
+  "baseFontSize": 20,
+  "interfaceFontFamily": "Ubuntu",
+  "enabledCssSnippets": [
+    "big-math"
+  ],
+  "cssTheme": "Obsidian gruvbox"
+}

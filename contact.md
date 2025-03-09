@@ -6,8 +6,8 @@ title: "contact"
 
 <div style="margin-bottom: 1rem;">
   Thanks for your time here, hope you found what you were looking for. <br />
-  You're always invited at my actual residence, right now that is <b>H211 - Hall 9, IIT Kanpur</b>. <br />
-  Fill up the form below. I promise, I check it every year!
+  You're always invited at my actual residence, right now that is <b>Bergacker 47, Zürich</b>. <br />
+  Fill up the form below. I check it once in a while.
 </div>
 
 <details>
@@ -19,8 +19,7 @@ title: "contact"
   </div>
 </details>
 <div style="margin-top: 1rem;">
-  You can also always contact me at any of the handles in footer. <br />
-  Let's hear from you. Later.
+  Let's hear your story now.
 </div>
 
 <style>

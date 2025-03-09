@@ -1,8 +1,10 @@
 ---
 layout: post
-title: "How to approach Jekyll"
+title: How to approach Jekyll
 excerpt-separator: <!---->
-tags: basics static-site
+tags:
+  - basics
+  - web-dev
 ---
 
 This is my introduction to the world of static sites, and how intuitive you can make them.  

@@ -1,12 +1,12 @@
 ---
 permalink: /projects/
 layout: entry
-title: "Projects"
+title: "projects"
 ---
 
 <hr style="border:2px solid gray">
 
-## 2023
+# 2023
 
 <hr style="border:2px solid gray">
 
@@ -40,7 +40,7 @@ The problem this time was tackled by 4 juniors and 6 sophomores, a High Prep pro
 
 <hr style="border:2px solid gray">
 
-## 2022
+# 2022
 
 <hr style="border:2px solid gray">
 
@@ -103,7 +103,7 @@ Moving back to actually building a drone, making it convenient enough for regula
 
 <hr style="border:2px solid gray">
 
-## 2021
+# 2021
 
 <hr style="border:2px solid gray">
 
