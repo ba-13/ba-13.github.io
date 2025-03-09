@@ -1,0 +1,219 @@
+[
+  
+    {
+      "title"    : "Handling i3",
+      "category" : "",
+      "tags"     : "window-manager, convenience",
+      "url"      : "/2023/11/i3/",
+      "date"     : "2023-11-04 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Setting up GLFW Locally",
+      "category" : "",
+      "tags"     : "local, build, glfw, graphics",
+      "url"      : "/2023/09/building-glfw/",
+      "date"     : "2023-09-17 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Weights Traversal",
+      "category" : "",
+      "tags"     : "intuition, optimization",
+      "url"      : "/2023/09/sgd/",
+      "date"     : "2023-09-12 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Flash Baron",
+      "category" : "",
+      "tags"     : "vocabulary, gre, software",
+      "url"      : "/2023/09/flash-baron/",
+      "date"     : "2023-09-03 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Short and Frequent",
+      "category" : "",
+      "tags"     : "meta, update",
+      "url"      : "/2023/08/shorterposts/",
+      "date"     : "2023-08-27 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Corporate Internship Experience",
+      "category" : "",
+      "tags"     : "summers, project, goldman-sachs",
+      "url"      : "/2023/07/goldman-sachs/",
+      "date"     : "2023-07-25 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Takneek 2022",
+      "category" : "",
+      "tags"     : "project, iitk, simulation",
+      "url"      : "/2023/03/takneek-macpen/",
+      "date"     : "2023-03-20 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Processor Simulation in IVerilog",
+      "category" : "",
+      "tags"     : "project, iitk, comp-arch, simulation",
+      "url"      : "/2023/03/mips-processor/",
+      "date"     : "2023-03-01 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "First take on Data Processing",
+      "category" : "",
+      "tags"     : "dsp, basics, fourier-analysis",
+      "url"      : "/2023/02/dsp1/",
+      "date"     : "2023-02-23 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Logic Locking breakthrough",
+      "category" : "",
+      "tags"     : "project, iitk, security",
+      "url"      : "/2023/02/wfsm-strategy/",
+      "date"     : "2023-02-20 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "InterIIT Techmeet 11.0",
+      "category" : "",
+      "tags"     : "project, iitk, interiit, aerial-robotics",
+      "url"      : "/2023/02/interiit-11/",
+      "date"     : "2023-02-20 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Periodic Writer",
+      "category" : "",
+      "tags"     : "convenience, cron",
+      "url"      : "/2023/02/crontab/",
+      "date"     : "2023-02-15 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Pick up and Delivery",
+      "category" : "",
+      "tags"     : "project, iitk, hardware, aerial-robotics",
+      "url"      : "/2023/01/shaastra/",
+      "date"     : "2023-01-20 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "MPC Autonomous Landing",
+      "category" : "",
+      "tags"     : "project, iitk, simulation, aerial-robotics",
+      "url"      : "/2022/12/mpc-landing/",
+      "date"     : "2022-12-20 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Balanced DCCA for Bird Vocalization Detection",
+      "category" : "",
+      "tags"     : "project, machine-learning",
+      "url"      : "/2022/10/bdcca/",
+      "date"     : "2022-10-30 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Revival of Aerial Robotics",
+      "category" : "",
+      "tags"     : "project, iitk, hardware, aerial-robotics",
+      "url"      : "/2022/10/phoenix/",
+      "date"     : "2022-10-20 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Internship Drive",
+      "category" : "",
+      "tags"     : "dsa",
+      "url"      : "/2022/08/intern-drive/",
+      "date"     : "2022-08-10 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Few Shot Learning",
+      "category" : "",
+      "tags"     : "summers, project, iitk",
+      "url"      : "/2022/06/few-shot-learning/",
+      "date"     : "2022-06-30 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "HackIT Summer Project Offering",
+      "category" : "",
+      "tags"     : "project, iitk, teach, pclub",
+      "url"      : "/2022/06/hackit/",
+      "date"     : "2022-06-25 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Friend in Need",
+      "category" : "",
+      "tags"     : "project, iitk, machine-learning",
+      "url"      : "/2022/06/ipl-nomura/",
+      "date"     : "2022-06-10 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "InterIIT Techmeet 10.0",
+      "category" : "",
+      "tags"     : "project, iitk, interiit, pclub",
+      "url"      : "/2022/03/interiit-10/",
+      "date"     : "2022-03-30 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Direction of Arrival Estimation",
+      "category" : "",
+      "tags"     : "project, iitk, machine-learning",
+      "url"      : "/2022/02/direction-arrival/",
+      "date"     : "2022-02-10 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "First take on Haskell",
+      "category" : "",
+      "tags"     : "basics, functional, haskell",
+      "url"      : "/2021/12/haskell-1/",
+      "date"     : "2021-12-23 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Usual Collection for DSA",
+      "category" : "",
+      "tags"     : "dsa, resources",
+      "url"      : "/2021/10/revise-dsa/",
+      "date"     : "2021-10-12 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "How to approach Jekyll",
+      "category" : "",
+      "tags"     : "basics, web-dev",
+      "url"      : "/2021/10/my-approach-to-jekyll/",
+      "date"     : "2021-10-08 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Ethereum and BlockChains",
+      "category" : "",
+      "tags"     : "project, iitk, solidity",
+      "url"      : "/2021/10/ethereum-and-blockchains/",
+      "date"     : "2021-10-08 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Hello, World!",
+      "category" : "",
+      "tags"     : "update",
+      "url"      : "/2021/10/hello-world/",
+      "date"     : "2021-10-01 00:00:00 +0000"
+    } 
+  
+]

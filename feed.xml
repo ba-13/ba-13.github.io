@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-03-09T16:52:43+00:00</updated><id>/feed.xml</id><title type="html">Anshuman Barnwal</title><subtitle>Optimize Opinions</subtitle><author><name>Anshuman Barnwal</name></author><entry><title type="html">Handling i3</title><link href="/2023/11/i3/" rel="alternate" type="text/html" title="Handling i3" /><published>2023-11-04T00:00:00+00:00</published><updated>2023-11-04T00:00:00+00:00</updated><id>/2023/11/i3</id><content type="html" xml:base="/2023/11/i3/"><![CDATA[<p>Recently I was being short of RAM, and saw gnome consuming as much as 6GB at startup!<br />
+So I tried i3 window manager, and am all in now. No going back.</p>
+
+<!---->
+
+<h2 id="uniqueness">Uniqueness</h2>
+
+<p>Cutting short, <code class="language-plaintext highlighter-rouge">i3-wm</code> allows you to customize how your filesystem and your interactions with screens and windows, while being very mild to your processing power. A fully functional startup would consume as low as 1.4G RAM. Also it’s tiling behaviour allows you to organise your windows in manner and ease not possible in floating windows managers like gnome. Also creating everything yourself using basic structures induces <a href="https://en.wikipedia.org/wiki/IKEA_effect">ikea effect</a>, making you praise what you made more than it’s value!</p>
+
+<p>You would be able to:</p>
+
+<ul>
+  <li>Create your own dock (using <code class="language-plaintext highlighter-rouge">i3status</code> or <code class="language-plaintext highlighter-rouge">i3blocks</code>) that displays info you choose to see</li>
+  <li>Create your own application launcher using <code class="language-plaintext highlighter-rouge">rofi</code></li>
+  <li>Handle applications spawning in different workspaces</li>
+  <li>Open multiple applications in a single screen, handling their scaling and sizing with declarative means instead of dragging or panning</li>
+</ul>
+
+<h3 id="assuming">Assuming</h3>
+
+<p>You’re using <code class="language-plaintext highlighter-rouge">Ubuntu</code> or any <code class="language-plaintext highlighter-rouge">Debian</code> based linux-distro.<br />
+Otherwise only installation parts would differ, you can follow the rest as is.</p>
+
+<p>It would be great if you get acquainted with working with vim.<br />
+Check out <code class="language-plaintext highlighter-rouge">vimtutor</code> directly on your terminal to get through vim keyboard bindings.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>Install <code class="language-plaintext highlighter-rouge">i3</code> using</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>i3 <span class="nt">-y</span>
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>i3-wm i3status i3lock suckless-tools
+</code></pre></div></div>
+
+<p>Now logout and in the screen where you are prompted for a password, check the bottom-right for a settings ⚙️ symbol. Choose the option <code class="language-plaintext highlighter-rouge">i3</code> and now login.</p>
+
+<p>You would face <code class="language-plaintext highlighter-rouge">i3-config-wizard</code> upon initialization. Choose <code class="language-plaintext highlighter-rouge">mod</code> key as the win key and NOT the alt key because this creates a lot more possible key combinations.</p>
+
+<details>
+<summary>
+You would be greeted by:
+</summary>
+<img src="/images/i3/initial_screen.png" />
+<details>
+<summary>
+Yes there's a bit more work until it becomes like:
+</summary>
+<img src="/images/i3/final_screen.png" />
+</details>
+</details>
+
+<h2 id="config">Config</h2>
+
+<p>Check out <code class="language-plaintext highlighter-rouge">~/.config/i3/config</code> file for the default configuration you saw before.<br />
+Now replace the file with the following:</p>
+<details>
+<summary><b>config file</b></summary>
+<script src="https://gist.github.com/ba-13/454797f5c6cff820fda936724f22bc20.js"></script>
+</details>
+
+<p>In the above, take care to change the path to your wallpaper picture by replacing Line 197. I adopted screenshot keys from <a href="https://gist.github.com/dianjuar/ee774561a8bc02b077989bc17424a19f">here</a></p>
+
+<h2 id="dependencies">Dependencies</h2>
+
+<p>In order to make everything run, install the following</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>rofi   <span class="c"># application runner</span>
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>brightnessctl <span class="c"># controls brightness</span>
+<span class="c"># give yourself permissions to change brightness</span>
+<span class="nb">sudo </span>usermod <span class="nt">-aG</span> video <span class="k">${</span><span class="nv">USER</span><span class="k">}</span> 
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>i3blocks <span class="c"># change dock from i3status to i3blocks</span>
+<span class="nb">sudo </span>apt <span class="nb">install </span>lxappearance <span class="c"># give more flexibility in appearance</span>
+<span class="nb">sudo </span>apt <span class="nb">install </span>feh <span class="c"># allow setting wallpapers</span>
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>maim <span class="c"># take screenshots</span>
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>xclip <span class="c"># copy to clipboard</span>
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>pavucontrol <span class="c"># change audio controls</span>
+</code></pre></div></div>
+
+<h2 id="anomalies">Anomalies</h2>
+
+<p>If you face the problem of having every text/icon too small to read, check scaling i3 screen: <a href="https://unix.stackexchange.com/questions/267885/how-do-i-scale-i3-window-manager-for-my-hidpi-display">here</a></p>
+
+<p>If font doesn’t come up correctly, follow correcting font:</p>
+
+<ul>
+  <li>Re-run <code class="language-plaintext highlighter-rouge">i3-config-wizard</code></li>
+  <li>unzip fontawesome-free-6.1.1-web.zip</li>
+  <li>unzip YosemiteSanFranciscoFont-master.zip</li>
+  <li>sudo apt install lxappearance</li>
+  <li>Edit Font at <code class="language-plaintext highlighter-rouge">~/.gtkrc-2.0</code> and <code class="language-plaintext highlighter-rouge">~/.config/gtk-3.0/settings.ini</code></li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Get used to the keyboard shortcuts assigned inside the <code class="language-plaintext highlighter-rouge">config</code> file you set up above, some include</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Functionality</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">$mod+enter</code></td>
+      <td>Open default terminal</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">$mod+j</code></td>
+      <td>Switch focus to window on right, similarly works for <code class="language-plaintext highlighter-rouge">k l ;</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">$mod+shift+j</code></td>
+      <td>Switch position with window on right, similarly works for <code class="language-plaintext highlighter-rouge">k l ;</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">$mod+1</code></td>
+      <td>Change workspace to 1, similarly works from <code class="language-plaintext highlighter-rouge">1 2..9 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">$mod+D</code></td>
+      <td>Open application launcher, can use <code class="language-plaintext highlighter-rouge">Ctrl+Tab</code> here</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">$mod+w</code></td>
+      <td>Make all windows within this workspace tabbed</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">$mod+e</code></td>
+      <td>Make all windows within this workspace tiled</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">$mod+s</code></td>
+      <td>Make all windows within this workspace stacked</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">$mod+shift+q</code></td>
+      <td>Quit the focussed window</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">$mod+r</code></td>
+      <td>enter resize mode, can use <code class="language-plaintext highlighter-rouge">j k l ;</code> to resize in those directions</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">PrtScrn</code></td>
+      <td>Full Screen screenshot save to <code class="language-plaintext highlighter-rouge">~/Pictures</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Shift</code> + <code class="language-plaintext highlighter-rouge">PrtScrn</code></td>
+      <td>Selection screenshot save to <code class="language-plaintext highlighter-rouge">~/Pictures</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Super</code> + <code class="language-plaintext highlighter-rouge">PrtScrn</code></td>
+      <td>Active Window screenshot save to <code class="language-plaintext highlighter-rouge">~/Pictures</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Ctrl</code> + <code class="language-plaintext highlighter-rouge">PrtScrn</code></td>
+      <td>Full Screen screenshot save to clipboard</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Ctrl</code> + <code class="language-plaintext highlighter-rouge">Shift</code> + <code class="language-plaintext highlighter-rouge">PrtScrn</code></td>
+      <td>Selection screenshot save to clipboard</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Ctrl</code> + <code class="language-plaintext highlighter-rouge">Super</code> + <code class="language-plaintext highlighter-rouge">PrtScrn</code></td>
+      <td>Active Window screenshot save to clipboard</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>I hope you appreciate this workstyle!</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="window-manager" /><category term="convenience" /><summary type="html"><![CDATA[Recently I was being short of RAM, and saw gnome consuming as much as 6GB at startup! So I tried i3 window manager, and am all in now. No going back.]]></summary></entry><entry><title type="html">Setting up GLFW Locally</title><link href="/2023/09/building-glfw/" rel="alternate" type="text/html" title="Setting up GLFW Locally" /><published>2023-09-17T00:00:00+00:00</published><updated>2023-09-17T00:00:00+00:00</updated><id>/2023/09/building-glfw</id><content type="html" xml:base="/2023/09/building-glfw/"><![CDATA[<p>I wanted to get started working with OpenGL, with context handling using a local build of GLFW.<br />
+Here’s how to setup perfectly.</p>
+
+<!---->
+
+<h2 id="opengl-setup">OpenGL Setup</h2>
+
+<p>First things first, Install OpenGL Development Libraries.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt <span class="nb">install </span>mesa-common-dev libgl1-mesa-dev
+</code></pre></div></div>
+
+<p>To check if correctly available</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>mesa-utils
+glxinfo | <span class="nb">grep</span> <span class="s2">"OpenGL version"</span>
+</code></pre></div></div>
+
+<h2 id="glfw-setup">GLFW Setup</h2>
+
+<p>Great. Now create an empty directory, suppose <code class="language-plaintext highlighter-rouge">~/project/</code>. This will contain all the project and it’s dependencies
+apart from OpenGL libraries. Clone GLFW in it.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/project
+git clone git@github.com:glfw/glfw.git
+</code></pre></div></div>
+
+<p>You have the source ready! Build this to libraries that you can link using</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmake <span class="nt">-DCMAKE_INSTALL_PREFIX</span>:PATH<span class="o">=</span><span class="nb">.</span> <span class="nt">-B</span> ./glfw-build <span class="nt">-S</span> ./glfw
+<span class="nb">cd </span>glfw-build
+make
+make <span class="nb">install</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">CMAKE_INSTALL_PREFIX:PATH</code> is a predefined variable that points to the path where cmake would install the library to.
+Here you directed cmake to install the library at <code class="language-plaintext highlighter-rouge">.</code>, which while using <code class="language-plaintext highlighter-rouge">make install</code> is inside <code class="language-plaintext highlighter-rouge">~/project/glsl-build</code>.</p>
+
+<p>At this point your <code class="language-plaintext highlighter-rouge">glsl-build</code> would have <code class="language-plaintext highlighter-rouge">lib/cmake</code> directory inside that would contain <code class="language-plaintext highlighter-rouge">glfw3Configure.cmake</code> and <code class="language-plaintext highlighter-rouge">glfw3Targets.cmake</code>. These are necessary to let your main project find the <code class="language-plaintext highlighter-rouge">glfw</code> libraries.</p>
+
+<h2 id="code-setup">Code Setup</h2>
+
+<p>Now with <code class="language-plaintext highlighter-rouge">glfw</code> installed and ready, <code class="language-plaintext highlighter-rouge">cd ~/project</code> and create a bunch of folders and files</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>build src
+<span class="nb">touch </span>CMakeLists.txt src/main.cpp README.md
+</code></pre></div></div>
+
+<p>Copy over the <code class="language-plaintext highlighter-rouge">.cpp</code> file <a href="https://www.glfw.org/documentation.html">here</a> inside your <code class="language-plaintext highlighter-rouge">main.cpp</code>.
+Also copy over the following to your <code class="language-plaintext highlighter-rouge">CMakeLists.txt</code></p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">CMAKE_MINIMUM_REQUIRED</span><span class="p">(</span>VERSION 3.7<span class="p">)</span>
+<span class="nf">PROJECT</span><span class="p">(</span>project<span class="p">)</span>
+
+<span class="nf">SET</span><span class="p">(</span>CMAKE_CXX_STANDARD 14<span class="p">)</span>
+<span class="nf">SET</span><span class="p">(</span>CMAKE_BUILD_TYPE DEBUG<span class="p">)</span>
+
+<span class="nf">SET</span><span class="p">(</span>CMAKE_PREFIX_PATH <span class="si">${</span><span class="nv">CMAKE_PREFIX_PATH</span><span class="si">}</span> ~/project/glfw-build/lib/cmake<span class="p">)</span>
+
+<span class="nf">FIND_PACKAGE</span><span class="p">(</span>glfw3 REQUIRED<span class="p">)</span>
+<span class="nf">FIND_PACKAGE</span><span class="p">(</span>OpenGL REQUIRED<span class="p">)</span>
+
+<span class="nf">SET</span><span class="p">(</span>SOURCE_FILES src/main.cpp<span class="p">)</span>
+
+<span class="nf">ADD_EXECUTABLE</span><span class="p">(</span>project <span class="si">${</span><span class="nv">SOURCE_FILES</span><span class="si">}</span><span class="p">)</span>
+<span class="nf">TARGET_LINK_LIBRARIES</span><span class="p">(</span>project glfw GL<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Note that <code class="language-plaintext highlighter-rouge">CMAKE_PREFIX_PATH</code> specifies where to look for custom <code class="language-plaintext highlighter-rouge">cmake</code> files to libraries you want to include.
+<code class="language-plaintext highlighter-rouge">TARGET_LINK_LIBRARIES</code> specify the executable should be linked to which libraries. You can check out what keyword to mention, e.g. here <code class="language-plaintext highlighter-rouge">glfw</code>, from <code class="language-plaintext highlighter-rouge">glfw3Targets.cmake</code>, where you’ll find a line <code class="language-plaintext highlighter-rouge">add_library(glfw STATIC IMPORTED)</code>, similarily for OpenGL.</p>
+
+<h2 id="building-project">Building Project</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/project/build
+cmake ..
+make
+</code></pre></div></div>
+
+<p>This would build the project.</p>
+
+<h2 id="vscode-setup">VSCode setup</h2>
+
+<p>So to ease development in <code class="language-plaintext highlighter-rouge">C++</code> (or any language per se), VSCode provides Intellisense, which essentially reads through headers/references/libraries you provide and helps you write code knowing the context. If your Intellisense is not setup well for your files,
+you would see</p>
+
+<p><img src="/images/building-glfw/red-squiggles.png" alt="Red Squiggles" /></p>
+
+<p>To clear this, create <code class="language-plaintext highlighter-rouge">mkdir ~/project/.vscode/</code> and <code class="language-plaintext highlighter-rouge">touch c_cpp_properties.json</code>.
+Fill that file with the following</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="dl">"</span><span class="s2">configurations</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Linux</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">includePath</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="dl">"</span><span class="s2">/usr/include/</span><span class="dl">"</span><span class="p">,</span>                        <span class="c1">// to include GL/gl.h</span>
+                <span class="dl">"</span><span class="s2">/usr/include/x86_64-linux-gnu</span><span class="dl">"</span><span class="p">,</span>        <span class="c1">// to include bits/types.h</span>
+                <span class="dl">"</span><span class="s2">${workspaceFolder}/**</span><span class="dl">"</span><span class="p">,</span>                <span class="c1">// default include, can remove</span>
+                <span class="dl">"</span><span class="s2">${workspaceFolder}/glfw-build/include</span><span class="dl">"</span> <span class="c1">// to include glfw headers</span>
+            <span class="p">],</span>
+            <span class="dl">"</span><span class="s2">defines</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="dl">"</span><span class="s2">__x86_64__</span><span class="dl">"</span>            <span class="c1">// declares this if preprocessor directive as true</span>
+            <span class="p">],</span>
+            <span class="dl">"</span><span class="s2">intelliSenseMode</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">linux-clang-x64</span><span class="dl">"</span>       <span class="c1">// default value</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="dl">"</span><span class="s2">version</span><span class="dl">"</span><span class="p">:</span> <span class="mi">4</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Each path you specify here, includes that in Intellisense’s path to check for header files.
+This will make your squiggles go away, and enable link jumps using <code class="language-plaintext highlighter-rouge">Ctrl</code> and Hovering above functions.</p>
+<blockquote>
+  <p>Try removing the above lines one at a time and see where Intellisense failed to pick headers from.</p>
+</blockquote>
+
+<h3 id="sidenote">Sidenote</h3>
+
+<p>Another feature of VSCode I actively use is <code class="language-plaintext highlighter-rouge">Go Forward</code> and <code class="language-plaintext highlighter-rouge">Go Back</code>. Open Keyboard Shortcuts using <code class="language-plaintext highlighter-rouge">Ctrl+K Ctrl+S</code>,
+type <code class="language-plaintext highlighter-rouge">Go Forward</code> and allot <code class="language-plaintext highlighter-rouge">Alt + RightArrow</code>, similarly for <code class="language-plaintext highlighter-rouge">Go Back</code> allot <code class="language-plaintext highlighter-rouge">Alt + LeftArrow</code>.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Once you had done the <code class="language-plaintext highlighter-rouge">Building Project</code> part, you should find an executable <code class="language-plaintext highlighter-rouge">~/project/build/project</code>, which should directly run to render a window titled “Hello World”. Note that GLFW is a minimal library that handles windows, OpenGL contexts and inputs gracefully.
+You still need to handle OpenGL on your own! But a clean setup should give you a boost.</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="local" /><category term="build" /><category term="glfw" /><category term="graphics" /><summary type="html"><![CDATA[I wanted to get started working with OpenGL, with context handling using a local build of GLFW. Here’s how to setup perfectly.]]></summary></entry><entry><title type="html">Weights Traversal</title><link href="/2023/09/sgd/" rel="alternate" type="text/html" title="Weights Traversal" /><published>2023-09-12T00:00:00+00:00</published><updated>2023-09-12T00:00:00+00:00</updated><id>/2023/09/sgd</id><content type="html" xml:base="/2023/09/sgd/"><![CDATA[<p>In Machine Learning models, our final optimization/goal usually ends in minimizing an objective function with respect to a set of model parameters, but what does that look like?</p>
+
+<!---->
+
+<h2 id="you-know-that">You know that</h2>
+
+<p>Our models are usually of the form \(f(X, \theta)\) where \(\theta\) is a set of parameters.
+Optimizing a loss \(\mathcal{L}(\theta)\) encapsulates the constraint you want your model to learn as a single metric. If the loss itself is made from differentiable functions’ compositions, then using derivatives/gradients or backpropagation in general can yield the nudge you may want to give each of your weights to perform better on your dataset.</p>
+
+<h2 id="loss-hypersurface">Loss hypersurface</h2>
+
+<p>\(\mathcal{L}(\theta)\) as you see it is actually \(\mathcal{L}(\theta, X, y)\), aka the loss value depends on the data in context. Whenever we are knudging the parameters \(\theta\), we are trying to optimize the value of that set of parameters such that the loss is minimised given \(X, y\).</p>
+
+<p>Now comes the fun part, the Stochastic Batch Gradient Descent as you know, takes a set of samples from your dataset \((X_B, y_B)\), and calculates loss as well as the gradients on that <em>particular</em> batch! Note how it changes things. Your initial need was to optimize loss on your whole training dataset, but you’re optimizing it just over a batch. That’s what makes it different. The hypersurface of  \(\mathcal{L}(\theta, X, y)\) v/s \(\theta\) is the key figure you need to keep in mind. There exists minima in its surface may and wouldn’t exactly coincide with the minima of \(\mathcal{L}(\theta, X_B, y_B)\). This is what leads to a different gradient than what it should be, inducing noise in your descent.</p>
+
+<p>Also the graph of Loss v/s Parameters usage doesn’t end here. It’s a good perspective to keep in mind while working with your loss function. The graph yields an idea about weight initialisation method.</p>
+
+<h2 id="better-weight-initialisation">Better Weight Initialisation</h2>
+
+<p>Assume you want to obtain \(\theta\) that’s regularised and that optimizes the loss function. During initialisation usually what’s done is drawing of particular \(\theta_0\) that is then used for furthur optimization via descent or other means. Also descent requires you to calculate the loss value (forward-propagation) followed by weight update via gradient calculation per weight (back-propagation).</p>
+
+<blockquote>
+  <p>What I propose that it might be helpful to define a \(R^{D}\) dimensional “cube” and perform a grid search over any refinement of your liking.</p>
+</blockquote>
+
+<p>Each grid vertex would correspond to a particular loss value. This would roughly give an idea of the location of optima prior to even starting any weight update. This works because your weights are anyways near zero, so such a cube would cover the range of your weights span.</p>
+
+<p>There is one caveat of this method is that bias terms are usually not regularised because you can’t guarantee bias to be near zero. Ignoring that particular set of axes, you still would have a pretty good idea about the structure of Loss v/s Parameters space, which only comes out from forward propagation.<br />
+This is not costly because anyways forward propagation occurs thousands of times during training, so investing some initially to pick a better starting point leads to no harm.</p>
+
+<h2 id="example-of-grid-search-initialisation">Example of grid search initialisation</h2>
+
+<p>Imports needed</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">griddata</span>
+<span class="kn">import</span> <span class="nn">plotly</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="n">go</span>
+</code></pre></div></div>
+
+<p>Generate some dummy data</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">w_true</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.5</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">45</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">random</span><span class="p">((</span><span class="mi">45</span><span class="p">))</span><span class="o">*</span><span class="mi">10</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w_true</span> <span class="o">+</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">random</span><span class="p">((</span><span class="mi">45</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">45</span><span class="p">)))</span> <span class="o">*</span> <span class="mi">6</span>
+</code></pre></div></div>
+
+<p>Take a batch for forward-propagation</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># take a batch
+</span><span class="n">y_b</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">X_b</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>Define your loss function, vectorize it (note that this doesn’t make it faster, but leads to automatic broadcasting)</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">np</span><span class="p">.</span><span class="n">vectorize</span>
+<span class="k">def</span> <span class="nf">loss_</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">):</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">y_b</span> <span class="o">-</span> <span class="n">X_b</span> <span class="o">@</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Perform Grid Search, you can always tweak these ranges</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">w1_grid</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mf">10.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="n">w2_grid</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mf">50.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="n">W1_grid</span><span class="p">,</span> <span class="n">W2_grid</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">w1_grid</span><span class="p">,</span> <span class="n">w2_grid</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">loss_</span><span class="p">(</span><span class="n">W1_grid</span><span class="p">,</span> <span class="n">W2_grid</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now trying to check what value of W1 and W2 already leads to near minimum, one easy way might be</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt; print(np.where(Z == np.min(Z)))
+(array([295]), array([68]))
+&gt;&gt; Z[295, 68], W1_grid[295, 68], W2_grid[295, 68]
+(252.41028750748706, 3.5999999999999517, 9.000000000000838)
+</code></pre></div></div>
+
+<p>And these values are already pretty close to the real values of <code class="language-plaintext highlighter-rouge">(3.5, 7)</code>!<br />
+Note that we just used 5 data points out of the training set to estimate this.<br />
+This works out because all our data points are actually from the same original distribution, which is one of the fundamental assumptions we make when working with classical machine learning:</p>
+
+<blockquote>
+  <p>Training and Test (unseen) dataset are sampled from the same distributions</p>
+</blockquote>
+
+<p>Plot the surface for visualization</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plotly</span><span class="p">.</span><span class="n">offline</span><span class="p">.</span><span class="n">init_notebook_mode</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="p">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">go</span><span class="p">.</span><span class="n">Surface</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">W1_grid</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">W2_grid</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">Z</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">update_scenes</span><span class="p">(</span><span class="n">xaxis_title_text</span><span class="o">=</span><span class="s">'W1'</span><span class="p">,</span>  
+                  <span class="n">yaxis_title_text</span><span class="o">=</span><span class="s">'W2'</span><span class="p">,</span>  
+                  <span class="n">zaxis_title_text</span><span class="o">=</span><span class="s">'Loss'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<details>
+<summary>Output Figure</summary>
+<img src="/images/weights-traversal/2dweights.png" />
+</details>
+
+<p>I know people might argue that this seems infeasible to do for let’s say a neural network.<br />
+I would agree! Visualisation of that many dimensions is not easy or useful (or is it?), but you don’t need to visualize this, you can work with the weights corresponding to the minimum loss you obtained, or if you’ve multiple such minima, that’s great news, it means you can parallely work on all of them to find the global minima via descent.</p>
+
+<h2 id="extras">Extras</h2>
+
+<p>Even though Deep Learning seems to be the norm these days, the classical Machine learning still works well and is essentially statistics. One of the rules for calculating gradients that keeps on being useful is</p>
+
+\[\frac{\partial (u^T A v)}{\partial x} = u^T A \frac{\partial v}{\partial x} + v^T A^T \frac{\partial u}{\partial x}\]
+
+<p>See ya.</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="intuition" /><category term="optimization" /><summary type="html"><![CDATA[In Machine Learning models, our final optimization/goal usually ends in minimizing an objective function with respect to a set of model parameters, but what does that look like?]]></summary></entry><entry><title type="html">Flash Baron</title><link href="/2023/09/flash-baron/" rel="alternate" type="text/html" title="Flash Baron" /><published>2023-09-03T00:00:00+00:00</published><updated>2023-09-03T00:00:00+00:00</updated><id>/2023/09/flash-baron</id><content type="html" xml:base="/2023/09/flash-baron/"><![CDATA[<p>I am preparing for going for a Masters, and need to take GRE Test for the same.</p>
+
+<!---->
+
+<p>While looking through the verbals section, I realised that vocabulary plays a key role in scoring. A quick google search will show that there exists lists of recommended words for GRE. Visiting <a href="https://www.vocabulary.com/lists/182204">vocabulary.com</a> will show you a set of “Flash cards” that you may go through, but I found the way it’s laid out inconvenient.</p>
+
+<p>Anyways I was looking into building something with <code class="language-plaintext highlighter-rouge">tkinter</code>, a cross-platform Python package to build desktop applets. A few lines of code yields something like this:</p>
+
+<p style="text-align:center">
+  <img src="/images/flash-baron/app_screenshot.png" />
+</p>
+
+<p>A simple applet for sure, and much more convenient for me. Code <a href="https://github.com/ba-13/Mystery_Box/tree/main/flash_baron">here</a>.</p>
+
+<p>I packaged the entire thing into an executable using <code class="language-plaintext highlighter-rouge">pyinstaller</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pyinstaller <span class="nt">--onefile</span> <span class="nt">--add-data</span> <span class="s2">"baron333.pickle;."</span> flash_baron.py
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">baron333.pickle</code> contains a python dictionary that’s been pickled, dictionary contains word to definition pairs.</p>
+
+<p>This would yield an executable, which you can now add to your app drawer, by following steps on the README in the repo above.</p>
+
+<h3 id="update-15-07-23">Update (15-07-23)</h3>
+
+<p>Fixed my GRE on 20th October, TOEFL on 28th October. Wish me luck!</p>
+
+<h3 id="update-02-11-23">Update (02-11-23)</h3>
+
+<p>Got GRE score of 330, TOEFL of 115. What worked for me in GRE was going through the Magoosh Vocab Flash Cards App the day of test, I went through the entire thing.<br />
+The other thing that made a difference was the Vocab Mountain which unfortunately I found just one day before the test, but would highly recommend you to give a try. Here’s the <a href="https://docs.google.com/spreadsheets/d/1ouJlyvRxSPsEbKjlRk_jzPzHG6q71SAKkpHDrVoBH9Y/edit?usp=sharing">link</a>. Copy it, and solve it by first going through each word in the day list and writing the meaning you know in the blank beside, then writing the actual meaning on the right to right blank.<br />
+Also “revise” by going through previous days words as well.<br />
+For TOEFL, watch the GregMat video on TOEFL speaking template, pick up a site having a tonne of speaking topics (or ask ChatGPT for a topic), and practice with a timer for at least 40-50 topics. It would take 3 hours at max.<br />
+At each step you can mostly convert what you wrote (essays) or what you said (speaking part) to text, and allow ChatGPT to grade you over the same. Give it context that it’s for ETS exams.</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="vocabulary" /><category term="gre" /><category term="software" /><summary type="html"><![CDATA[I am preparing for going for a Masters, and need to take GRE Test for the same.]]></summary></entry><entry><title type="html">Short and Frequent</title><link href="/2023/08/shorterposts/" rel="alternate" type="text/html" title="Short and Frequent" /><published>2023-08-27T00:00:00+00:00</published><updated>2023-08-27T00:00:00+00:00</updated><id>/2023/08/shorterposts</id><content type="html" xml:base="/2023/08/shorterposts/"><![CDATA[<p>This blogging manner seems infeasible.</p>
+
+<!---->
+
+<p>To be truthful, I tried starting multiple sequences of blogs in here, but all of them failed.<br />
+I think this posting needs a revamp.<br />
+So from now on, I would be posting a lot more, but much shorter blogs.<br />
+Will see you around then.</p>
+
+<h2 id="post-idea">Post Idea</h2>
+
+<p>I heard from Prof. Saikat quote Richard Feynman, about remembering a theory through a very simple example.<br />
+I’ll also quote Feynman here</p>
+
+<blockquote>
+  <p>… And it’s rather complicated, technically, but I’ll give a rather simple, idealized example.</p>
+</blockquote>
+
+<p>I think discussing some key simple examples on theories I learn would be nice to share
+Note that coming up with an example that covers up at least most of the nuances of the theory is non-trivial!</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="meta" /><category term="update" /><summary type="html"><![CDATA[This blogging manner seems infeasible.]]></summary></entry><entry><title type="html">Corporate Internship Experience</title><link href="/2023/07/goldman-sachs/" rel="alternate" type="text/html" title="Corporate Internship Experience" /><published>2023-07-25T00:00:00+00:00</published><updated>2023-07-25T00:00:00+00:00</updated><id>/2023/07/goldman-sachs</id><content type="html" xml:base="/2023/07/goldman-sachs/"><![CDATA[<p>My first internship experience was no less than life-changing, in a more or less balanced manner. Not everything was smooth sailing, and I didn’t expect any less.</p>
+
+<!---->
+
+<p>I had my summer internship at Goldman Sachs, Global Banking and Markets division (<code class="language-plaintext highlighter-rouge">GBM</code>). Two months spent on developing a data pipeline in Python and <code class="language-plaintext highlighter-rouge">Slang</code>, GS intra-language.</p>
+
+<p>The task was to collect daily aggregate data on a set of stocks and a set of proxies, which could be futures and commodities, on exchanges throughout the world. The problem lay in timing mismatch, time-zones as well as close times/noon breaks, missing days, no ticks, etc. across all 56 exchanges.</p>
+
+<p>Finally built a scheduler on Apache-Airflow, capable of sorting through all those inconsistencies through an elaborate control flow. All this dumped to an instance of database on Apache-Hive. The second pipeline picked up data from Hive and ran a rolling regression over a duration, to analyse RMSE and obtain correlations between every stock and it’s correspoding set of proxies. This is now saved as correlation coefficients
+\(\beta_{stock}^{proxy}\)</p>
+
+<p>Furthur on used to estimate fair value of macro assets (<code class="language-plaintext highlighter-rouge">ETFs</code> in our case). The experience was quite comfortable for me in technical perspective, but quite new in social one. I met some people here including Marianne, Jiahui, Mehul, Anu, Derek who I won’t ever forget.</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="summers" /><category term="project" /><category term="goldman-sachs" /><summary type="html"><![CDATA[My first internship experience was no less than life-changing, in a more or less balanced manner. Not everything was smooth sailing, and I didn’t expect any less.]]></summary></entry><entry><title type="html">Takneek 2022</title><link href="/2023/03/takneek-macpen/" rel="alternate" type="text/html" title="Takneek 2022" /><published>2023-03-20T00:00:00+00:00</published><updated>2023-03-20T00:00:00+00:00</updated><id>/2023/03/takneek-macpen</id><content type="html" xml:base="/2023/03/takneek-macpen/"><![CDATA[<p>Participating in inter-hall contests as a senior didn’t look like it would be engaging, but I was wrong. I discovered how mathematicians think, and made some friends.</p>
+
+<!---->
+
+<p>A problem statement faced during Takneek’22, which is actually an inter-hall technical contest consisting of several problem statements, in which I was meant to head one of them, along with 2 more Y20s; Aryaman and Saurav. A few juniors were also involved actively.</p>
+
+<p>The problem was of implementing and analyzing Neuro-economic behaviour in a hypothetical complex adaptive system of beings with their behaviour defined and an environment. On the face value, the problem was extremely simple, simulating beings interacting in an environment. Such problems are meant to be simple to implement, which we did in 2 days, but the beauty lay in analysing the system, by perturbing the conditions, modifying constraints, adding/removing complexities. Precisely, we were given a hypothetical creature which we named Macpan, more details <a href="/assets/resources/Macpen_Documentation.pdf">here</a>. The major fun part of the problem solving was we induced concepts including religion, capitalism, fascism, communism, tribal warfare etc. on the simple setup, and got results that were not far from what we observe in real-world, including captialism leading to more proliferation than communism over a larger range of parameters, religion maintaining it’s existence, fascism getting dissolved and more.</p>
+
+<p>Overall, it’s easy to relate to idea of simple concepts used hierarchicaly induces unforeseen complexities; this is seen from atoms forming matter to logic gates forming computers!</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="project" /><category term="iitk" /><category term="simulation" /><summary type="html"><![CDATA[Participating in inter-hall contests as a senior didn’t look like it would be engaging, but I was wrong. I discovered how mathematicians think, and made some friends.]]></summary></entry><entry><title type="html">Processor Simulation in IVerilog</title><link href="/2023/03/mips-processor/" rel="alternate" type="text/html" title="Processor Simulation in IVerilog" /><published>2023-03-01T00:00:00+00:00</published><updated>2023-03-01T00:00:00+00:00</updated><id>/2023/03/mips-processor</id><content type="html" xml:base="/2023/03/mips-processor/"><![CDATA[<p>How is a processor built is what was answered through this project, at least a baseline RISC 5-stage no pipeline processor.</p>
+
+<!---->
+
+<p>This was a course project under Prof. Urbi Chatterjee. We had to implement a processor with a data cache, using a reduced set architecture, in <code class="language-plaintext highlighter-rouge">Verilog</code>. I became quite proficient in iVerilog after this. To add a cherry on top, I implemented an <code class="language-plaintext highlighter-rouge">assembler</code> that converts MIPS assembly directly to 32 bit instruction set, that can then be picked up by the processor. The whole experience was added to my goal of understanding computers bottoms-up.</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="project" /><category term="iitk" /><category term="comp-arch" /><category term="simulation" /><summary type="html"><![CDATA[How is a processor built is what was answered through this project, at least a baseline RISC 5-stage no pipeline processor.]]></summary></entry><entry><title type="html">First take on Data Processing</title><link href="/2023/02/dsp1/" rel="alternate" type="text/html" title="First take on Data Processing" /><published>2023-02-23T00:00:00+00:00</published><updated>2023-02-23T00:00:00+00:00</updated><id>/2023/02/dsp1</id><content type="html" xml:base="/2023/02/dsp1/"><![CDATA[<p>When Data Processing is thought about these days, computers are in the picture mostly.
+So understanding how real time data can be interpreted and modified by discrete state machines becomes essential.</p>
+
+<!---->
+
+<p>Yes, I’m going to talk about Discrete Signal Processing, with all necessary introductions. I’m also expecting you know high-school calculus, and what \(e^{j\theta} = cos(\theta) + j sin(\theta)\) means.</p>
+
+<p>Apart from this, to ensure you’re on the same page, let’s discuss over frequencies, and why consider them at all.</p>
+
+<h2 id="need-for-defining-frequency">Need for defining Frequency</h2>
+
+<p>When I was first introduced to \(f = \frac{1}{t}\) during a lecture on Simple Harmonic Motion, where \(f\) is in \(Hz\) if \(t\) is in \(sec\). I ignored this topic. It seemed too trivial for being worthwhile. Why need to discuss about such a term at all, if time \(t\) is already sufficient to describe signals.</p>
+
+<p>It turns out, as a general rule of thumb, the scientific community runs because there exists multiple perspective of the same thing. It’s easier to understand the motion of a pendulum in terms of energy than the laws of force. It’s also easier to understand materials in terms of chemical composition instead of molecular interactions.</p>
+
+<p>True, level of abstraction differs in each perspective, but what’s special in the case of \(f\) v/s \(t\) is that they are not just different, but are representing exactly the same thing, no details missed whatsover.</p>
+
+<blockquote>
+  <p>Abstraction is the process of taking away or removing characteristics from something to reduce it to some set of essential characteristics. Making things simpler, and more general.</p>
+</blockquote>
+
+<p>Despite of being equivalent, one perspective might be much more insightful than the other, depending on the case of course.</p>
+
+<p>The bigger picture to keep in mind is, what representation makes you understand the phenomenon at hand from axioms (or principles you agree that are fundamental), and what helps you predict other useful information about the same.
+From information, you can only derieve other information. Usecase is a matter of different concern, which also I’ll touch upon.</p>
+
+<p>So here we have it, \(f\) might be significant.</p>
+
+<h2 id="different-domain">Different Domain</h2>
+
+<p>After a few years, I stumbled upon the term of fourier analysis, and heard how it can solve many problems which are extremely difficult to deal with. Unsurprisingly, I searched it up, saw a <a href="https://www.youtube.com/watch?v=spUNpyF58BY">video</a>, and thought wow, downright hits as a usual 3b1b video does!
+But what to do with it now? So it swept out of my mind, until our curriculum induced it into a course.</p>
+
+<h3 id="first-axiom">First axiom</h3>
+
+<p>You know that sinusoids, \(sin(x)\) and \(cos(x)\) together, are periodic functions.
+It turns out, shown by Joseph Fourier in 1800s, that <strong>any periodic signal</strong> can be said to be a weighted sum of different kinds of sinusoids.
+Take it for granted now. I won’t prove it.</p>
+
+<p>Let’s understand the statement again. If you saw it as “Periodic signal - combination of sinusoids”, observe again, there are a few vague terms in there.</p>
+
+<h4 id="sinusoids-and-frequencies">Sinusoids and frequencies</h4>
+
+<p>Think about \(cos(x)\). It’s plot is something like:</p>
+
+<p><img src="/images/dsp/cosx.png" alt="cosx" /></p>
+
+<p>Consider now \(cos(2x)\). Something like:</p>
+
+<p><img src="/images/dsp/cos2x.png" alt="cosx" /></p>
+
+<p>Something changed. The function shrunk along the x-axis. Another way to say it, the function changes faster in the second case. More specifically, before the period of the function was \(2\pi\), which now decreased to \(\pi\). Rename the x-axis as the time axis (another beauty of abstraction). It’s <em>time</em> period decreased. Now from the above definition, it’s <em>frequency</em> increased, from \(\frac{1}{2\pi} = 0.15915 \,\mathrm{Hz}\) to \(\frac{1}{\pi} = 0.31831 \,\mathrm{Hz}\).
+Admittedly, working with such frequencies seems cumbersome, so for sinusoids, we opt for angular frequencies, defined as \(2\pi f\), denoted as \(\omega\).</p>
+
+<p><img src="/images/dsp/cos2pix.png" alt="cos2pix" /></p>
+
+<p>Now the frequencies involved are much nicer, \(1\) and \(2\) respectively. Doing so translated to change in period from \(2\pi\) to \(1\).</p>
+
+<h3 id="weighted-combination-of-different-sinusoids">Weighted combination of different sinusoids</h3>
+
+<p>Different sinusoids means sinusoids of different frequencies. And not just any set of frequencies.
+Let the \(x(t)\) periodic signal under consideration have a period of \(T\). So it’s angular frequency is \(\omega_0 = \frac{2\pi}{T}\).
+Claim of Joseph Fourier was, the periodic signal can be decomposed to/is weighted sum of sinusoids with frequencies as integral multiples of \(\omega_0\).</p>
+
+<p>\(x(t) = w^s_0 sin(0\:\omega_0 t) + w^s_1 sin(1\:\omega_0 t) + w^s_2 sin(2\:\omega_0 t) + \cdots\)<br />
+\(\;\;\;\;\;\;\;\;\;\;\;\;\; + w^c_0 cos(0\:\omega_0 t) + w^c_1 cos(1\:\omega_0 t) + w^c_2 cos(2\:\omega_0 t) + \cdots\)</p>
+
+<p>Yes, <strong>all</strong> positive integral multiples.
+Represented more neatly as:</p>
+
+\[\begin{aligned}
+x(t) &amp; = \sum_{n=0}^{\infty} a_n cos(n\omega_0 t) + \sum_{n=0}^{\infty} b_n sin(n\omega_0 t) \\
+     &amp; = \sum_{n=0}^{\infty} a_n cos(n\omega_0 t) + b_n sin(n\omega_0 t)
+\end{aligned}\]
+
+<p>Here, complex exponentials are included to simplify the representation.</p>
+
+\[a_n cos(n\omega_0 t) + b_n sin(n\omega_0 t) = \frac{a_n + b_n}{2} e^{j n\omega_0 t} + \frac{a_n - b_n}{2} e^{-j n\omega_0 t} \\
+\begin{aligned}
+x(t) &amp; = \sum_{n=0}^{\infty} \frac{a_n + b_n}{2} e^{j n\omega_0 t} + \frac{a_n - b_n}{2} e^{-j n\omega_0 t} \\
+\end{aligned}\]
+
+\[\tag{1} x(t) = \sum_{n=-\infty}^{\infty} c_n e^{j n\omega_0 t}\]
+
+<p>Good enough, so if you know \(c_n\)’s for a signal, you can combine them as above.
+But what about computing \(c_n\) in the first place, if your signal \(f(t)\) is given?</p>
+
+<p>We use orthogonality.</p>
+
+<h3 id="orthogonality">Orthogonality</h3>
+
+<p>Two functions are defined to be orthogonal for \(t \in (a, b)\) if</p>
+
+\[\langle u, v\rangle = 0 \iff \int_{a}^{b} u(t) v^*(t) dt = 0\]
+
+<p>It’s good to know that the complex exponential family are orthogonal w.r.t. each other.</p>
+
+\[\langle e^{j \omega nt}, e^{j \omega mt}\rangle =
+    \begin{cases}
+      0 &amp; n\neq m \\
+      1 &amp; n = m \\
+    \end{cases} \\
+\ni t \in (a, a + 2\pi) \;\; \forall a \in \mathbb{Z}\]
+
+<p>Proof as follows</p>
+
+\[\begin{aligned}
+\int_{a}^{a + 2\pi} e^{j \omega mt} \cdot e^{-j \omega nt} dt &amp; = \int_{a}^{a + 2\pi} e^{j \omega (m-n)t} dt \\
+&amp; = \frac{e^{j \omega (m-n)t}}{j \omega (m-n)} \Biggr|_{a}^{a + 2\pi} \\
+&amp; = \frac{e^{j \omega (m-n) (a + 2\pi)} - e^{j \omega (m-n) (a)}}{j \omega (m-n)} \\
+&amp; = e^{j \omega (m-n) (a)}\frac{e^{j 2\pi\omega (m-n)} - 1}{j \omega (m-n)} \\
+&amp; = \begin{cases}
+      0 &amp; n\neq m \\
+      1 &amp; n = m \\
+    \end{cases} \\
+\end{aligned}\]
+
+<p>Using this concept in <strong>Eqn (1)</strong>, consider the following expression</p>
+
+\[\begin{aligned}
+\int_{0}^{2\pi} x(t) e^{-j\omega_0 nt} dt &amp; = \int_{0}^{2\pi} \underbrace{\Big(\sum_{m=-\infty}^{\infty} c_m e^{j m\omega_0 t}\:\Big) e^{-j\omega_0 nt}}*{c_n} dt \\
+&amp; = c_n \int*{0}^{2\pi} dt
+\end{aligned}\]
+
+\[\tag{2} c_n = \frac{1}{2\pi} \int_{0}^{2\pi} x(t) e^{-j\omega_0 nt} dt\]
+
+<p>Lo behold, you have completed the <strong>Fourier Series Analysis</strong> that includes Eqn (1) and (2), which is the first step towards the idea of decomposing data into, well, simpler data.
+Sinusoids are simple to understand, they come up many places in academia or reality (most places via approximations, but still).</p>
+
+<p>You won’t find the following function as common though:</p>
+
+<p><img src="/images/dsp/rand_4_periodic.png" alt="rand_4" /></p>
+
+<p>This can be decomposed to the following sinusoids, given \(\omega_0 = 0.6\pi \implies T = 3.333\)</p>
+
+\[\begin{aligned}
+f(t) &amp; = 5.535 cos(0\omega_0 t) + 8.379 cos(1\omega_0 t) + 2.417 cos(2\omega_0 t) + 8.804 cos(3\omega_0 t) \\
+ &amp; + 4.204 sin(0\omega_0 t) + 8.809 sin(1\omega_0 t) + 6.841 sin(2\omega_0 t) + 1.414 sin(3\omega_0 t)
+\end{aligned}\]
+
+<p>This was constructed as</p>
+
+<p><img src="/images/dsp/components_4.png" alt="components_4" /></p>
+
+<p>How is this useful now? Any periodic function, however large the period, can be decomposed as above. You can drop some higher order (larger frequency) terms, and the left function would still approximate the original one.
+But you might say, usual data/signals are NOT periodic, also we would like to know how to deal with discrete signals, continuous signal processing is for analog peeps.</p>
+
+<p>Nice points, so we will again leverage beauty of abstraction so move on to the next post.</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="dsp" /><category term="basics" /><category term="fourier-analysis" /><summary type="html"><![CDATA[When Data Processing is thought about these days, computers are in the picture mostly. So understanding how real time data can be interpreted and modified by discrete state machines becomes essential.]]></summary></entry><entry><title type="html">InterIIT Techmeet 11.0</title><link href="/2023/02/interiit-11/" rel="alternate" type="text/html" title="InterIIT Techmeet 11.0" /><published>2023-02-20T00:00:00+00:00</published><updated>2023-02-20T00:00:00+00:00</updated><id>/2023/02/interiit-11</id><content type="html" xml:base="/2023/02/interiit-11/"><![CDATA[<p>I got another chance to work in Inter IIT. This time was more hands-on, and there were a lot more hands.</p>
+
+<!---->
+
+<p>The problem this time was tackled by 4 juniors and 6 sophomores, a High Prep problem statement. We were tasked to create a communication link between a provided drone and our machines, send it MSP encoded packets, and use the same for implementing a position control using a single monocular webcam stuck on a ceiling. Use the same as well to control 2 drones simultaneously. We were meant to do all these in python. But we created a <code class="language-plaintext highlighter-rouge">C++</code> backend for parallel feedback processing, used sockets to communicate the same to our python controller at nearly the same rate of 54Hz, and used the controller and the protocol implemented above for handling the drone. More problems arose related to motor burnout and swarm single host connections, but those were taken care of. Our team finally attained sixth position, but our score went down in documentation and presentation, even though I still think it was clean enough.</p>]]></content><author><name>Anshuman Barnwal</name></author><category term="project" /><category term="iitk" /><category term="interiit" /><category term="aerial-robotics" /><summary type="html"><![CDATA[I got another chance to work in Inter IIT. This time was more hands-on, and there were a lot more hands.]]></summary></entry></feed>

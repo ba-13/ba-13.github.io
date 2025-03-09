@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>First take on Data Processing | Anshuman Barnwal</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Anshuman Barnwal">
+<meta name="generator" content="Jekyll v4.2.2">
+<link rel="canonical" href="/2023/02/dsp1/">
+
+<link rel="stylesheet" href="/assets/css/frame.css">
+
+<link rel="alternate" href="/feed.xml" type="application/atom+xml" title="Anshuman Barnwal">
+
+<link rel="stylesheet" href="/assets/katex/katex.min.css">
+<script defer src="/assets/katex/katex.min.js"></script>
+<script defer src="/assets/katex/contrib/auto-render.min.js" onload="renderMathInElement(document.body)"></script>
+<!-- <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" }, CommonHTML: { minScaleAdjust: 1000 } }
+  });
+  MathJax.Hub.Queue(["Rerender", MathJax.Hub], function () {window.status="finished"});
+</script>
+<script type="text/javascript" async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+
+<!-- <script src="//ba-13-github-io.disqus.com/embed.js" async></script> -->
+<!--  -->
+<link rel="stylesheet" href="/assets/css/sidebar.css" media="screen and (min-width: 70em)">
+<aside style="display: none">
+  <nav><a aria-label="home" href="/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#home"></use></svg>
+      <span aria-hidden="true">home</span>
+    </a><a aria-label="stories" href="/stories/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#book"></use></svg>
+      <span aria-hidden="true">stories</span>
+    </a><a aria-label="contact" href="/contact/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#mobile"></use></svg>
+      <span aria-hidden="true">contact</span>
+    </a><a aria-label="subscribe" href="/feed.xml" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#rss"></use></svg>
+      <span aria-hidden="true">subscribe</span>
+    </a></nav>
+  <div class="description">Optimize Opinions</div>
+</aside>
+
+
+
+
+<header>
+  <a href="/" class="title">Anshuman Barnwal</a>
+  <nav><a href="/" ><svg aria-label="home" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#home"></use></svg></a><a href="/stories/" ><svg aria-label="stories" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#book"></use></svg></a><a href="/contact/" ><svg aria-label="contact" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#mobile"></use></svg></a></nav>
+
+</header>
+
+<article>
+  <header class="post-header">
+  <h1 class="post-title"><a href="/2023/02/dsp1/">First take on Data Processing</a></h1><time datetime="2023-02-23T00:00:00+00:00">February 23, 2023</time>
+</header>
+  <p>When Data Processing is thought about these days, computers are in the picture mostly.
+So understanding how real time data can be interpreted and modified by discrete state machines becomes essential.</p>
+
+<!---->
+
+<p>Yes, I’m going to talk about Discrete Signal Processing, with all necessary introductions. I’m also expecting you know high-school calculus, and what \(e^{j\theta} = cos(\theta) + j sin(\theta)\) means.</p>
+
+<p>Apart from this, to ensure you’re on the same page, let’s discuss over frequencies, and why consider them at all.</p>
+
+<h2 id="need-for-defining-frequency">Need for defining Frequency</h2>
+
+<p>When I was first introduced to \(f = \frac{1}{t}\) during a lecture on Simple Harmonic Motion, where \(f\) is in \(Hz\) if \(t\) is in \(sec\). I ignored this topic. It seemed too trivial for being worthwhile. Why need to discuss about such a term at all, if time \(t\) is already sufficient to describe signals.</p>
+
+<p>It turns out, as a general rule of thumb, the scientific community runs because there exists multiple perspective of the same thing. It’s easier to understand the motion of a pendulum in terms of energy than the laws of force. It’s also easier to understand materials in terms of chemical composition instead of molecular interactions.</p>
+
+<p>True, level of abstraction differs in each perspective, but what’s special in the case of \(f\) v/s \(t\) is that they are not just different, but are representing exactly the same thing, no details missed whatsover.</p>
+
+<blockquote>
+  <p>Abstraction is the process of taking away or removing characteristics from something to reduce it to some set of essential characteristics. Making things simpler, and more general.</p>
+</blockquote>
+
+<p>Despite of being equivalent, one perspective might be much more insightful than the other, depending on the case of course.</p>
+
+<p>The bigger picture to keep in mind is, what representation makes you understand the phenomenon at hand from axioms (or principles you agree that are fundamental), and what helps you predict other useful information about the same.
+From information, you can only derieve other information. Usecase is a matter of different concern, which also I’ll touch upon.</p>
+
+<p>So here we have it, \(f\) might be significant.</p>
+
+<h2 id="different-domain">Different Domain</h2>
+
+<p>After a few years, I stumbled upon the term of fourier analysis, and heard how it can solve many problems which are extremely difficult to deal with. Unsurprisingly, I searched it up, saw a <a href="https://www.youtube.com/watch?v=spUNpyF58BY">video</a>, and thought wow, downright hits as a usual 3b1b video does!
+But what to do with it now? So it swept out of my mind, until our curriculum induced it into a course.</p>
+
+<h3 id="first-axiom">First axiom</h3>
+
+<p>You know that sinusoids, \(sin(x)\) and \(cos(x)\) together, are periodic functions.
+It turns out, shown by Joseph Fourier in 1800s, that <strong>any periodic signal</strong> can be said to be a weighted sum of different kinds of sinusoids.
+Take it for granted now. I won’t prove it.</p>
+
+<p>Let’s understand the statement again. If you saw it as “Periodic signal - combination of sinusoids”, observe again, there are a few vague terms in there.</p>
+
+<h4 id="sinusoids-and-frequencies">Sinusoids and frequencies</h4>
+
+<p>Think about \(cos(x)\). It’s plot is something like:</p>
+
+<p><img src="/images/dsp/cosx.png" alt="cosx" /></p>
+
+<p>Consider now \(cos(2x)\). Something like:</p>
+
+<p><img src="/images/dsp/cos2x.png" alt="cosx" /></p>
+
+<p>Something changed. The function shrunk along the x-axis. Another way to say it, the function changes faster in the second case. More specifically, before the period of the function was \(2\pi\), which now decreased to \(\pi\). Rename the x-axis as the time axis (another beauty of abstraction). It’s <em>time</em> period decreased. Now from the above definition, it’s <em>frequency</em> increased, from \(\frac{1}{2\pi} = 0.15915 \,\mathrm{Hz}\) to \(\frac{1}{\pi} = 0.31831 \,\mathrm{Hz}\).
+Admittedly, working with such frequencies seems cumbersome, so for sinusoids, we opt for angular frequencies, defined as \(2\pi f\), denoted as \(\omega\).</p>
+
+<p><img src="/images/dsp/cos2pix.png" alt="cos2pix" /></p>
+
+<p>Now the frequencies involved are much nicer, \(1\) and \(2\) respectively. Doing so translated to change in period from \(2\pi\) to \(1\).</p>
+
+<h3 id="weighted-combination-of-different-sinusoids">Weighted combination of different sinusoids</h3>
+
+<p>Different sinusoids means sinusoids of different frequencies. And not just any set of frequencies.
+Let the \(x(t)\) periodic signal under consideration have a period of \(T\). So it’s angular frequency is \(\omega_0 = \frac{2\pi}{T}\).
+Claim of Joseph Fourier was, the periodic signal can be decomposed to/is weighted sum of sinusoids with frequencies as integral multiples of \(\omega_0\).</p>
+
+<p>\(x(t) = w^s_0 sin(0\:\omega_0 t) + w^s_1 sin(1\:\omega_0 t) + w^s_2 sin(2\:\omega_0 t) + \cdots\)<br />
+\(\;\;\;\;\;\;\;\;\;\;\;\;\; + w^c_0 cos(0\:\omega_0 t) + w^c_1 cos(1\:\omega_0 t) + w^c_2 cos(2\:\omega_0 t) + \cdots\)</p>
+
+<p>Yes, <strong>all</strong> positive integral multiples.
+Represented more neatly as:</p>
+
+\[\begin{aligned}
+x(t) &amp; = \sum_{n=0}^{\infty} a_n cos(n\omega_0 t) + \sum_{n=0}^{\infty} b_n sin(n\omega_0 t) \\
+     &amp; = \sum_{n=0}^{\infty} a_n cos(n\omega_0 t) + b_n sin(n\omega_0 t)
+\end{aligned}\]
+
+<p>Here, complex exponentials are included to simplify the representation.</p>
+
+\[a_n cos(n\omega_0 t) + b_n sin(n\omega_0 t) = \frac{a_n + b_n}{2} e^{j n\omega_0 t} + \frac{a_n - b_n}{2} e^{-j n\omega_0 t} \\
+\begin{aligned}
+x(t) &amp; = \sum_{n=0}^{\infty} \frac{a_n + b_n}{2} e^{j n\omega_0 t} + \frac{a_n - b_n}{2} e^{-j n\omega_0 t} \\
+\end{aligned}\]
+
+\[\tag{1} x(t) = \sum_{n=-\infty}^{\infty} c_n e^{j n\omega_0 t}\]
+
+<p>Good enough, so if you know \(c_n\)’s for a signal, you can combine them as above.
+But what about computing \(c_n\) in the first place, if your signal \(f(t)\) is given?</p>
+
+<p>We use orthogonality.</p>
+
+<h3 id="orthogonality">Orthogonality</h3>
+
+<p>Two functions are defined to be orthogonal for \(t \in (a, b)\) if</p>
+
+\[\langle u, v\rangle = 0 \iff \int_{a}^{b} u(t) v^*(t) dt = 0\]
+
+<p>It’s good to know that the complex exponential family are orthogonal w.r.t. each other.</p>
+
+\[\langle e^{j \omega nt}, e^{j \omega mt}\rangle =
+    \begin{cases}
+      0 &amp; n\neq m \\
+      1 &amp; n = m \\
+    \end{cases} \\
+\ni t \in (a, a + 2\pi) \;\; \forall a \in \mathbb{Z}\]
+
+<p>Proof as follows</p>
+
+\[\begin{aligned}
+\int_{a}^{a + 2\pi} e^{j \omega mt} \cdot e^{-j \omega nt} dt &amp; = \int_{a}^{a + 2\pi} e^{j \omega (m-n)t} dt \\
+&amp; = \frac{e^{j \omega (m-n)t}}{j \omega (m-n)} \Biggr|_{a}^{a + 2\pi} \\
+&amp; = \frac{e^{j \omega (m-n) (a + 2\pi)} - e^{j \omega (m-n) (a)}}{j \omega (m-n)} \\
+&amp; = e^{j \omega (m-n) (a)}\frac{e^{j 2\pi\omega (m-n)} - 1}{j \omega (m-n)} \\
+&amp; = \begin{cases}
+      0 &amp; n\neq m \\
+      1 &amp; n = m \\
+    \end{cases} \\
+\end{aligned}\]
+
+<p>Using this concept in <strong>Eqn (1)</strong>, consider the following expression</p>
+
+\[\begin{aligned}
+\int_{0}^{2\pi} x(t) e^{-j\omega_0 nt} dt &amp; = \int_{0}^{2\pi} \underbrace{\Big(\sum_{m=-\infty}^{\infty} c_m e^{j m\omega_0 t}\:\Big) e^{-j\omega_0 nt}}*{c_n} dt \\
+&amp; = c_n \int*{0}^{2\pi} dt
+\end{aligned}\]
+
+\[\tag{2} c_n = \frac{1}{2\pi} \int_{0}^{2\pi} x(t) e^{-j\omega_0 nt} dt\]
+
+<p>Lo behold, you have completed the <strong>Fourier Series Analysis</strong> that includes Eqn (1) and (2), which is the first step towards the idea of decomposing data into, well, simpler data.
+Sinusoids are simple to understand, they come up many places in academia or reality (most places via approximations, but still).</p>
+
+<p>You won’t find the following function as common though:</p>
+
+<p><img src="/images/dsp/rand_4_periodic.png" alt="rand_4" /></p>
+
+<p>This can be decomposed to the following sinusoids, given \(\omega_0 = 0.6\pi \implies T = 3.333\)</p>
+
+\[\begin{aligned}
+f(t) &amp; = 5.535 cos(0\omega_0 t) + 8.379 cos(1\omega_0 t) + 2.417 cos(2\omega_0 t) + 8.804 cos(3\omega_0 t) \\
+ &amp; + 4.204 sin(0\omega_0 t) + 8.809 sin(1\omega_0 t) + 6.841 sin(2\omega_0 t) + 1.414 sin(3\omega_0 t)
+\end{aligned}\]
+
+<p>This was constructed as</p>
+
+<p><img src="/images/dsp/components_4.png" alt="components_4" /></p>
+
+<p>How is this useful now? Any periodic function, however large the period, can be decomposed as above. You can drop some higher order (larger frequency) terms, and the left function would still approximate the original one.
+But you might say, usual data/signals are NOT periodic, also we would like to know how to deal with discrete signals, continuous signal processing is for analog peeps.</p>
+
+<p>Nice points, so we will again leverage beauty of abstraction so move on to the next post.</p>
+
+  <div class="tags in-post-tags">
+    
+    <div class="tag-inside">dsp</div>
+    
+    <div class="tag-inside">basics</div>
+    
+    <div class="tag-inside">fourier-analysis</div>
+    
+  </div>
+  
+  <hr>
+  
+  <div id="disqus_thread">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = "https://ba-13.github.io/2023/02/dsp1/";
+        this.page.identifier = "https://ba-13.github.io/2023/02/dsp1/";
+    };
+
+    // You should be able to get the following lines of code from your Disqus admin.
+    // https://disqus.com/admin/universalcode
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ba-13-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<!-- https://poanchen.github.io/blog/2017/07/27/how-to-add-disqus-to-your-jekyll-site -->
+    
+    
+    <script id="dsq-count-scr" src="//ba-13-github-io.disqus.com/count.js" async></script>
+</article>
+
+
+<footer>
+  <div>Optimize Opinions</div>
+  <nav><a href="/feed.xml" ><svg aria-label="subscribe" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#rss"></use></svg></a></nav>
+
+</footer>
+
+
+</html>

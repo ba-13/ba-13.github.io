@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>How to approach Jekyll | Anshuman Barnwal</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Anshuman Barnwal">
+<meta name="generator" content="Jekyll v4.2.2">
+<link rel="canonical" href="/2021/10/my-approach-to-jekyll/">
+
+<link rel="stylesheet" href="/assets/css/frame.css">
+
+<link rel="alternate" href="/feed.xml" type="application/atom+xml" title="Anshuman Barnwal">
+
+<link rel="stylesheet" href="/assets/katex/katex.min.css">
+<script defer src="/assets/katex/katex.min.js"></script>
+<script defer src="/assets/katex/contrib/auto-render.min.js" onload="renderMathInElement(document.body)"></script>
+<!-- <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" }, CommonHTML: { minScaleAdjust: 1000 } }
+  });
+  MathJax.Hub.Queue(["Rerender", MathJax.Hub], function () {window.status="finished"});
+</script>
+<script type="text/javascript" async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+
+<!-- <script src="//ba-13-github-io.disqus.com/embed.js" async></script> -->
+<!--  -->
+<link rel="stylesheet" href="/assets/css/sidebar.css" media="screen and (min-width: 70em)">
+<aside style="display: none">
+  <nav><a aria-label="home" href="/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#home"></use></svg>
+      <span aria-hidden="true">home</span>
+    </a><a aria-label="stories" href="/stories/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#book"></use></svg>
+      <span aria-hidden="true">stories</span>
+    </a><a aria-label="contact" href="/contact/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#mobile"></use></svg>
+      <span aria-hidden="true">contact</span>
+    </a><a aria-label="subscribe" href="/feed.xml" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#rss"></use></svg>
+      <span aria-hidden="true">subscribe</span>
+    </a></nav>
+  <div class="description">Optimize Opinions</div>
+</aside>
+
+
+
+
+<header>
+  <a href="/" class="title">Anshuman Barnwal</a>
+  <nav><a href="/" ><svg aria-label="home" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#home"></use></svg></a><a href="/stories/" ><svg aria-label="stories" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#book"></use></svg></a><a href="/contact/" ><svg aria-label="contact" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#mobile"></use></svg></a></nav>
+
+</header>
+
+<article>
+  <header class="post-header">
+  <h1 class="post-title"><a href="/2021/10/my-approach-to-jekyll/">How to approach Jekyll</a></h1><time datetime="2021-10-08T00:00:00+00:00">October 08, 2021</time>
+</header>
+  <p>This is my introduction to the world of static sites, and how intuitive you can make them.<br />
+Jekyll is especially quite configurable. Try it out with this blog.</p>
+
+<!---->
+
+<h2 id="jekyll-it-is">Jekyll it is</h2>
+
+<p>A static file-system generator, that is incredibly convenient.<br />
+Install <code class="language-plaintext highlighter-rouge">ruby</code> with</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update <span class="nt">-y</span> <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt-get upgrade <span class="nt">-y</span>
+<span class="nb">sudo </span>apt-add-repository ppa:brightbox/ruby-ng
+<span class="nb">sudo </span>apt-get update
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>ruby-full build-essential zlib1g-dev
+gem <span class="nb">install </span>jekyll bundler
+
+<span class="nb">echo</span> <span class="s1">'# Install Ruby Gems to ~/gems'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'export GEM_HOME="$HOME/gems"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'export PATH="$HOME/gems/bin:$PATH"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">source</span> ~/.bashrc
+
+gem update
+gem <span class="nb">install </span>jekyll bundler <span class="c"># installing jekyll and bundler</span>
+</code></pre></div></div>
+
+<p>Now to initiate your site:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jekyll new mysite
+<span class="nb">cd </span>mysite
+bundle add webrick
+</code></pre></div></div>
+
+<p>Try running the site with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">exec </span>jekyll serve
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="some-basics-of-jekyll-subsystem">Some basics of Jekyll subsystem</h2>
+
+<h3 id="_configyml">_config.yml</h3>
+
+<p>The location to customize the site’s configuration. The following are defaults:</p>
+
+<details>
+
+<summary>_config.yml</summary>
+
+<pre>
+# Where things are
+source: .
+destination: ./_site
+collections_dir: .
+plugins_dir:_plugins # takes an array of strings and loads plugins in that order
+layouts_dir: _layouts
+data_dir:_data
+includes_dir: _includes
+sass:
+sass_dir:_sass
+collections:
+  posts:
+    output: true
+
+# Handling Reading
+
+safe: false
+include: [".htaccess"]
+exclude:
+  [
+    "Gemfile",
+    "Gemfile.lock",
+    "node_modules",
+    "vendor/bundle/",
+    "vendor/cache/",
+    "vendor/gems/",
+    "vendor/ruby/",
+  ]
+keep_files: [".git", ".svn"]
+encoding: "utf-8"
+markdown_ext: "markdown,mkdown,mkdn,mkd,md"
+strict_front_matter: false
+
+# Filtering Content
+
+show_drafts: null
+limit_posts: 0
+future: false
+unpublished: false
+
+# Plugins
+
+whitelist: []
+plugins: []
+
+# Conversion
+
+markdown: kramdown
+highlighter: rouge
+lsi: false
+excerpt_separator: "\n\n"
+incremental: false
+
+# Serving
+
+detach: false
+port: 4000
+host: 127.0.0.1
+baseurl: "" # does not include hostname
+show_dir_listing: false
+
+# Outputting
+
+permalink: date
+paginate_path: /page:num
+timezone: null
+
+quiet: false
+verbose: false
+defaults: []
+
+liquid:
+  error_mode: warn
+  strict_filters: false
+  strict_variables: false
+
+# Markdown Processors
+
+kramdown:
+  auto_ids: true
+  entity_output: as_char
+  toc_levels: [1, 2, 3, 4, 5, 6]
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
+  input: GFM
+  hard_wrap: false
+  footnote_nr: 1
+  show_warnings: false
+</pre>
+
+</details>
+
+<h3 id="front-matter-defaults">Front Matter defaults</h3>
+
+<p>To avoid repetition of same configurations, <code class="language-plaintext highlighter-rouge">defaults</code> key in <code class="language-plaintext highlighter-rouge">_config.yml</code> is the way to go.
+You can define your custom configs, ex. Let’s say you want to add a default layout to all pages and posts in your site, do the following:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">defaults</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">scope</span><span class="pi">:</span>
+      <span class="na">path</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+      <span class="na">type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">pages"</span>
+    <span class="na">values</span><span class="pi">:</span>
+      <span class="na">layout</span><span class="pi">:</span> <span class="s2">"</span><span class="s">my-site"</span>
+  <span class="pi">-</span> <span class="na">scope</span><span class="pi">:</span>
+      <span class="na">path</span><span class="pi">:</span> <span class="s2">"</span><span class="s">projects"</span>
+      <span class="na">type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">pages"</span> <span class="c1"># previously `page` in Jekyll 2.2.</span>
+    <span class="na">values</span><span class="pi">:</span>
+      <span class="na">layout</span><span class="pi">:</span> <span class="s2">"</span><span class="s">project"</span> <span class="c1"># overrides previous default layout</span>
+      <span class="na">author</span><span class="pi">:</span> <span class="s2">"</span><span class="s">yourusername"</span>
+</code></pre></div></div>
+
+<h3 id="environments">Environments</h3>
+
+<p>Specified by adding <code class="language-plaintext highlighter-rouge">JEKYLL_ENV=production</code> or something while <code class="language-plaintext highlighter-rouge">jekyll build</code>.<br />
+Default is <code class="language-plaintext highlighter-rouge">JEKYLL_ENV=development</code>.
+The value can be anything we want.</p>
+
+<h3 id="pages">Pages</h3>
+
+<p>The simplest way to add a page is to add an HTML(or .md) file in root, with a suitable name.<br />
+We can organize them to sub-folders in the root directory itself, and the url will be accordingly.
+To generate page_excerpts, change the same to <code class="language-plaintext highlighter-rouge">true</code> in <code class="language-plaintext highlighter-rouge">_config.yml</code>.<br />
+Do remember to add front matter to your page. example:</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">layout</span><span class="pi">:</span> <span class="s">post</span>
+<span class="na">title</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Example</span><span class="nv"> </span><span class="s">Title"</span>
+<span class="nn">---</span>
+
+Rest of your content here
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="posts">Posts</h2>
+
+<p>Initiate a blog with the naming convention of <code class="language-plaintext highlighter-rouge">YEAR-MONTH-DAY-title.MARKUP</code>, example: <code class="language-plaintext highlighter-rouge">2021-09-04-how-to-write-a-blog.md</code>
+All <code class="language-plaintext highlighter-rouge">.md</code> must have a <code class="language-plaintext highlighter-rouge">front matter</code> which is a meta-data collection for the post.<br />
+Adding assets is easy, by adding <code class="language-plaintext highlighter-rouge">/assets</code> in the root directory, and referencing from there itself.</p>
+
+<h3 id="tags-and-categorycategories">Tags and Category/Categories</h3>
+
+<p>Declare the same as space-separated list of tags, in the front matter.
+This can be accessed by <code class="language-plaintext highlighter-rouge">site.tags</code>. The same goes for categories. But category can be used to modify the <a href="http://jekyllrb.com/docs/posts/">URL</a> itself.</p>
+
+<h3 id="excerpts">Excerpts</h3>
+
+<p><code class="language-plaintext highlighter-rouge">excerpt_separator</code> is declared in the front matter.<br />
+Example, here is a code outputting a list of blog posts excerpts:</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ul&gt;</span>
+  {% for post in site.posts %}
+    <span class="nt">&lt;li&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{{ post.url }}"</span><span class="nt">&gt;</span>{{ post.title }}<span class="nt">&lt;/a&gt;</span>
+      {{ post.excerpt }}
+    <span class="nt">&lt;/li&gt;</span>
+  {% endfor %}
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre></div></div>
+
+<h3 id="permalinks-layouts-and-published-default-and-custom-options">Permalinks, Layouts and published default and custom options</h3>
+
+<p>Front-matter contains the above default options as <code class="language-plaintext highlighter-rouge">permalink</code> (the baseURL of page), <code class="language-plaintext highlighter-rouge">layout</code> (all layouts should be in <code class="language-plaintext highlighter-rouge">/_layouts</code>), and <code class="language-plaintext highlighter-rouge">published</code> which won’t let the page show up if set to false.
+You can declare your own variables that can be used in that page just like:</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="s">The not-mentioned ones are default options available to you</span>
+<span class="na">food</span><span class="pi">:</span> <span class="s">Pizza</span>
+<span class="nn">---</span>
+
+<span class="nt">&lt;h1&gt;&lt;/h1&gt;</span>
+<span class="nt">&lt;h1&gt;</span>2021-10-08 00:00:00 +0000<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;h1&gt;&lt;/h1&gt;</span>
+<span class="nt">&lt;h1&gt;&lt;/h1&gt;</span>
+<span class="nt">&lt;h1&gt;</span>basicsweb-dev<span class="nt">&lt;/h1&gt;</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="drafts">Drafts</h3>
+
+<p>Declared in <code class="language-plaintext highlighter-rouge">/_drafts</code>, these aren’t displayed in production build. You have to explicitly specify by <code class="language-plaintext highlighter-rouge">jekyll build --drafts</code>.<br />
+This is a location for all blogs you’re working on right now.</p>
+
+<h3 id="liquid">Liquid</h3>
+
+<p>Smart site-generation is performed by Liquid, which can be used to create flow-control in <code class="language-plaintext highlighter-rouge">.md</code> itself.</p>
+
+<h3 id="data-folder">Data Folder</h3>
+
+<p><code class="language-plaintext highlighter-rouge">/_data</code> folder is where you should store all additional data for Jekyll to use when rendering the site.<br />
+Allowed data files are <code class="language-plaintext highlighter-rouge">.yml</code>,<code class="language-plaintext highlighter-rouge">.json</code>,<code class="language-plaintext highlighter-rouge">.csv</code>,<code class="language-plaintext highlighter-rouge">.tsv</code>,<code class="language-plaintext highlighter-rouge">.yaml</code> and are accessed by <code class="language-plaintext highlighter-rouge">site.data.filename</code>
+This is freaking useful, and check it out <a href="http://jekyllrb.com/docs/datafiles/">here</a></p>
+
+<h3 id="static-files">Static Files</h3>
+
+<p>A file that won’t have any front matter, and to be displayed on its own.<br />
+It can be accessed by <code class="language-plaintext highlighter-rouge">site.static_files</code>.</p>
+
+<h3 id="configuration">Configuration</h3>
+
+<p>Instead of following along with some video tutorials or docs, the best approach I found to configure this site was by <code class="language-plaintext highlighter-rouge">bundle info yourthemename</code>.<br />
+This will give your theme’s template location on your system.<br />
+All that’s left to do is to explore it!</p>
+
+<h3 id="deployment">Deployment</h3>
+
+<h4 id="recommended">Recommended</h4>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">.github</code> directory that contains workflows directing GitHub on how to build your site! Therefore you only need to push the entire source code to your repo, which will then be built and deployed automatically by GitHub Workflows.</p>
+
+<p>Checkout configuration file <a href="https://github.com/ba-13/ba-13.github.io/tree/master/.github/workflows">here</a> and modify according to your preferences.</p>
+
+<h4 id="old-manner-not-recommended">Old Manner (NOT RECOMMENDED)</h4>
+
+<p>Enter the <code class="language-plaintext highlighter-rouge">_site</code> folder, <code class="language-plaintext highlighter-rouge">git init</code>, and set origin of this folder as the GitHub repo you want to host the site.<br />
+Do the same through:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git init
+git remote add origin https://github.com/yourusername/yourreponame.git
+git branch <span class="nt">-M</span> main
+git add <span class="k">*</span>
+git commit <span class="nt">-m</span> <span class="s2">"your commit details"</span>
+git push origin main
+</code></pre></div></div>
+
+<p>This will directly push the built site from jekyll to your repo.<br />
+Now activate GitHub pages on that Repository.</p>
+
+  <div class="tags in-post-tags">
+    
+    <div class="tag-inside">basics</div>
+    
+    <div class="tag-inside">web-dev</div>
+    
+  </div>
+  
+  <hr>
+  
+  <div id="disqus_thread">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = "https://ba-13.github.io/2021/10/my-approach-to-jekyll/";
+        this.page.identifier = "https://ba-13.github.io/2021/10/my-approach-to-jekyll/";
+    };
+
+    // You should be able to get the following lines of code from your Disqus admin.
+    // https://disqus.com/admin/universalcode
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ba-13-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<!-- https://poanchen.github.io/blog/2017/07/27/how-to-add-disqus-to-your-jekyll-site -->
+    
+    
+    <script id="dsq-count-scr" src="//ba-13-github-io.disqus.com/count.js" async></script>
+</article>
+
+
+<footer>
+  <div>Optimize Opinions</div>
+  <nav><a href="/feed.xml" ><svg aria-label="subscribe" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#rss"></use></svg></a></nav>
+
+</footer>
+
+
+</html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>First take on Haskell | Anshuman Barnwal</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Anshuman Barnwal">
+<meta name="generator" content="Jekyll v4.2.2">
+<link rel="canonical" href="/2021/12/haskell-1/">
+
+<link rel="stylesheet" href="/assets/css/frame.css">
+
+<link rel="alternate" href="/feed.xml" type="application/atom+xml" title="Anshuman Barnwal">
+
+<link rel="stylesheet" href="/assets/katex/katex.min.css">
+<script defer src="/assets/katex/katex.min.js"></script>
+<script defer src="/assets/katex/contrib/auto-render.min.js" onload="renderMathInElement(document.body)"></script>
+<!-- <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" }, CommonHTML: { minScaleAdjust: 1000 } }
+  });
+  MathJax.Hub.Queue(["Rerender", MathJax.Hub], function () {window.status="finished"});
+</script>
+<script type="text/javascript" async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+
+<!-- <script src="//ba-13-github-io.disqus.com/embed.js" async></script> -->
+<!--  -->
+<link rel="stylesheet" href="/assets/css/sidebar.css" media="screen and (min-width: 70em)">
+<aside style="display: none">
+  <nav><a aria-label="home" href="/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#home"></use></svg>
+      <span aria-hidden="true">home</span>
+    </a><a aria-label="stories" href="/stories/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#book"></use></svg>
+      <span aria-hidden="true">stories</span>
+    </a><a aria-label="contact" href="/contact/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#mobile"></use></svg>
+      <span aria-hidden="true">contact</span>
+    </a><a aria-label="subscribe" href="/feed.xml" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#rss"></use></svg>
+      <span aria-hidden="true">subscribe</span>
+    </a></nav>
+  <div class="description">Optimize Opinions</div>
+</aside>
+
+
+
+
+<header>
+  <a href="/" class="title">Anshuman Barnwal</a>
+  <nav><a href="/" ><svg aria-label="home" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#home"></use></svg></a><a href="/stories/" ><svg aria-label="stories" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#book"></use></svg></a><a href="/contact/" ><svg aria-label="contact" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#mobile"></use></svg></a></nav>
+
+</header>
+
+<article>
+  <header class="post-header">
+  <h1 class="post-title"><a href="/2021/12/haskell-1/">First take on Haskell</a></h1><time datetime="2021-12-23T00:00:00+00:00">December 23, 2021</time>
+</header>
+  <p>Haskell is a functional programming language.<br />
+Why do you need to know about it? Because you should.</p>
+
+<!---->
+
+<p>The utilities you should have once Haskell is setup on your PC.</p>
+
+<blockquote>
+  <p>ghc, ghci and cabal <br />
+Load a script with functions with <code class="language-plaintext highlighter-rouge">:l &lt;fileName&gt;</code></p>
+</blockquote>
+
+<p>Pure functions, Immutable Data
+So <strong>no</strong> side effects</p>
+
+<p>Declarative
+Easier to verify correctness<br />
+Definition of complex enough algorithms can be done elegantly in Haskell.<br />
+Note that I have learnt that examples help in understanding a lot more than definitions by themselves. So including a tonne of them.</p>
+
+<h2 id="function-definition">Function Definition</h2>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">name</span> <span class="n">arg1</span> <span class="n">arg2</span> <span class="n">arg3</span> <span class="o">=</span> <span class="o">&lt;</span> <span class="n">exp</span> <span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>There is no return statement. The last statement evaluated is returned</p>
+
+<h2 id="types">Types</h2>
+
+<p><code class="language-plaintext highlighter-rouge">var :: Type</code><br />
+e.g. x :: Integer<br />
+<code class="language-plaintext highlighter-rouge">func :: Type</code><br />
+e.g. inRange :: Integer -&gt; Integer -&gt; Integer -&gt; Bool</p>
+
+<h3 id="let">Let</h3>
+
+<p>Imperative isn’t allowed, i.e. you can’t return a value.
+So instead, we use <code class="language-plaintext highlighter-rouge">let</code></p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">func</span> <span class="n">params</span> <span class="o">=</span>
+    <span class="kr">let</span> <span class="n">params</span> <span class="o">=</span> <span class="o">&lt;</span> <span class="n">exp</span> <span class="o">&gt;</span>
+    <span class="kr">in</span> <span class="n">params</span>
+</code></pre></div></div>
+
+<p>That is, we define a name, and bind it to an expression, i.e. some name and expression, another name and it’s expression…and finally <code class="language-plaintext highlighter-rouge">in</code> and all “bind-ed” expression containing all names</p>
+
+<blockquote>
+  <p>Things are evaluated only when needed, Lazy Haskell</p>
+</blockquote>
+
+<h3 id="where">Where</h3>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">func</span> <span class="n">params</span> <span class="o">=</span> <span class="n">paramsToBeReturned</span> <span class="c1">--technically not "returned"</span>
+    <span class="kr">where</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="o">&lt;</span> <span class="n">exp</span> <span class="o">&gt;</span>
+</code></pre></div></div>
+
+<h3 id="if-then-else">if-then-else</h3>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">if</span> <span class="o">&lt;</span> <span class="n">exp</span> <span class="o">&gt;</span> <span class="kr">then</span> <span class="o">&lt;</span> <span class="n">exp</span> <span class="o">&gt;</span> <span class="kr">else</span> <span class="o">&lt;</span> <span class="n">exp</span> <span class="o">&gt;</span>
+</code></pre></div></div>
+
+<h2 id="infix-functions">Infix Functions</h2>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">:</span><span class="n">t</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="c1">--for checking type of any function</span>
+<span class="o">&gt;</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="o">::</span> <span class="kt">Num</span> <span class="n">a</span><span class="o">=&gt;</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">a</span>
+</code></pre></div></div>
+
+<p>Any function can be written in Infix style by ` ` around them</p>
+
+<h2 id="recursion">Recursion</h2>
+
+<p>No loops in Haskell. So we need recursion</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fac</span> <span class="n">n</span> <span class="o">=</span>
+    <span class="kr">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="kr">then</span>
+        <span class="mi">1</span>
+    <span class="kr">else</span>
+        <span class="n">n</span> <span class="o">*</span> <span class="n">fac</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="guards">Guards</h3>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">otherwise</code> always evaluates to True</p>
+</blockquote>
+
+<p>Guards can replace if-then-else, as that guard is executed, and returned as THE expression of the function which evaluates to True</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fac</span> <span class="n">n</span>
+    <span class="o">|</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">n</span><span class="o">*</span><span class="n">fac</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    | &lt; exp to be evaluated for True or False &gt; = &lt; exp returned &gt;
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">_</code> is a wild card</p>
+</blockquote>
+
+<h2 id="pattern-matching">Pattern Matching</h2>
+
+<p>Multiple definitions of the same functions can occur in Haskell, each with different set of inputs</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ghci&gt; is_zero 0 = True
+...
+ghci&gt; is_zero _ = False
+</code></pre></div></div>
+
+<p>This means that for 0, is_zero will return True, and for a wild card “Excluding the already defined input set”, the function returns False</p>
+
+<h3 id="accumulators">Accumulators</h3>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fac</span> <span class="n">n</span> <span class="o">=</span> <span class="n">aux</span> <span class="n">n</span> <span class="mi">1</span> <span class="c1">--aux is an auxiliary function, which takes an accumulator</span>
+    <span class="kr">where</span>
+        <span class="n">aux</span> <span class="n">n</span> <span class="n">acc</span> <span class="c1">--definition of aux</span>
+         <span class="o">|</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="o">=</span> <span class="n">acc</span>
+         <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">aux</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">acc</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>In short, accumulators are applying Tail Recursion.<br />
+This is much more efficient than usual recursion, cause it takes a lot less memory and same complexity.<br />
+The main thing to remember about tail recursion is that the recursive step is always the last step at a particular depth.</p>
+
+<p>Another example on Fibonacci</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fib</span> <span class="n">n</span> <span class="o">=</span> <span class="n">go</span> <span class="n">n</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="kr">where</span>
+        <span class="n">go</span> <span class="mi">0</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="n">go</span> <span class="mi">1</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span>
+        <span class="n">go</span> <span class="n">n</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="n">go</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="lists">Lists</h2>
+
+<p>Lists only have one internal type. They can be constructed via constructors <code class="language-plaintext highlighter-rouge">[]</code> (empty) and <code class="language-plaintext highlighter-rouge">:</code> (pre-pend)</p>
+
+<p>example:</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">asc</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span>
+<span class="n">asc</span> <span class="n">n</span> <span class="n">m</span> <span class="c1">--list from n to m</span>
+    <span class="o">|</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">=</span> <span class="kt">[]</span>
+    <span class="o">|</span> <span class="n">m</span> <span class="o">==</span> <span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="p">]</span>
+    <span class="o">|</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">:</span> <span class="n">asc</span> <span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="n">m</span>
+</code></pre></div></div>
+
+<p>Many functions of Lists are predefined, quite a lot of them in <code class="language-plaintext highlighter-rouge">Data.List</code> module.</p>
+
+<h4 id="for-polymorphic-lists">For Polymorphic Lists</h4>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">elem</span> <span class="o">::</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="c1">--returns if given element belongs to the list</span>
+<span class="n">head</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="c1">--returns the first element of the list</span>
+<span class="n">tail</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="c1">--returns all of list except the head</span>
+<span class="n">length</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="c1">--returns length of list</span>
+<span class="n">init</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="c1">--returns a last-element-removed list</span>
+<span class="n">last</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="c1">--returns the last element of list</span>
+<span class="n">null</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="c1">--check if a list is empty</span>
+</code></pre></div></div>
+
+<p>Every data structure in Haskell is immutable, so we always get a copy with modifications to current structure, which we may reassign to the same variable name, that effectively changes the data structure.</p>
+
+<h4 id="for-boolean-lists">For Boolean Lists</h4>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">and</span> <span class="o">::</span> <span class="p">[</span><span class="kt">Bool</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="c1">--and operation over all elements of list</span>
+<span class="n">or</span> <span class="o">::</span> <span class="p">[</span><span class="kt">Bool</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="c1">--or operation over all elements of list</span>
+</code></pre></div></div>
+
+<p>When can such a thing be useful, a list of booleans?<br />
+The case of List Comprehensions.</p>
+
+<h2 id="list-comprehension">List Comprehension</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[&lt;gen&gt; | &lt;elem&gt; &lt;- &lt;list&gt;, ... , &lt;guard&gt;, ... ]
+</code></pre></div></div>
+
+<h4 id="patterns-in-lists">Patterns in Lists</h4>
+
+<p>Pattern matching with Lists is quite useful. It is used mostly in recursion tbh</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sum</span> <span class="kt">[]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">sum</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">sum</span> <span class="n">xs</span>
+<span class="c1">-- is equivalent to</span>
+<span class="n">sum</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">0</span> <span class="n">xs</span>
+
+<span class="c1">-- another example</span>
+<span class="n">evens</span> <span class="o">::</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span>
+<span class="n">evens</span> <span class="kt">[]</span> <span class="o">=</span> <span class="kt">[]</span>
+<span class="n">evens</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="c1">--colon constructor</span>
+    <span class="o">|</span> <span class="n">mod</span> <span class="n">x</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">=</span> <span class="n">x</span> <span class="o">:</span> <span class="n">evens</span> <span class="n">xs</span>
+    <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">evens</span> <span class="n">xs</span>
+</code></pre></div></div>
+
+<h2 id="tuples">Tuples</h2>
+
+<p>Tuples can have any number of elements, but a fixed number</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fst</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a</span>
+<span class="n">fst</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="kr">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span>
+
+<span class="n">snd</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">b</span>
+<span class="n">snd</span> <span class="p">(</span><span class="kr">_</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">y</span>
+</code></pre></div></div>
+
+<h4 id="tuple-unpacking">Tuple “unpacking”</h4>
+
+<p><code class="language-plaintext highlighter-rouge">let (x, y) = (1, 2) in x</code></p>
+
+<h3 id="higher-order-functions">Higher Order Functions</h3>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">app</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span>
+<span class="n">app</span> <span class="n">f</span> <span class="n">x</span> <span class="o">=</span> <span class="n">f</span> <span class="n">x</span>
+<span class="n">add1</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+<span class="n">add1</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">app</span> <span class="n">add1</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<h4 id="anonymous-functions">Anonymous Functions</h4>
+
+<p>(\&lt;args&gt; -&gt; &lt;expr&gt;)</p>
+
+<p>example <code class="language-plaintext highlighter-rouge">(\x -&gt; x+1)</code><br />
+Functions are just values in Haskell, just like Js, can be assigned to variables</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">increment</span> <span class="o">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">addAll</span> <span class="o">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">+</span><span class="n">z</span><span class="p">)</span>
+
+<span class="n">app</span> <span class="n">f</span> <span class="n">x</span> <span class="o">=</span> <span class="n">f</span> <span class="n">x</span>
+<span class="n">incrementOne</span> <span class="o">=</span> <span class="n">app</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<h4 id="some-common-higher-order-functions">Some common Higher order functions</h4>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- Map is useful to map each element of a list to another list via a function</span>
+<span class="n">map</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">b</span><span class="p">]</span>
+<span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">)]</span>
+
+<span class="c1">-- Filter is used to filter out a list on the basis of a provided function</span>
+<span class="c1">-- this is a predicate function</span>
+<span class="c1">-- the predicate when returns True, then the element will be in the new list</span>
+<span class="n">filter</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="n">filter</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">)</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="n">filter</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">/=</span><span class="n">y</span><span class="p">)</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<h3 id="currying">Currying</h3>
+
+<p>Essentially, functions having multiple arguments don’t exist.
+<code class="language-plaintext highlighter-rouge">f :: a -&gt; b -&gt; c -&gt; d</code> is equivalent to <code class="language-plaintext highlighter-rouge">f :: a -&gt; (b -&gt; (c -&gt; d))</code></p>
+
+<p>So, example:</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">add</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+<span class="n">add</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+<span class="c1">-- or equivalent to</span>
+<span class="n">add</span> <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">y</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span>
+<span class="c1">-- or equivalent to</span>
+<span class="n">add</span> <span class="o">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nf">\</span><span class="n">y</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">))</span>
+<span class="c1">-- so clearly, anonymous functions are fundamental, while any function itself is just a variable which has an anonymous function assigned to it.</span>
+
+<span class="n">add</span> <span class="mi">1</span> <span class="c1">-- returns a function</span>
+<span class="n">add</span> <span class="mi">1</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+</code></pre></div></div>
+
+<p>The last statement is generating a new function from an old function. This is called the <strong>partial function application</strong>.</p>
+
+<p>This is done everywhere in Haskell. Example, you might use a map or filter (higher order functions), but have to rewrite it’s filtering function every time. Partial function application is a way out.</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">doubleList</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+<span class="c1">-- now we don't need any function argument to do this operation. Just pass a list, and doubleList will double it element wise ofc</span>
+</code></pre></div></div>
+
+<h2 id="function-composition">Function Composition</h2>
+
+<p>Haskell is great for implementing mathematical functions, and its exactly that.</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="o">.</span><span class="p">)</span> <span class="o">::</span> <span class="p">(</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="n">c</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">c</span>
+<span class="n">f</span> <span class="o">::</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span>
+<span class="n">g</span> <span class="o">::</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span>
+<span class="n">composite</span> <span class="n">f</span> <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">g</span>
+<span class="n">composite</span> <span class="n">f</span> <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="p">(</span><span class="n">g</span> <span class="n">x</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>Application? If you have a sorting function <code class="language-plaintext highlighter-rouge">sort</code> and reverting function <code class="language-plaintext highlighter-rouge">reverse</code>, define</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">descSort</span> <span class="o">=</span> <span class="n">reverse</span><span class="o">.</span><span class="n">sort</span>
+<span class="n">descSort</span> <span class="o">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">reverse</span> <span class="p">(</span><span class="n">sort</span> <span class="n">x</span><span class="p">))</span>
+<span class="n">descSort</span> <span class="n">x</span> <span class="o">=</span> <span class="n">reverse</span> <span class="p">(</span><span class="n">sort</span> <span class="n">x</span><span class="p">)</span>
+<span class="c1">-- All are equivalent</span>
+</code></pre></div></div>
+
+<p>Another example, mapping of mappings</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">map2D</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="n">a</span><span class="p">]]</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="n">b</span><span class="p">]]</span>
+<span class="n">map2D</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="n">map</span>
+</code></pre></div></div>
+
+<h4 id="-function">$ function</h4>
+
+<p>Used to write cleaner code while using composition or higher order functions</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="o">$</span><span class="p">)</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">$</span> <span class="n">x</span> <span class="o">=</span> <span class="n">f</span> <span class="n">x</span>
+<span class="c1">-- or</span>
+<span class="p">(</span><span class="o">$</span><span class="p">)</span> <span class="n">f</span> <span class="n">x</span> <span class="o">=</span> <span class="n">f</span> <span class="n">x</span>
+<span class="c1">-- or</span>
+<span class="p">(</span><span class="o">$</span><span class="p">)</span> <span class="o">=</span> <span class="n">id</span>
+</code></pre></div></div>
+
+<p>Applications:</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">f</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="n">filter</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span> <span class="n">xs</span><span class="p">)</span>
+<span class="c1">-- or</span>
+<span class="n">f</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">$</span> <span class="n">filter</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span> <span class="n">xs</span>
+</code></pre></div></div>
+
+<h2 id="folding">Folding</h2>
+
+<p>One of the most important concept in Lists. Folding up a list’s element into a value, on the basis of a binary function and an initiator (accumulator)</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foldr</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">b</span>
+<span class="n">foldr</span> <span class="p">(</span><span class="nf">\</span><span class="n">elem</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="o">&lt;</span><span class="n">term</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">start_acc</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">list</span><span class="o">&gt;</span>
+
+<span class="n">foldr</span> <span class="p">(</span><span class="o">%</span><span class="p">)</span> <span class="n">a</span> <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">x4</span><span class="p">]</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">%</span> <span class="n">x2</span> <span class="o">%</span> <span class="n">x3</span> <span class="o">%</span> <span class="n">x4</span> <span class="o">%</span> <span class="n">a</span>
+<span class="c1">-- a is accumulator, % is a binary function</span>
+</code></pre></div></div>
+
+<p>Applications:</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- some partial functions</span>
+<span class="n">sum</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">0</span>
+<span class="n">and</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="kt">True</span>
+<span class="n">or</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="o">||</span><span class="p">)</span> <span class="kt">False</span>
+<span class="n">length</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">0</span>
+<span class="n">length'</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="n">const</span> <span class="o">$</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">0</span> <span class="c1">-- as x isn't used, replace it by const</span>
+<span class="n">map</span> <span class="n">f</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">((</span><span class="o">:</span><span class="p">)</span> <span class="o">.</span> <span class="n">f</span><span class="p">)</span> <span class="kt">[]</span>
+
+<span class="n">count</span> <span class="n">x</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="nf">\</span><span class="n">y</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="kr">if</span> <span class="n">x</span><span class="o">==</span><span class="n">y</span> <span class="kr">then</span> <span class="n">acc</span><span class="o">+</span><span class="mi">1</span> <span class="kr">else</span> <span class="n">acc</span><span class="p">)</span> <span class="mi">0</span> <span class="c1">-- a partial function that counts how many times an element occurs in a list</span>
+<span class="n">isAll</span> <span class="n">e</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">e</span><span class="o">==</span><span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">acc</span><span class="p">)</span> <span class="kt">True</span> <span class="c1">-- note that this isn't efficient, but that's not the point</span>
+<span class="n">isAll'</span> <span class="n">e</span> <span class="o">=</span> <span class="n">foldr</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">$</span> <span class="n">e</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span> <span class="kt">True</span>
+</code></pre></div></div>
+
+<p>Now, folding has direction. We have seen <code class="language-plaintext highlighter-rouge">foldr</code>, and there exists a <code class="language-plaintext highlighter-rouge">foldl</code></p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foldr</span> <span class="p">(</span><span class="nf">\</span><span class="n">elem</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="o">&lt;</span><span class="n">term</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">start_acc</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">list</span><span class="o">&gt;</span> <span class="c1">--from last element of list with the acc, we build upto the first</span>
+<span class="n">foldl</span> <span class="p">(</span><span class="nf">\</span><span class="n">acc</span> <span class="n">elem</span> <span class="o">-&gt;</span> <span class="o">&lt;</span><span class="n">term</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">start_acc</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">list</span><span class="o">&gt;</span> <span class="c1">--from the first element with the acc, we build upto the last</span>
+</code></pre></div></div>
+
+<h4 id="tree-folding">Tree folding</h4>
+
+<p>In a Lazy based language, the order of folding of trees actually shouldn’t matter.<br />
+But while printing, we need to take order into account.</p>
+
+<h2 id="data-types">Data Types</h2>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">data</span> <span class="kt">Name</span> <span class="o">=</span>
+    <span class="kt">Constructor1</span> <span class="o">&lt;</span><span class="n">args</span><span class="o">&gt;</span> <span class="o">|</span> <span class="kt">Constructor2</span> <span class="o">&lt;</span><span class="n">args</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">..</span>
+    <span class="c1">-- args shouldn't contain literals, but the type itself</span>
+</code></pre></div></div>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">data</span> <span class="kt">Color</span> <span class="o">=</span>
+    <span class="kt">Red</span> <span class="o">|</span> <span class="kt">Green</span> <span class="o">|</span> <span class="kt">Blue</span>
+
+<span class="kr">data</span> <span class="kt">PeaNum</span> <span class="o">=</span>
+    <span class="kt">Succ</span> <span class="kt">PeaNum</span> <span class="o">|</span> <span class="kt">Zero</span>
+
+<span class="kr">data</span> <span class="kt">Calculation</span> <span class="o">=</span>
+    <span class="kt">Add</span> <span class="kt">Int</span> <span class="kt">Int</span> <span class="o">|</span> <span class="kt">Mul</span> <span class="kt">Int</span> <span class="kt">Int</span> <span class="o">|</span> <span class="kt">Sub</span> <span class="kt">Int</span> <span class="kt">Int</span> <span class="o">|</span> <span class="kt">Div</span> <span class="kt">Int</span> <span class="kt">Int</span>
+
+<span class="kr">data</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">=</span>
+    <span class="kt">Leaf</span> <span class="o">|</span> <span class="kt">Node</span> <span class="p">(</span><span class="kt">Tree</span> <span class="n">a</span><span class="p">)</span> <span class="n">a</span> <span class="p">(</span><span class="kt">Tree</span> <span class="n">a</span><span class="p">)</span>
+    <span class="c1">-- specifying a is necessary cause a tree should have a particular datatype stored</span>
+</code></pre></div></div>
+
+<p>Using the above defined data-types</p>
+
+<div class="language-hs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- using the custom datatype Calculation</span>
+<span class="n">calc</span> <span class="o">::</span> <span class="kt">Calculation</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+<span class="n">calc</span> <span class="p">(</span><span class="kt">Add</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span>
+<span class="n">calc</span> <span class="p">(</span><span class="kt">Sub</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span>
+<span class="n">calc</span> <span class="p">(</span><span class="kt">Mul</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span>
+<span class="n">calc</span> <span class="p">(</span><span class="kt">Div</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">/</span><span class="n">y</span>
+
+
+<span class="n">tree</span> <span class="o">::</span> <span class="kt">Tree</span> <span class="kt">Int</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="kt">Node</span> <span class="p">(</span><span class="kt">Node</span> <span class="kt">Leaf</span> <span class="mi">1</span> <span class="kt">Leaf</span><span class="p">)</span> <span class="mi">2</span> <span class="p">(</span><span class="kt">Node</span> <span class="p">(</span><span class="kt">Node</span> <span class="kt">Leaf</span> <span class="mi">3</span> <span class="kt">Leaf</span><span class="p">)</span> <span class="mi">4</span> <span class="kt">Leaf</span><span class="p">)</span>
+
+<span class="c1">-- recursive data-type</span>
+<span class="n">add</span> <span class="o">::</span> <span class="kt">PeaNum</span> <span class="o">-&gt;</span> <span class="kt">PeaNum</span> <span class="o">-&gt;</span> <span class="kt">PeaNum</span>
+<span class="n">add</span> <span class="kt">Zero</span> <span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+<span class="n">add</span> <span class="p">(</span><span class="kt">Succ</span> <span class="n">m</span><span class="p">)</span> <span class="n">n</span> <span class="o">=</span> <span class="kt">Succ</span> <span class="p">(</span><span class="n">add</span> <span class="n">m</span> <span class="n">n</span><span class="p">)</span>
+
+<span class="n">sum</span> <span class="o">::</span> <span class="p">[</span><span class="kt">PeaNum</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">PeaNum</span>
+<span class="n">sum</span> <span class="kt">[]</span> <span class="o">=</span> <span class="kt">Zero</span>
+<span class="n">sum</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="o">=</span> <span class="n">add</span> <span class="n">x</span> <span class="p">(</span><span class="n">sum</span> <span class="n">xs</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="references">References</h2>
+
+<p>All mighty reference link, an interactive guide:
+<a href="http://learnyouahaskell.com/">http://learnyouahaskell.com/</a><br />
+This is a summary/writeup of Lessons by <strong>Philipp Hagenlocher</strong></p>
+
+  <div class="tags in-post-tags">
+    
+    <div class="tag-inside">basics</div>
+    
+    <div class="tag-inside">functional</div>
+    
+    <div class="tag-inside">haskell</div>
+    
+  </div>
+  
+  <hr>
+  
+  <div id="disqus_thread">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = "https://ba-13.github.io/2021/12/haskell-1/";
+        this.page.identifier = "https://ba-13.github.io/2021/12/haskell-1/";
+    };
+
+    // You should be able to get the following lines of code from your Disqus admin.
+    // https://disqus.com/admin/universalcode
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ba-13-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<!-- https://poanchen.github.io/blog/2017/07/27/how-to-add-disqus-to-your-jekyll-site -->
+    
+    
+    <script id="dsq-count-scr" src="//ba-13-github-io.disqus.com/count.js" async></script>
+</article>
+
+
+<footer>
+  <div>Optimize Opinions</div>
+  <nav><a href="/feed.xml" ><svg aria-label="subscribe" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#rss"></use></svg></a></nav>
+
+</footer>
+
+
+</html>

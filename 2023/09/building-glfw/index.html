@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Setting up GLFW Locally | Anshuman Barnwal</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Anshuman Barnwal">
+<meta name="generator" content="Jekyll v4.2.2">
+<link rel="canonical" href="/2023/09/building-glfw/">
+
+<link rel="stylesheet" href="/assets/css/frame.css">
+
+<link rel="alternate" href="/feed.xml" type="application/atom+xml" title="Anshuman Barnwal">
+
+<link rel="stylesheet" href="/assets/katex/katex.min.css">
+<script defer src="/assets/katex/katex.min.js"></script>
+<script defer src="/assets/katex/contrib/auto-render.min.js" onload="renderMathInElement(document.body)"></script>
+<!-- <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" }, CommonHTML: { minScaleAdjust: 1000 } }
+  });
+  MathJax.Hub.Queue(["Rerender", MathJax.Hub], function () {window.status="finished"});
+</script>
+<script type="text/javascript" async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+
+<!-- <script src="//ba-13-github-io.disqus.com/embed.js" async></script> -->
+<!--  -->
+<link rel="stylesheet" href="/assets/css/sidebar.css" media="screen and (min-width: 70em)">
+<aside style="display: none">
+  <nav><a aria-label="home" href="/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#home"></use></svg>
+      <span aria-hidden="true">home</span>
+    </a><a aria-label="stories" href="/stories/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#book"></use></svg>
+      <span aria-hidden="true">stories</span>
+    </a><a aria-label="contact" href="/contact/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#mobile"></use></svg>
+      <span aria-hidden="true">contact</span>
+    </a><a aria-label="subscribe" href="/feed.xml" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#rss"></use></svg>
+      <span aria-hidden="true">subscribe</span>
+    </a></nav>
+  <div class="description">Optimize Opinions</div>
+</aside>
+
+
+
+
+<header>
+  <a href="/" class="title">Anshuman Barnwal</a>
+  <nav><a href="/" ><svg aria-label="home" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#home"></use></svg></a><a href="/stories/" ><svg aria-label="stories" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#book"></use></svg></a><a href="/contact/" ><svg aria-label="contact" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#mobile"></use></svg></a></nav>
+
+</header>
+
+<article>
+  <header class="post-header">
+  <h1 class="post-title"><a href="/2023/09/building-glfw/">Setting up GLFW Locally</a></h1><time datetime="2023-09-17T00:00:00+00:00">September 17, 2023</time>
+</header>
+  <p>I wanted to get started working with OpenGL, with context handling using a local build of GLFW.<br />
+Here’s how to setup perfectly.</p>
+
+<!---->
+
+<h2 id="opengl-setup">OpenGL Setup</h2>
+
+<p>First things first, Install OpenGL Development Libraries.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt <span class="nb">install </span>mesa-common-dev libgl1-mesa-dev
+</code></pre></div></div>
+
+<p>To check if correctly available</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>mesa-utils
+glxinfo | <span class="nb">grep</span> <span class="s2">"OpenGL version"</span>
+</code></pre></div></div>
+
+<h2 id="glfw-setup">GLFW Setup</h2>
+
+<p>Great. Now create an empty directory, suppose <code class="language-plaintext highlighter-rouge">~/project/</code>. This will contain all the project and it’s dependencies
+apart from OpenGL libraries. Clone GLFW in it.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/project
+git clone git@github.com:glfw/glfw.git
+</code></pre></div></div>
+
+<p>You have the source ready! Build this to libraries that you can link using</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmake <span class="nt">-DCMAKE_INSTALL_PREFIX</span>:PATH<span class="o">=</span><span class="nb">.</span> <span class="nt">-B</span> ./glfw-build <span class="nt">-S</span> ./glfw
+<span class="nb">cd </span>glfw-build
+make
+make <span class="nb">install</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">CMAKE_INSTALL_PREFIX:PATH</code> is a predefined variable that points to the path where cmake would install the library to.
+Here you directed cmake to install the library at <code class="language-plaintext highlighter-rouge">.</code>, which while using <code class="language-plaintext highlighter-rouge">make install</code> is inside <code class="language-plaintext highlighter-rouge">~/project/glsl-build</code>.</p>
+
+<p>At this point your <code class="language-plaintext highlighter-rouge">glsl-build</code> would have <code class="language-plaintext highlighter-rouge">lib/cmake</code> directory inside that would contain <code class="language-plaintext highlighter-rouge">glfw3Configure.cmake</code> and <code class="language-plaintext highlighter-rouge">glfw3Targets.cmake</code>. These are necessary to let your main project find the <code class="language-plaintext highlighter-rouge">glfw</code> libraries.</p>
+
+<h2 id="code-setup">Code Setup</h2>
+
+<p>Now with <code class="language-plaintext highlighter-rouge">glfw</code> installed and ready, <code class="language-plaintext highlighter-rouge">cd ~/project</code> and create a bunch of folders and files</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>build src
+<span class="nb">touch </span>CMakeLists.txt src/main.cpp README.md
+</code></pre></div></div>
+
+<p>Copy over the <code class="language-plaintext highlighter-rouge">.cpp</code> file <a href="https://www.glfw.org/documentation.html">here</a> inside your <code class="language-plaintext highlighter-rouge">main.cpp</code>.
+Also copy over the following to your <code class="language-plaintext highlighter-rouge">CMakeLists.txt</code></p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">CMAKE_MINIMUM_REQUIRED</span><span class="p">(</span>VERSION 3.7<span class="p">)</span>
+<span class="nf">PROJECT</span><span class="p">(</span>project<span class="p">)</span>
+
+<span class="nf">SET</span><span class="p">(</span>CMAKE_CXX_STANDARD 14<span class="p">)</span>
+<span class="nf">SET</span><span class="p">(</span>CMAKE_BUILD_TYPE DEBUG<span class="p">)</span>
+
+<span class="nf">SET</span><span class="p">(</span>CMAKE_PREFIX_PATH <span class="si">${</span><span class="nv">CMAKE_PREFIX_PATH</span><span class="si">}</span> ~/project/glfw-build/lib/cmake<span class="p">)</span>
+
+<span class="nf">FIND_PACKAGE</span><span class="p">(</span>glfw3 REQUIRED<span class="p">)</span>
+<span class="nf">FIND_PACKAGE</span><span class="p">(</span>OpenGL REQUIRED<span class="p">)</span>
+
+<span class="nf">SET</span><span class="p">(</span>SOURCE_FILES src/main.cpp<span class="p">)</span>
+
+<span class="nf">ADD_EXECUTABLE</span><span class="p">(</span>project <span class="si">${</span><span class="nv">SOURCE_FILES</span><span class="si">}</span><span class="p">)</span>
+<span class="nf">TARGET_LINK_LIBRARIES</span><span class="p">(</span>project glfw GL<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Note that <code class="language-plaintext highlighter-rouge">CMAKE_PREFIX_PATH</code> specifies where to look for custom <code class="language-plaintext highlighter-rouge">cmake</code> files to libraries you want to include.
+<code class="language-plaintext highlighter-rouge">TARGET_LINK_LIBRARIES</code> specify the executable should be linked to which libraries. You can check out what keyword to mention, e.g. here <code class="language-plaintext highlighter-rouge">glfw</code>, from <code class="language-plaintext highlighter-rouge">glfw3Targets.cmake</code>, where you’ll find a line <code class="language-plaintext highlighter-rouge">add_library(glfw STATIC IMPORTED)</code>, similarily for OpenGL.</p>
+
+<h2 id="building-project">Building Project</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/project/build
+cmake ..
+make
+</code></pre></div></div>
+
+<p>This would build the project.</p>
+
+<h2 id="vscode-setup">VSCode setup</h2>
+
+<p>So to ease development in <code class="language-plaintext highlighter-rouge">C++</code> (or any language per se), VSCode provides Intellisense, which essentially reads through headers/references/libraries you provide and helps you write code knowing the context. If your Intellisense is not setup well for your files,
+you would see</p>
+
+<p><img src="/images/building-glfw/red-squiggles.png" alt="Red Squiggles" /></p>
+
+<p>To clear this, create <code class="language-plaintext highlighter-rouge">mkdir ~/project/.vscode/</code> and <code class="language-plaintext highlighter-rouge">touch c_cpp_properties.json</code>.
+Fill that file with the following</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="dl">"</span><span class="s2">configurations</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Linux</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">includePath</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="dl">"</span><span class="s2">/usr/include/</span><span class="dl">"</span><span class="p">,</span>                        <span class="c1">// to include GL/gl.h</span>
+                <span class="dl">"</span><span class="s2">/usr/include/x86_64-linux-gnu</span><span class="dl">"</span><span class="p">,</span>        <span class="c1">// to include bits/types.h</span>
+                <span class="dl">"</span><span class="s2">${workspaceFolder}/**</span><span class="dl">"</span><span class="p">,</span>                <span class="c1">// default include, can remove</span>
+                <span class="dl">"</span><span class="s2">${workspaceFolder}/glfw-build/include</span><span class="dl">"</span> <span class="c1">// to include glfw headers</span>
+            <span class="p">],</span>
+            <span class="dl">"</span><span class="s2">defines</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="dl">"</span><span class="s2">__x86_64__</span><span class="dl">"</span>            <span class="c1">// declares this if preprocessor directive as true</span>
+            <span class="p">],</span>
+            <span class="dl">"</span><span class="s2">intelliSenseMode</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">linux-clang-x64</span><span class="dl">"</span>       <span class="c1">// default value</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="dl">"</span><span class="s2">version</span><span class="dl">"</span><span class="p">:</span> <span class="mi">4</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Each path you specify here, includes that in Intellisense’s path to check for header files.
+This will make your squiggles go away, and enable link jumps using <code class="language-plaintext highlighter-rouge">Ctrl</code> and Hovering above functions.</p>
+<blockquote>
+  <p>Try removing the above lines one at a time and see where Intellisense failed to pick headers from.</p>
+</blockquote>
+
+<h3 id="sidenote">Sidenote</h3>
+
+<p>Another feature of VSCode I actively use is <code class="language-plaintext highlighter-rouge">Go Forward</code> and <code class="language-plaintext highlighter-rouge">Go Back</code>. Open Keyboard Shortcuts using <code class="language-plaintext highlighter-rouge">Ctrl+K Ctrl+S</code>,
+type <code class="language-plaintext highlighter-rouge">Go Forward</code> and allot <code class="language-plaintext highlighter-rouge">Alt + RightArrow</code>, similarly for <code class="language-plaintext highlighter-rouge">Go Back</code> allot <code class="language-plaintext highlighter-rouge">Alt + LeftArrow</code>.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Once you had done the <code class="language-plaintext highlighter-rouge">Building Project</code> part, you should find an executable <code class="language-plaintext highlighter-rouge">~/project/build/project</code>, which should directly run to render a window titled “Hello World”. Note that GLFW is a minimal library that handles windows, OpenGL contexts and inputs gracefully.
+You still need to handle OpenGL on your own! But a clean setup should give you a boost.</p>
+
+  <div class="tags in-post-tags">
+    
+    <div class="tag-inside">local</div>
+    
+    <div class="tag-inside">build</div>
+    
+    <div class="tag-inside">glfw</div>
+    
+    <div class="tag-inside">graphics</div>
+    
+  </div>
+  
+  <hr>
+  
+  <div id="disqus_thread">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = "https://ba-13.github.io/2023/09/building-glfw/";
+        this.page.identifier = "https://ba-13.github.io/2023/09/building-glfw/";
+    };
+
+    // You should be able to get the following lines of code from your Disqus admin.
+    // https://disqus.com/admin/universalcode
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ba-13-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<!-- https://poanchen.github.io/blog/2017/07/27/how-to-add-disqus-to-your-jekyll-site -->
+    
+    
+    <script id="dsq-count-scr" src="//ba-13-github-io.disqus.com/count.js" async></script>
+</article>
+
+
+<footer>
+  <div>Optimize Opinions</div>
+  <nav><a href="/feed.xml" ><svg aria-label="subscribe" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#rss"></use></svg></a></nav>
+
+</footer>
+
+
+</html>

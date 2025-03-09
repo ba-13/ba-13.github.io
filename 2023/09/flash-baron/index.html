@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Flash Baron | Anshuman Barnwal</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Anshuman Barnwal">
+<meta name="generator" content="Jekyll v4.2.2">
+<link rel="canonical" href="/2023/09/flash-baron/">
+
+<link rel="stylesheet" href="/assets/css/frame.css">
+
+<link rel="alternate" href="/feed.xml" type="application/atom+xml" title="Anshuman Barnwal">
+
+<link rel="stylesheet" href="/assets/katex/katex.min.css">
+<script defer src="/assets/katex/katex.min.js"></script>
+<script defer src="/assets/katex/contrib/auto-render.min.js" onload="renderMathInElement(document.body)"></script>
+<!-- <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" }, CommonHTML: { minScaleAdjust: 1000 } }
+  });
+  MathJax.Hub.Queue(["Rerender", MathJax.Hub], function () {window.status="finished"});
+</script>
+<script type="text/javascript" async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+
+<!-- <script src="//ba-13-github-io.disqus.com/embed.js" async></script> -->
+<!--  -->
+<link rel="stylesheet" href="/assets/css/sidebar.css" media="screen and (min-width: 70em)">
+<aside style="display: none">
+  <nav><a aria-label="home" href="/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#home"></use></svg>
+      <span aria-hidden="true">home</span>
+    </a><a aria-label="stories" href="/stories/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#book"></use></svg>
+      <span aria-hidden="true">stories</span>
+    </a><a aria-label="contact" href="/contact/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#mobile"></use></svg>
+      <span aria-hidden="true">contact</span>
+    </a><a aria-label="subscribe" href="/feed.xml" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#rss"></use></svg>
+      <span aria-hidden="true">subscribe</span>
+    </a></nav>
+  <div class="description">Optimize Opinions</div>
+</aside>
+
+
+
+
+<header>
+  <a href="/" class="title">Anshuman Barnwal</a>
+  <nav><a href="/" ><svg aria-label="home" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#home"></use></svg></a><a href="/stories/" ><svg aria-label="stories" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#book"></use></svg></a><a href="/contact/" ><svg aria-label="contact" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#mobile"></use></svg></a></nav>
+
+</header>
+
+<article>
+  <header class="post-header">
+  <h1 class="post-title"><a href="/2023/09/flash-baron/">Flash Baron</a></h1><time datetime="2023-09-03T00:00:00+00:00">September 03, 2023</time>
+</header>
+  <p>I am preparing for going for a Masters, and need to take GRE Test for the same.</p>
+
+<!---->
+
+<p>While looking through the verbals section, I realised that vocabulary plays a key role in scoring. A quick google search will show that there exists lists of recommended words for GRE. Visiting <a href="https://www.vocabulary.com/lists/182204">vocabulary.com</a> will show you a set of “Flash cards” that you may go through, but I found the way it’s laid out inconvenient.</p>
+
+<p>Anyways I was looking into building something with <code class="language-plaintext highlighter-rouge">tkinter</code>, a cross-platform Python package to build desktop applets. A few lines of code yields something like this:</p>
+
+<p style="text-align:center">
+  <img src="/images/flash-baron/app_screenshot.png" />
+</p>
+
+<p>A simple applet for sure, and much more convenient for me. Code <a href="https://github.com/ba-13/Mystery_Box/tree/main/flash_baron">here</a>.</p>
+
+<p>I packaged the entire thing into an executable using <code class="language-plaintext highlighter-rouge">pyinstaller</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pyinstaller <span class="nt">--onefile</span> <span class="nt">--add-data</span> <span class="s2">"baron333.pickle;."</span> flash_baron.py
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">baron333.pickle</code> contains a python dictionary that’s been pickled, dictionary contains word to definition pairs.</p>
+
+<p>This would yield an executable, which you can now add to your app drawer, by following steps on the README in the repo above.</p>
+
+<h3 id="update-15-07-23">Update (15-07-23)</h3>
+
+<p>Fixed my GRE on 20th October, TOEFL on 28th October. Wish me luck!</p>
+
+<h3 id="update-02-11-23">Update (02-11-23)</h3>
+
+<p>Got GRE score of 330, TOEFL of 115. What worked for me in GRE was going through the Magoosh Vocab Flash Cards App the day of test, I went through the entire thing.<br />
+The other thing that made a difference was the Vocab Mountain which unfortunately I found just one day before the test, but would highly recommend you to give a try. Here’s the <a href="https://docs.google.com/spreadsheets/d/1ouJlyvRxSPsEbKjlRk_jzPzHG6q71SAKkpHDrVoBH9Y/edit?usp=sharing">link</a>. Copy it, and solve it by first going through each word in the day list and writing the meaning you know in the blank beside, then writing the actual meaning on the right to right blank.<br />
+Also “revise” by going through previous days words as well.<br />
+For TOEFL, watch the GregMat video on TOEFL speaking template, pick up a site having a tonne of speaking topics (or ask ChatGPT for a topic), and practice with a timer for at least 40-50 topics. It would take 3 hours at max.<br />
+At each step you can mostly convert what you wrote (essays) or what you said (speaking part) to text, and allow ChatGPT to grade you over the same. Give it context that it’s for ETS exams.</p>
+
+  <div class="tags in-post-tags">
+    
+    <div class="tag-inside">vocabulary</div>
+    
+    <div class="tag-inside">gre</div>
+    
+    <div class="tag-inside">software</div>
+    
+  </div>
+  
+  <hr>
+  
+  <div id="disqus_thread">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = "https://ba-13.github.io/2023/09/flash-baron/";
+        this.page.identifier = "https://ba-13.github.io/2023/09/flash-baron/";
+    };
+
+    // You should be able to get the following lines of code from your Disqus admin.
+    // https://disqus.com/admin/universalcode
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ba-13-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<!-- https://poanchen.github.io/blog/2017/07/27/how-to-add-disqus-to-your-jekyll-site -->
+    
+    
+    <script id="dsq-count-scr" src="//ba-13-github-io.disqus.com/count.js" async></script>
+</article>
+
+
+<footer>
+  <div>Optimize Opinions</div>
+  <nav><a href="/feed.xml" ><svg aria-label="subscribe" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#rss"></use></svg></a></nav>
+
+</footer>
+
+
+</html>

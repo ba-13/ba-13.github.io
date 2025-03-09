@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Periodic Writer | Anshuman Barnwal</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Anshuman Barnwal">
+<meta name="generator" content="Jekyll v4.2.2">
+<link rel="canonical" href="/2023/02/crontab/">
+
+<link rel="stylesheet" href="/assets/css/frame.css">
+
+<link rel="alternate" href="/feed.xml" type="application/atom+xml" title="Anshuman Barnwal">
+
+<link rel="stylesheet" href="/assets/katex/katex.min.css">
+<script defer src="/assets/katex/katex.min.js"></script>
+<script defer src="/assets/katex/contrib/auto-render.min.js" onload="renderMathInElement(document.body)"></script>
+<!-- <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" }, CommonHTML: { minScaleAdjust: 1000 } }
+  });
+  MathJax.Hub.Queue(["Rerender", MathJax.Hub], function () {window.status="finished"});
+</script>
+<script type="text/javascript" async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+
+<!-- <script src="//ba-13-github-io.disqus.com/embed.js" async></script> -->
+<!--  -->
+<link rel="stylesheet" href="/assets/css/sidebar.css" media="screen and (min-width: 70em)">
+<aside style="display: none">
+  <nav><a aria-label="home" href="/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#home"></use></svg>
+      <span aria-hidden="true">home</span>
+    </a><a aria-label="stories" href="/stories/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#book"></use></svg>
+      <span aria-hidden="true">stories</span>
+    </a><a aria-label="contact" href="/contact/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#mobile"></use></svg>
+      <span aria-hidden="true">contact</span>
+    </a><a aria-label="subscribe" href="/feed.xml" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#rss"></use></svg>
+      <span aria-hidden="true">subscribe</span>
+    </a></nav>
+  <div class="description">Optimize Opinions</div>
+</aside>
+
+
+
+
+<header>
+  <a href="/" class="title">Anshuman Barnwal</a>
+  <nav><a href="/" ><svg aria-label="home" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#home"></use></svg></a><a href="/stories/" ><svg aria-label="stories" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#book"></use></svg></a><a href="/contact/" ><svg aria-label="contact" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#mobile"></use></svg></a></nav>
+
+</header>
+
+<article>
+  <header class="post-header">
+  <h1 class="post-title"><a href="/2023/02/crontab/">Periodic Writer</a></h1><time datetime="2023-02-15T00:00:00+00:00">February 15, 2023</time>
+</header>
+  <p>I don’t like to pick up a journal, search for the first new page, and write out about the day.<br />
+So I asked my laptop.</p>
+
+<!---->
+
+<p>Actually I’m stuck on my laptop for a significant portion of my awake time, take it 60% or above on average.
+I have also heard that journaling is good for mental health, and quoting social psychologist James Pennebaker</p>
+
+<blockquote>
+  <p>Emotional upheavals touch every part of our lives. You don’t just lose a job, you don’t just get divorced. These things affect all aspects of who we are — our financial situation, our relationships with others, our views of ourselves. … Writing helps us focus and organize the experience.</p>
+</blockquote>
+
+<p>So why not have a nagging journal just pop-up in every <code class="language-plaintext highlighter-rouge">T</code> timespan, where <code class="language-plaintext highlighter-rouge">T</code> is decided by your dedication frequency.</p>
+
+<p>We’ll use <code class="language-plaintext highlighter-rouge">crontab</code>, your favourite terminal text-editor (<code class="language-plaintext highlighter-rouge">Vim</code> for me), and some <code class="language-plaintext highlighter-rouge">scripts</code> to run and compile your entries.<br />
+I’m assuming that you’re working on a Linux-based OS, I’ll update on the alternatives for Windows.</p>
+
+<h2 id="writer">Writer</h2>
+
+<p>I chose my <code class="language-plaintext highlighter-rouge">T</code> to be 1 hour. A journal therefore should have space for seperate entry for each such time-slots, and ideally they should be hierarchially organised. I thought keeping a journal of the following format is more than enough:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">year</span>
+<span class="s">└── date</span>
+    <span class="s">└── hour</span>
+</code></pre></div></div>
+
+<p>So a script like the following should work fine:</p>
+
+<details>
+<summary>Gist from GitHub</summary>
+<script src="https://gist.github.com/ba-13/7d27fbad5a0898de34298cabd9b343bf.js"></script>
+</details>
+
+<p>Now if you’ve not done already, and you should for automation again, create a user bin folder.
+What I’ve done is the following:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> ~/bin
+<span class="nb">echo</span> <span class="s2">"export PATH=</span><span class="nv">$PATH</span><span class="s2">:/home/&lt;username&gt;/bin"</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">source</span> ~/.bashrc
+</code></pre></div></div>
+
+<p>This means that any executable in that folder would now be directly accessible as a tool, using it’s name directly on the terminal. So put <code class="language-plaintext highlighter-rouge">writer.sh</code> as <code class="language-plaintext highlighter-rouge">writer</code> in the folder.</p>
+
+<h2 id="crontab">Crontab</h2>
+
+<p>Naturally I wanted a regular poking device that can slap the above script on my face, and came across <code class="language-plaintext highlighter-rouge">cron</code>.</p>
+
+<blockquote>
+  <p>The cron command-line utility is a job scheduler on Unix-like operating systems. Users who set up and maintain software environments use cron to schedule jobs, also known as cron jobs, to run periodically at fixed times, dates, or intervals.</p>
+</blockquote>
+
+<p>Quite conveniently, use <code class="language-plaintext highlighter-rouge">crontab -e</code> to generate a file for your user’s personal schedules.
+Once inside, insert the following line:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># minute (m), hour (h), day of month (dom), month (mon), day of week (dow)</span>
+00 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /home/&lt;username&gt;/bin/writer
+
+</code></pre></div></div>
+
+<p>Note the extra line at the end? That’s necessary for <code class="language-plaintext highlighter-rouge">cron</code> to detect your schedule.
+You can change your preferred scheduling by altering those numbers above.<br />
+Example, if you want to write every alternate day at 2pm</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>00 02 <span class="k">*</span> <span class="k">*</span> 1,3,5,7 /home/&lt;username&gt;/bin/writer
+</code></pre></div></div>
+
+<p>You may want to logout and login again for this to have affect.</p>
+
+<h2 id="journal-view">Journal View</h2>
+
+<p>You might like to view what you wrote, just like you would want to review your journal.<br />
+Worry not, use the following:</p>
+
+<details>
+<summary>Gist from GitHub</summary>
+<script src="https://gist.github.com/ba-13/f0145c0dda0af430b6216d6d4bd6060e.js"></script>
+</details>
+
+<p>Run this script, choosing <code class="language-plaintext highlighter-rouge">-type</code> flag as <code class="language-plaintext highlighter-rouge">md</code> or <code class="language-plaintext highlighter-rouge">txt</code>. I recommend <code class="language-plaintext highlighter-rouge">md</code> (leave it default). Open the <code class="language-plaintext highlighter-rouge">txt</code> file, if you chose that, in LibreOffice Writer to convert it into a pdf.</p>
+
+<p>Otherwise install <code class="language-plaintext highlighter-rouge">grip</code> using <code class="language-plaintext highlighter-rouge">pip install grip</code>, and do <code class="language-plaintext highlighter-rouge">grip -b compiled.md</code> that opens the journal in your browser, viewed exactly as it would on GitHub.</p>
+
+<h2 id="keyring-pop-up">Keyring Pop-up</h2>
+
+<p>Due to the crontab trigger, I started facing a new pop-up saying <code class="language-plaintext highlighter-rouge">Unlock your keyring</code>.<br />
+To prevent this from happening, use:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">rm</span> ~/.local/share/keyrings/login.keyring
+</code></pre></div></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Congratulations! You’ll now be smacked every hour (or what your schedule requires you) by a journal page.
+Yes it’s interruptive sometimes, but that’s good for me, as it keeps track of time as well. Watching too many shorts? Smack!<br />
+Write down that you spent your last hour watching a giraffe falling over a tent, and you might not do that again.<br />
+Your journal is saved in <code class="language-plaintext highlighter-rouge">~/my_log</code> as above, and generating a compilation is as easy as that.
+Enjoy!</p>
+
+  <div class="tags in-post-tags">
+    
+    <div class="tag-inside">convenience</div>
+    
+    <div class="tag-inside">cron</div>
+    
+  </div>
+  
+  <hr>
+  
+  <div id="disqus_thread">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = "https://ba-13.github.io/2023/02/crontab/";
+        this.page.identifier = "https://ba-13.github.io/2023/02/crontab/";
+    };
+
+    // You should be able to get the following lines of code from your Disqus admin.
+    // https://disqus.com/admin/universalcode
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ba-13-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<!-- https://poanchen.github.io/blog/2017/07/27/how-to-add-disqus-to-your-jekyll-site -->
+    
+    
+    <script id="dsq-count-scr" src="//ba-13-github-io.disqus.com/count.js" async></script>
+</article>
+
+
+<footer>
+  <div>Optimize Opinions</div>
+  <nav><a href="/feed.xml" ><svg aria-label="subscribe" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#rss"></use></svg></a></nav>
+
+</footer>
+
+
+</html>

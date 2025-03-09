@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Weights Traversal | Anshuman Barnwal</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Anshuman Barnwal">
+<meta name="generator" content="Jekyll v4.2.2">
+<link rel="canonical" href="/2023/09/sgd/">
+
+<link rel="stylesheet" href="/assets/css/frame.css">
+
+<link rel="alternate" href="/feed.xml" type="application/atom+xml" title="Anshuman Barnwal">
+
+<link rel="stylesheet" href="/assets/katex/katex.min.css">
+<script defer src="/assets/katex/katex.min.js"></script>
+<script defer src="/assets/katex/contrib/auto-render.min.js" onload="renderMathInElement(document.body)"></script>
+<!-- <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" }, CommonHTML: { minScaleAdjust: 1000 } }
+  });
+  MathJax.Hub.Queue(["Rerender", MathJax.Hub], function () {window.status="finished"});
+</script>
+<script type="text/javascript" async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+
+<!-- <script src="//ba-13-github-io.disqus.com/embed.js" async></script> -->
+<!--  -->
+<link rel="stylesheet" href="/assets/css/sidebar.css" media="screen and (min-width: 70em)">
+<aside style="display: none">
+  <nav><a aria-label="home" href="/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#home"></use></svg>
+      <span aria-hidden="true">home</span>
+    </a><a aria-label="stories" href="/stories/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#book"></use></svg>
+      <span aria-hidden="true">stories</span>
+    </a><a aria-label="contact" href="/contact/" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#mobile"></use></svg>
+      <span aria-hidden="true">contact</span>
+    </a><a aria-label="subscribe" href="/feed.xml" >
+      <svg aria-hidden="true" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#rss"></use></svg>
+      <span aria-hidden="true">subscribe</span>
+    </a></nav>
+  <div class="description">Optimize Opinions</div>
+</aside>
+
+
+
+
+<header>
+  <a href="/" class="title">Anshuman Barnwal</a>
+  <nav><a href="/" ><svg aria-label="home" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#home"></use></svg></a><a href="/stories/" ><svg aria-label="stories" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#book"></use></svg></a><a href="/contact/" ><svg aria-label="contact" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#mobile"></use></svg></a></nav>
+
+</header>
+
+<article>
+  <header class="post-header">
+  <h1 class="post-title"><a href="/2023/09/sgd/">Weights Traversal</a></h1><time datetime="2023-09-12T00:00:00+00:00">September 12, 2023</time>
+</header>
+  <p>In Machine Learning models, our final optimization/goal usually ends in minimizing an objective function with respect to a set of model parameters, but what does that look like?</p>
+
+<!---->
+
+<h2 id="you-know-that">You know that</h2>
+
+<p>Our models are usually of the form \(f(X, \theta)\) where \(\theta\) is a set of parameters.
+Optimizing a loss \(\mathcal{L}(\theta)\) encapsulates the constraint you want your model to learn as a single metric. If the loss itself is made from differentiable functions’ compositions, then using derivatives/gradients or backpropagation in general can yield the nudge you may want to give each of your weights to perform better on your dataset.</p>
+
+<h2 id="loss-hypersurface">Loss hypersurface</h2>
+
+<p>\(\mathcal{L}(\theta)\) as you see it is actually \(\mathcal{L}(\theta, X, y)\), aka the loss value depends on the data in context. Whenever we are knudging the parameters \(\theta\), we are trying to optimize the value of that set of parameters such that the loss is minimised given \(X, y\).</p>
+
+<p>Now comes the fun part, the Stochastic Batch Gradient Descent as you know, takes a set of samples from your dataset \((X_B, y_B)\), and calculates loss as well as the gradients on that <em>particular</em> batch! Note how it changes things. Your initial need was to optimize loss on your whole training dataset, but you’re optimizing it just over a batch. That’s what makes it different. The hypersurface of  \(\mathcal{L}(\theta, X, y)\) v/s \(\theta\) is the key figure you need to keep in mind. There exists minima in its surface may and wouldn’t exactly coincide with the minima of \(\mathcal{L}(\theta, X_B, y_B)\). This is what leads to a different gradient than what it should be, inducing noise in your descent.</p>
+
+<p>Also the graph of Loss v/s Parameters usage doesn’t end here. It’s a good perspective to keep in mind while working with your loss function. The graph yields an idea about weight initialisation method.</p>
+
+<h2 id="better-weight-initialisation">Better Weight Initialisation</h2>
+
+<p>Assume you want to obtain \(\theta\) that’s regularised and that optimizes the loss function. During initialisation usually what’s done is drawing of particular \(\theta_0\) that is then used for furthur optimization via descent or other means. Also descent requires you to calculate the loss value (forward-propagation) followed by weight update via gradient calculation per weight (back-propagation).</p>
+
+<blockquote>
+  <p>What I propose that it might be helpful to define a \(R^{D}\) dimensional “cube” and perform a grid search over any refinement of your liking.</p>
+</blockquote>
+
+<p>Each grid vertex would correspond to a particular loss value. This would roughly give an idea of the location of optima prior to even starting any weight update. This works because your weights are anyways near zero, so such a cube would cover the range of your weights span.</p>
+
+<p>There is one caveat of this method is that bias terms are usually not regularised because you can’t guarantee bias to be near zero. Ignoring that particular set of axes, you still would have a pretty good idea about the structure of Loss v/s Parameters space, which only comes out from forward propagation.<br />
+This is not costly because anyways forward propagation occurs thousands of times during training, so investing some initially to pick a better starting point leads to no harm.</p>
+
+<h2 id="example-of-grid-search-initialisation">Example of grid search initialisation</h2>
+
+<p>Imports needed</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">griddata</span>
+<span class="kn">import</span> <span class="nn">plotly</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="n">go</span>
+</code></pre></div></div>
+
+<p>Generate some dummy data</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">w_true</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.5</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">45</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">random</span><span class="p">((</span><span class="mi">45</span><span class="p">))</span><span class="o">*</span><span class="mi">10</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w_true</span> <span class="o">+</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">random</span><span class="p">((</span><span class="mi">45</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">45</span><span class="p">)))</span> <span class="o">*</span> <span class="mi">6</span>
+</code></pre></div></div>
+
+<p>Take a batch for forward-propagation</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># take a batch
+</span><span class="n">y_b</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">X_b</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>Define your loss function, vectorize it (note that this doesn’t make it faster, but leads to automatic broadcasting)</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">np</span><span class="p">.</span><span class="n">vectorize</span>
+<span class="k">def</span> <span class="nf">loss_</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">):</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">y_b</span> <span class="o">-</span> <span class="n">X_b</span> <span class="o">@</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Perform Grid Search, you can always tweak these ranges</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">w1_grid</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mf">10.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="n">w2_grid</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mf">50.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="n">W1_grid</span><span class="p">,</span> <span class="n">W2_grid</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">w1_grid</span><span class="p">,</span> <span class="n">w2_grid</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">loss_</span><span class="p">(</span><span class="n">W1_grid</span><span class="p">,</span> <span class="n">W2_grid</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now trying to check what value of W1 and W2 already leads to near minimum, one easy way might be</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt; print(np.where(Z == np.min(Z)))
+(array([295]), array([68]))
+&gt;&gt; Z[295, 68], W1_grid[295, 68], W2_grid[295, 68]
+(252.41028750748706, 3.5999999999999517, 9.000000000000838)
+</code></pre></div></div>
+
+<p>And these values are already pretty close to the real values of <code class="language-plaintext highlighter-rouge">(3.5, 7)</code>!<br />
+Note that we just used 5 data points out of the training set to estimate this.<br />
+This works out because all our data points are actually from the same original distribution, which is one of the fundamental assumptions we make when working with classical machine learning:</p>
+
+<blockquote>
+  <p>Training and Test (unseen) dataset are sampled from the same distributions</p>
+</blockquote>
+
+<p>Plot the surface for visualization</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plotly</span><span class="p">.</span><span class="n">offline</span><span class="p">.</span><span class="n">init_notebook_mode</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="p">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">go</span><span class="p">.</span><span class="n">Surface</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">W1_grid</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">W2_grid</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">Z</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">update_scenes</span><span class="p">(</span><span class="n">xaxis_title_text</span><span class="o">=</span><span class="s">'W1'</span><span class="p">,</span>  
+                  <span class="n">yaxis_title_text</span><span class="o">=</span><span class="s">'W2'</span><span class="p">,</span>  
+                  <span class="n">zaxis_title_text</span><span class="o">=</span><span class="s">'Loss'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<details>
+<summary>Output Figure</summary>
+<img src="/images/weights-traversal/2dweights.png" />
+</details>
+
+<p>I know people might argue that this seems infeasible to do for let’s say a neural network.<br />
+I would agree! Visualisation of that many dimensions is not easy or useful (or is it?), but you don’t need to visualize this, you can work with the weights corresponding to the minimum loss you obtained, or if you’ve multiple such minima, that’s great news, it means you can parallely work on all of them to find the global minima via descent.</p>
+
+<h2 id="extras">Extras</h2>
+
+<p>Even though Deep Learning seems to be the norm these days, the classical Machine learning still works well and is essentially statistics. One of the rules for calculating gradients that keeps on being useful is</p>
+
+\[\frac{\partial (u^T A v)}{\partial x} = u^T A \frac{\partial v}{\partial x} + v^T A^T \frac{\partial u}{\partial x}\]
+
+<p>See ya.</p>
+
+  <div class="tags in-post-tags">
+    
+    <div class="tag-inside">intuition</div>
+    
+    <div class="tag-inside">optimization</div>
+    
+  </div>
+  
+  <hr>
+  
+  <div id="disqus_thread">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = "https://ba-13.github.io/2023/09/sgd/";
+        this.page.identifier = "https://ba-13.github.io/2023/09/sgd/";
+    };
+
+    // You should be able to get the following lines of code from your Disqus admin.
+    // https://disqus.com/admin/universalcode
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ba-13-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<!-- https://poanchen.github.io/blog/2017/07/27/how-to-add-disqus-to-your-jekyll-site -->
+    
+    
+    <script id="dsq-count-scr" src="//ba-13-github-io.disqus.com/count.js" async></script>
+</article>
+
+
+<footer>
+  <div>Optimize Opinions</div>
+  <nav><a href="/feed.xml" ><svg aria-label="subscribe" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#rss"></use></svg></a></nav>
+
+</footer>
+
+
+</html>
