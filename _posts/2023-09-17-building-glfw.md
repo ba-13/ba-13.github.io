@@ -98,7 +98,7 @@ This would build the project.
 So to ease development in `C++` (or any language per se), VSCode provides Intellisense, which essentially reads through headers/references/libraries you provide and helps you write code knowing the context. If your Intellisense is not setup well for your files,
 you would see
 
-![Red Squiggles]({{site.baseurl}}/images/building-glfw/red-squiggles.png)
+![Red Squiggles](/images/building-glfw/red-squiggles.png)
 
 To clear this, create `mkdir ~/project/.vscode/` and `touch c_cpp_properties.json`.
 Fill that file with the following

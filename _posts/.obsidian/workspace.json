@@ -4,22 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "47109768e55007a0",
+        "id": "42533cfd504349f8",
         "type": "tabs",
         "children": [
           {
-            "id": "586ad5575fc20fd1",
+            "id": "edca85493cf38e34",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "2022-06-30-few-shot-learning.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "2022-06-30-few-shot-learning"
+              "title": "New tab"
             }
           }
         ]
@@ -157,17 +152,16 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "ethz_sem2/Big Data for Engineers/Outline.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Outline"
+              "title": "Outline"
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 4
       },
       {
         "id": "b0547237791b0fa9",
@@ -179,7 +173,6 @@
             "state": {
               "type": "localgraph",
               "state": {
-                "file": "2022-06-30-few-shot-learning.md",
                 "options": {
                   "collapse-filter": true,
                   "search": "",
@@ -202,12 +195,12 @@
                   "repelStrength": 10,
                   "linkStrength": 1,
                   "linkDistance": 250,
-                  "scale": 0.07213702739676915,
+                  "scale": 0.5477905517942157,
                   "close": true
                 }
               },
               "icon": "lucide-git-fork",
-              "title": "Graph of 2022-06-30-few-shot-learning"
+              "title": "Graph view"
             }
           }
         ]
@@ -224,11 +217,40 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "obsidian-advanced-slides:Show Slide Preview": false
+      "obsidian-advanced-slides:Show Slide Preview": false,
+      "terminal:Open terminal": false
     }
   },
-  "active": "586ad5575fc20fd1",
+  "active": "edca85493cf38e34",
   "lastOpenFiles": [
+    "2024-03-09-jekyll-but-better.md",
+    "2021-10-08-my-approach-to-jekyll.md",
+    "my-approach-to-jekyll.md",
+    "2021/10/my-approach-to-jekyll.md",
+    "2021/10",
+    "2021",
+    "images/Pasted image 20250309191958.png",
+    "images/Pasted image 20250309190744.png",
+    "images/weights-traversal/2dweights.png",
+    "images/dsp/sinx.png",
+    "images/dsp/rand_5.png",
+    "images/dsp/rand_4_periodic.png",
+    "images/dsp/rand_20.png",
+    "images/dsp/cosx.png",
+    "images/dsp/cos2x.png",
+    "images/dsp/cos2pix.png",
+    "images/weights-traversal",
+    "images/dsp",
+    "images/projects",
+    "images/i3",
+    "images/flash-baron",
+    "images/building-glfw",
+    "images",
+    "{{site.base_url}}/2021-10-08-my-approach-to-jekyll.md",
+    "{{site.base_url}}",
+    "2023-11-04-i3.md",
+    "templates/Blog Defaults.md",
+    "2022-06-30-few-shot-learning.md",
     "2022-08-10-intern-drive.md",
     "2023-01-20-shaastra.md",
     "2022-10-20-phoenix.md",
@@ -240,7 +262,6 @@
     "2022-08-10-cses.md",
     "2022-06-25-hackit.md",
     "2022-02-10-direction-arrival.md",
-    "2022-06-30-few-shot-learning.md",
     "2023-02-20-wfsm-strategy.md",
     "2022-03-30-interiit-10.md",
     "2023-02-20-interiit-11.md",
@@ -248,29 +269,6 @@
     "2023-03-30-interiit-11.md",
     "2023-03-interiit-11.md",
     "2023-03-01-mips-processor.md",
-    "2023-03-20-takneek-macpen.md",
-    "2023-",
-    "2023-09-12-sgd.md",
-    "2021-10-08-ethereum-and-blockchains.md",
-    "2023-07-25-goldman-sachs.md",
-    "2023-08-27-shorterposts.md",
-    "2021-10-01-hello-world.md",
-    "2023-02-15-crontab.md",
-    "ethz_sem2/Big Data for Engineers",
-    "ethz_sem2/Computational Control",
-    "ethz_sem2/RF Electronics",
-    "ethz_sem2/Model Predictive Control",
-    "ethz_sem2",
-    "ethz_sem2/Recursive Estimation",
-    "ethz_sem2/Uncertainty Quantification",
-    "Images",
-    "Art Criticism",
-    "Images/Pasted image 20231104110416.png",
-    "Images/Pasted image 20231104110412.png",
-    "Trajectory Optimisation/Pasted image 20230708152944.png",
-    "Machine Learning/Pasted image 20230810135820.png",
-    "Linear Algebra/Pasted image 20230815014713.png",
-    "Linear Algebra/Pasted image 20230815014423.png",
     "Untitled.canvas"
   ]
 }

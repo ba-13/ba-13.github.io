@@ -14,7 +14,7 @@ While looking through the verbals section, I realised that vocabulary plays a ke
 Anyways I was looking into building something with `tkinter`, a cross-platform Python package to build desktop applets. A few lines of code yields something like this:
 
 <p style="text-align:center">
-  <img src="{{site.baseurl}}/images/flash-baron/app_screenshot.png" />
+  <img src="/images/flash-baron/app_screenshot.png" />
 </p>
 
 A simple applet for sure, and much more convenient for me. Code [here](https://github.com/ba-13/Mystery_Box/tree/main/flash_baron).
