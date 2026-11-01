@@ -3,6 +3,7 @@
 
 const SESSION_KEY = "vote-session";
 const EXPIRY_MARGIN_SECONDS = 60;
+const REJECTED_TOKEN_STATUSES = [400, 401];
 
 const button = document.querySelector(".vote");
 const label = button.querySelector(".vote-count");
@@ -33,7 +34,9 @@ async function auth(path, body) {
     headers: { apikey: key, "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  if (!response.ok) throw new Error(`Auth failed: ${response.status}`);
+  if (!response.ok) {
+    throw Object.assign(new Error("Auth failed"), { status: response.status });
+  }
   const { access_token, refresh_token, expires_in } = await response.json();
   return saveSession({
     access_token,
@@ -50,8 +53,11 @@ async function currentSession() {
     return await auth("token?grant_type=refresh_token", {
       refresh_token: session.refresh_token,
     });
-  } catch {
-    return saveSession(null);
+  } catch (error) {
+    // Only a rejected token ends the session. A network or server failure is
+    // temporary, and dropping the guest then would let them vote twice.
+    if (REJECTED_TOKEN_STATUSES.includes(error.status)) return saveSession(null);
+    throw error;
   }
 }
 
