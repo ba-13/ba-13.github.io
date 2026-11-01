@@ -1,0 +1,9 @@
+node_modules/
+dist/
+
+# Obsidian's per-device state
+content/.obsidian/workspace*.json
+content/.obsidian/cache
+content/.trash/
+
+.claude/

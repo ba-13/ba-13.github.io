@@ -1,0 +1,367 @@
+/* light-dark(a, b) picks a in light mode and b in dark mode, based on color-scheme */
+:root {
+  color-scheme: light dark;
+
+  --bg: light-dark(#ffffff, #121212);
+  --fg: light-dark(#111111, #ededed);
+  --muted: light-dark(#666666, #a0a0a0);
+  --line: light-dark(#e2e2e2, #333333);
+  --subtle: light-dark(#f4f4f4, #1e1e1e);
+  --yellow: #ffd21f;
+  --on-yellow: #111111;
+
+  --serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --measure: 66ch; /* line length of the reading column */
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 112.5%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  max-width: var(--measure);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--serif);
+  line-height: 1.65;
+  overflow-wrap: break-word;
+}
+
+main {
+  flex: 1;
+}
+
+::selection {
+  background: var(--yellow);
+  color: var(--on-yellow);
+}
+
+:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+/* Yellow text is unreadable on white, so yellow marks links rather than coloring them */
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--yellow);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  background: var(--yellow);
+  color: var(--on-yellow);
+}
+
+/* ---------- site header and footer ---------- */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 1.5rem 0;
+  font-family: var(--sans);
+  font-size: 1rem;
+}
+
+.site-title {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.site-header nav a {
+  color: var(--muted);
+  text-decoration: none;
+}
+.site-header nav a:hover {
+  color: var(--on-yellow);
+}
+
+.search {
+  position: relative;
+  flex: 1 1 8rem;
+  min-width: 8rem;
+}
+
+#search-input {
+  width: 100%;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+}
+
+#search-results {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 0.25rem);
+  right: 0;
+  width: min(30rem, calc(100vw - 2.5rem));
+  max-height: 70vh;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg);
+}
+
+#search-results a,
+#search-results .empty {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  text-decoration: none;
+}
+
+#search-results li + li {
+  border-top: 1px solid var(--line);
+}
+#search-results a:hover,
+#search-results a:focus {
+  background: var(--subtle);
+  color: var(--fg);
+}
+#search-results strong {
+  display: block;
+}
+#search-results span {
+  color: var(--muted);
+}
+#search-results mark {
+  background: var(--yellow);
+  color: var(--on-yellow);
+}
+
+#theme-toggle {
+  display: flex;
+  padding: 0.25rem;
+  border: 0;
+  background: none;
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.site-footer {
+  padding: 3rem 0 1.5rem;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.8rem;
+}
+
+/* ---------- lists ---------- */
+
+.post-list,
+.tag-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.post-list li {
+  display: flex;
+  gap: 1rem;
+  padding: 0.2rem 0;
+}
+
+time,
+.count {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.post-list time {
+  flex: none;
+  padding-top: 0.2rem;
+}
+
+.intro {
+  margin-bottom: 2rem;
+}
+
+.tag {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+}
+
+/* ---------- article ---------- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 2em 0 0.5em;
+  font-family: var(--sans);
+  line-height: 1.25;
+}
+
+h1 {
+  margin-top: 0.5em;
+  font-size: 1.6rem;
+}
+h2 {
+  font-size: 1.25rem;
+}
+h3 {
+  font-size: 1.05rem;
+}
+h4,
+h5,
+h6 {
+  font-size: 1rem;
+}
+
+.post-header {
+  margin-bottom: 2rem;
+}
+.post-meta {
+  margin: 0;
+}
+.post-meta .tag {
+  margin-left: 0.5rem;
+}
+
+blockquote {
+  margin: 1.5em 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--yellow);
+  color: var(--muted);
+}
+
+.callout {
+  margin: 1.5em 0;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--yellow);
+  background: var(--subtle);
+}
+
+.callout > :last-child {
+  margin-bottom: 0;
+}
+
+.callout-title {
+  margin: 0 0 0.25rem;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+code,
+pre {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+}
+
+code {
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+  background: var(--subtle);
+}
+
+pre {
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  border-radius: 4px;
+  background: var(--subtle);
+  line-height: 1.5;
+}
+
+pre code {
+  padding: 0;
+  background: none;
+}
+
+li:has(> input[type="checkbox"]) {
+  list-style: none;
+  margin-left: -1.25rem;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.5em auto;
+}
+
+hr {
+  margin: 2.5em 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+}
+
+th,
+td {
+  padding: 0.35rem 0.75rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+/* Wide equations scroll inside the column instead of widening the page */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25em 0;
+}
+
+@media (max-width: 30rem) {
+  .post-list li {
+    flex-direction: column;
+    gap: 0;
+    padding: 0.4rem 0;
+  }
+  .post-list time {
+    padding-top: 0;
+  }
+  .search {
+    flex-basis: 100%;
+    order: 1;
+  }
+  #theme-toggle {
+    margin-left: auto;
+  }
+}
