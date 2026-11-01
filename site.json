@@ -1,7 +1,7 @@
 {
   "title": "nocontrol",
-  "description": "Notes and essays.",
-  "url": "https://example.github.io/blog",
+  "description": "Notes on control theory, robotics and history.",
+  "url": "https://ba-13.github.io",
   "language": "en",
   "nav": [
     { "label": "tags", "href": "/tags/" },

@@ -2,19 +2,19 @@
 :root {
   color-scheme: light dark;
 
-  --bg: light-dark(#ffffff, #121212);
-  --fg: light-dark(#111111, #ededed);
+  --bg: light-dark(#ffffff, #242424);
+  --fg: light-dark(#242424, #ededed);
   --muted: light-dark(#666666, #a0a0a0);
   --line: light-dark(#e2e2e2, #333333);
   --subtle: light-dark(#f4f4f4, #1e1e1e);
   --yellow: #ffd21f;
-  --on-yellow: #111111;
+  --on-yellow: #242424;
 
   --serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-  --measure: 66ch; /* line length of the reading column */
+  --measure: 67ch; /* line length of the reading column */
 }
 
 [data-theme="light"] {
@@ -31,7 +31,7 @@
 }
 
 html {
-  font-size: 112.5%;
+  font-size: 115%;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -73,6 +73,9 @@ a {
 }
 
 a:hover {
+  /* increase margin of the highlighted link */
+  margin: -0.1rem -0.2rem;
+  padding: 0.1rem 0.2rem;
   background: var(--yellow);
   color: var(--on-yellow);
 }

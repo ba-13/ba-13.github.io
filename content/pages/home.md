@@ -1,1 +1,1 @@
-Hi, this is my blog. Replace this text in `content/pages/home.md`.
+On control theory, robotics, history, and my life by [Anshuman Barnwal](/about/).

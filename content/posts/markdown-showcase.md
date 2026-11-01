@@ -1,5 +1,7 @@
 ---
+draft: true
 date: 2026-10-31
+title: Markdown Showcase
 description: Every kind of formatting this blog supports.
 tags:
   - meta

@@ -137,9 +137,9 @@ function loadPosts() {
 }
 
 function loadPages() {
-  return markdownFiles(path.join(CONTENT, "pages")).map((file) =>
-    loadDocument(file, "/"),
-  );
+  return markdownFiles(path.join(CONTENT, "pages"))
+    .map((file) => loadDocument(file, "/"))
+    .filter((p) => SERVE || !p.draft);
 }
 
 // ---------- markdown ----------
