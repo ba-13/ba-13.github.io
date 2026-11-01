@@ -51,8 +51,10 @@ theme/
   post.html       A single post
   style.css       All styling; colors and line length are at the top
   site.js         Search and the dark mode toggle
+  votes.js        The upvote button
 build.js          Turns all of the above into dist/
-site.json         Site title, description and header links
+site.json         Site title, description, header links and service settings
+supabase/         Database schema for votes
 ```
 
 Attachments are published by filename alone, so two files with the same name in different folders will overwrite each other.
@@ -68,6 +70,31 @@ npm run dev
 ```
 
 This serves the site at http://localhost:4000 with drafts included, and rebuilds when you save. Refresh the page to see changes.
+
+## Voting and analytics
+
+Both stay off until `site.json` has their settings, and the site builds fine without them.
+
+**Upvotes (Supabase)**
+
+1. Create a free project at [supabase.com](https://supabase.com), in an EU region.
+2. Under **Authentication → Sign In / Providers**, turn on **Allow anonymous sign-ins** and save.
+3. Open the **SQL Editor** and run `supabase/schema.sql`.
+4. Under the project's API settings, copy the project URL and the publishable (anon) key into `site.json`:
+
+```json
+"supabase": { "url": "https://xxxx.supabase.co", "key": "your-publishable-key" }
+```
+
+The key is meant to be public. Row-level security in `schema.sql` is what protects the data, so never put the `service_role` or secret key here.
+
+A vote is stored against a post's slug, which comes from its filename. To rename a published post without losing its votes, keep the old URL by adding the old `slug:` to its frontmatter. `npm run dev` uses the same project, so votes you cast there are real.
+
+`.github/workflows/keepalive.yml` reads the database twice a week so the free project doesn't pause. GitHub turns scheduled workflows off after 60 days without repo activity. If that happens, switch it back on in the **Actions** tab. A failed run means Supabase is paused or unreachable. Until it's back, the vote button just stays hidden.
+
+**Analytics (GoatCounter)**
+
+Sign up at [goatcounter.com](https://www.goatcounter.com) and put your site code in `site.json`, for example `"goatcounter": "nocontrol"` for `nocontrol.goatcounter.com`. It only loads on the deployed site, so `npm run dev` isn't counted.
 
 ## Customizing
 

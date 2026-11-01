@@ -178,6 +178,8 @@ a:hover {
 }
 
 .site-footer {
+  display: flex;
+  gap: 0.75rem;
   padding: 3rem 0 1.5rem;
   color: var(--muted);
   font-family: var(--sans);
@@ -367,4 +369,34 @@ td {
   #theme-toggle {
     margin-left: auto;
   }
+}
+
+/* ---------- votes ---------- */
+
+/* Takes up its space from the start, so the page doesn't jump once the count loads */
+.vote {
+  display: block;
+  margin-top: 2.5rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: none;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.vote:not(.ready) {
+  visibility: hidden;
+}
+
+.vote:hover {
+  border-color: var(--yellow);
+}
+
+.vote[aria-pressed="true"] {
+  border-color: var(--yellow);
+  background: var(--yellow);
+  color: var(--on-yellow);
 }

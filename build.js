@@ -104,11 +104,13 @@ function parseTags(value) {
 function loadDocument(file, urlPrefix) {
   const { meta, body } = splitFrontmatter(file);
   const name = path.basename(file, ".md");
+  const slug = slugify(String(meta.slug || name));
   return {
     file,
     name,
     body,
-    url: `${urlPrefix}${slugify(String(meta.slug || name))}/`,
+    slug,
+    url: `${urlPrefix}${slug}/`,
     title: String(meta.title || name),
     description: meta.description ? String(meta.description) : "",
     draft: meta.draft === true,
@@ -374,7 +376,22 @@ function build() {
     .map((n) => `<a href="${esc(base + n.href)}">${esc(n.label)}</a>`)
     .join("\n");
 
-  const page = (url, { title, description, content, math = false }) => {
+  // Voting and analytics stay off until site.json has their settings
+  const { url: votesUrl, key: votesKey } = site.supabase ?? {};
+  const votesEnabled = Boolean(votesUrl && votesKey);
+  const analytics =
+    site.goatcounter && !SERVE
+      ? `<script data-goatcounter="https://${esc(site.goatcounter)}.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>`
+      : "";
+  const voteButton = (slug) =>
+    votesEnabled
+      ? `<button class="vote" type="button" aria-label="Upvote this post" aria-pressed="false" data-url="${esc(votesUrl)}" data-key="${esc(votesKey)}" data-slug="${esc(slug)}"><span aria-hidden="true">▲</span> <span class="vote-count">0</span></button>`
+      : "";
+
+  const page = (
+    url,
+    { title, description, content, math = false, votes = false },
+  ) => {
     const pageTitle = title ? `${title} · ${site.title}` : site.title;
     return write(
       url.endsWith("/") ? `${url}index.html` : url,
@@ -390,6 +407,13 @@ function build() {
         math: math
           ? `<link rel="stylesheet" href="${base}/assets/katex/katex.min.css">`
           : "",
+        scripts: [
+          votes &&
+            `<script type="module" src="${base}/assets/votes.js"></script>`,
+          analytics,
+        ]
+          .filter(Boolean)
+          .join("\n  "),
         content,
       }),
     );
@@ -430,11 +454,13 @@ function build() {
       title: post.title,
       description: post.description || excerpt(post.text),
       math: post.hasMath,
+      votes: votesEnabled,
       content: fill(postTemplate, {
         title: esc(post.title),
         date: dateTag(post.date),
         tags: tagLinks(base, post.tags),
         content: post.html,
+        vote: voteButton(post.slug),
       }),
     });
   }
@@ -511,7 +537,7 @@ function build() {
   for (const file of files.filter((f) => !f.endsWith(".md"))) {
     write(`/attachments/${path.basename(file)}`, fs.readFileSync(file));
   }
-  for (const asset of ["style.css", "site.js"]) {
+  for (const asset of ["style.css", "site.js", "votes.js"]) {
     fs.cpSync(path.join(THEME, asset), path.join(DIST, "assets", asset));
   }
   if (docs.some((d) => d.hasMath)) {

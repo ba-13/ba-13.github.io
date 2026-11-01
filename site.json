@@ -3,6 +3,11 @@
   "description": "Notes on control theory, robotics and history.",
   "url": "https://ba-13.github.io",
   "language": "en",
+  "goatcounter": "ba-13",
+  "supabase": {
+    "url": "https://xrfbragrvgbxdixzafst.supabase.co",
+    "key": "sb_publishable__cw0kulaA9FItDN43fEzuw__Xtar81-"
+  },
   "nav": [
     { "label": "tags", "href": "/tags/" },
     { "label": "about", "href": "/about/" }
